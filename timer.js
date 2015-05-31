@@ -30,15 +30,7 @@ Timer.prototype =
 		var thisObj = this;
 		
 		setTimeout(function() {
-			thisObj.CheckUpdate();
+			thisObj._CheckUpdate();
 		}, 100);
 	}
 };
-
-(new Timer({
-	StartSeconds: 5,
-	UpdateCallback: function (seconds)
-	{
-		console.log(seconds);
-	}
-})).Start();
