@@ -8,7 +8,7 @@
 
 // A task runner that calls the Typescipt compiler (tsc) and 
 // Compiles a HelloWorld.ts program
-{
+/*{
 	"version": "0.1.0",
 	
 	// The command is tsc.
@@ -19,17 +19,19 @@
 	
 	"isShellCommand": true,
 	
+	"isBuildCommand": true,
+	
 	// Under windows use tsc.exe. This ensures we don't need a shell.
 	"windows": {
 		"command": "tsc.exe"
 	},
 	
-	//"args": ["HelloWorld.ts"],
+	"args": ["--outDir", "js"],
 	
 	// use the standard tsc problem matcher to find compile problems
 	// in the output.
 	"problemMatcher": "$tsc"
-}
+}*/
 
 // A task runner configuration for gulp. Gulp provides a less task
 // which compiles less to css. 
@@ -58,7 +60,7 @@
 // overall less compilation has finished. When the clean pattern is detect internal less
 // problems are cleaned. When the finshed pattern is detected in the output less
 // problems are published.
-/*
+
 {
 	"version": "0.1.0",
 	"command": "gulp",
@@ -67,7 +69,7 @@
 		{
 			"taskName": "watch-less",
 			// Make this the default build command.
-			"isBuildCommand": true,
+			"isBuildCommand": false,
 			// Show the output window only if unrecognized errors occur.
 			"showOutput": "silent",
 			// Task is running in watching mode.
@@ -80,10 +82,29 @@
 				// A regular expression signalling that a watched tasks ends executing.
 				"watchedTaskEndsRegExp": "^\\[\\d+:\\d+:\\d+\\] Finished 'styles' after \\d+"
 			}
+		},
+		
+		{
+			"taskName": "build-typescript",
+			// Make this the default build command.
+			"isBuildCommand": true,
+			"isShellCommand": true,
+			// Show the output window only if unrecognized errors occur.
+			"showOutput": "silent",
+			
+			// Under windows use tsc.exe. This ensures we don't need a shell.
+			"windows": {
+				"command": "tsc.exe"
+			},
+			
+			"args": ["--outDir", "js"],
+			
+			// use the standard tsc problem matcher to find compile problems
+			// in the output.
+			"problemMatcher": "$tsc"
 		}
 	]
 }
-*/
 
 // Uncomment the following section to use jake to build a workspace
 // cloned from https://github.com/Microsoft/TypeScript.git
