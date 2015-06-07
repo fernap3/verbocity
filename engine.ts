@@ -1,9 +1,11 @@
-//@import "Timer.ts"
+//@import "timer.ts"
+//@import "puzzles.ts"
 
 interface EngineOptions
 {
-	Puzzle: Array<Array<String>>
-	OnTimerUpdateCallback: Function
+	Page: Element;
+	Puzzle: number[][];
+	OnTimerUpdateCallback: Function;
 }
 
 enum CellStates { Clear, Marked, Question }
@@ -23,7 +25,7 @@ class Engine
 		this._boardWidth = this._options.Puzzle[0].length;
 	}
 	
-	StartGame (options)
+	StartGame ()
 	{
 		var timer = new Timer({
 			StartSeconds: 64,

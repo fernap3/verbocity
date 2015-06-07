@@ -1,7 +1,8 @@
-/* global Puzzles */
+//@import "puzzles.ts"
+//@import "engine.ts"
 var engine = new Engine({
-    Page: document,
-    Puzzle: window.Puzzles["Game Boy"],
+    Page: document.body,
+    Puzzle: Puzzles["Game Boy"],
     OnTimerUpdateCallback: UpdateTimerDisplay
 });
 engine.StartGame();
@@ -19,4 +20,3 @@ function UpdateTimerDisplay(seconds) {
     var timerDiv = document.querySelector("#Timer");
     timerDiv.innerHTML = timeString;
 }
-//# sourceMappingURL=index.js.map
