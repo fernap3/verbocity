@@ -69,7 +69,7 @@
 		{
 			"taskName": "less",
 			// Make this the default build command.
-			"isBuildCommand": true,
+			"isBuildCommand": false,
 			// Show the output window only if unrecognized errors occur.
 			"showOutput": "silent",
 			// Task is running in watching mode.
