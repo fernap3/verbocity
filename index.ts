@@ -32,3 +32,5 @@ function UpdateTimerDisplay(seconds)
 	var timerDiv = document.querySelector("#Timer");
 	(<HTMLElement>timerDiv).innerHTML = timeString;
 }
+
+new PuzzleRenderer(Puzzles["Game Boy"], document.body).Render();

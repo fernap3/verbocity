@@ -71,13 +71,101 @@ class Engine
 
 class PuzzleRenderer
 {
-	static DrawBoard (puzzle: number[][], container:HTMLElement)
+	private puzzle: number[][];
+	private container: HTMLElement;
+	
+	constructor (puzzle, container)
 	{
-		var columnNumbers: number[][] = PuzzleRenderer.GenerateColumnNumbers(puzzle);
-		var rowNumbers: number[][] = PuzzleRenderer.GenerateRowNumbers(puzzle);
+		this.puzzle = puzzle;
+		this.container = container;
+	}
+	
+	Render ()
+	{
+		var columnNumbers: number[][] = PuzzleRenderer.GenerateColumnNumbers(this.puzzle);
+		var rowNumbers: number[][] = PuzzleRenderer.GenerateRowNumbers(this.puzzle);
 		
-		console.log(columnNumbers);
-		console.log(rowNumbers);
+		this.RenderToContainer(rowNumbers, columnNumbers);
+	}
+	
+	private RenderToContainer(rowNumbers: number[][], columnNumbers: number[][])
+	{
+		var table = document.createElement("table");
+		
+		var maxNumberOfRowGroups = PuzzleRenderer.LongestArrayLength(rowNumbers);
+		this.RenderColumnHeaders(table, columnNumbers, maxNumberOfRowGroups);
+		
+		for (var row = 0; row < this.puzzle.length; row++)
+		{
+			var rowElem = document.createElement("tr");
+			
+			for (var col = 0; col < maxNumberOfRowGroups; col++)
+			{
+				var tdElem = document.createElement("td");
+				
+				if (rowNumbers[row].length - maxNumberOfRowGroups + col >= 0)
+				{
+					tdElem.innerHTML = rowNumbers[row][rowNumbers[row].length - maxNumberOfRowGroups + col].toString();
+				}
+				
+				rowElem.appendChild(tdElem);
+			}
+			
+			for (var col = 0; col < this.puzzle[0].length; col++)
+			{
+				var tdElem = document.createElement("td");
+				
+			}
+			
+			table.appendChild(rowElem);
+		}
+		
+		this.container.appendChild(table);
+	}
+	
+	private static LongestArrayLength (a: any[][])
+	{
+		var maxNumber = 0;
+		
+		for (var i = 0; i < a.length; i++)
+		{
+			if (a[i].length > maxNumber)
+			{
+				maxNumber = a[i].length;
+			}
+		}
+		
+		return maxNumber;
+	}
+	
+	private RenderColumnHeaders (table: HTMLElement, columnNumbers: number[][], rowHeaderCount: number)
+	{
+		var maxNumberOfColumnGroups = PuzzleRenderer.LongestArrayLength(columnNumbers);
+
+		for (var row = 0; row < maxNumberOfColumnGroups; row++)
+		{
+			var rowElement = document.createElement("tr");
+			
+			for (var i = 0; i < rowHeaderCount; i++)
+			{
+				rowElement.appendChild(document.createElement("td"));
+			}
+			
+			for (var col = 0; col < columnNumbers.length; col++)
+			{
+				var cellElement = document.createElement("td");
+				
+				if (columnNumbers[col].length - maxNumberOfColumnGroups + row >= 0)
+				{
+					cellElement.innerHTML = 
+						columnNumbers[col][columnNumbers[col].length - maxNumberOfColumnGroups + row].toString();
+				}
+				
+				rowElement.appendChild(cellElement);
+			}
+			
+			table.appendChild(rowElement);
+		}
 	}
 	
 	private static GenerateColumnNumbers (puzzle: number[][]) : number[][]
@@ -124,12 +212,12 @@ class PuzzleRenderer
 	{
 		var numbers = [];
 		
-		for (var col = 0; col < puzzle[0].length; col++)
+		for (var row = 0; row < puzzle[0].length; row++)
 		{
-			var currentColumnNumbers = [];
+			var currentRowNumbers = [];
 			var consecutiveSetCells = 0;
 			
-			for (var row = 0; row < puzzle.length; row++)
+			for (var col = 0; col < puzzle.length; col++)
 			{
 				if (puzzle[row][col] === 1)
 				{
@@ -137,19 +225,19 @@ class PuzzleRenderer
 				}
 				else if (consecutiveSetCells !== 0)
 				{
-					currentColumnNumbers.push(consecutiveSetCells);
+					currentRowNumbers.push(consecutiveSetCells);
 					consecutiveSetCells = 0;
 				}
 			}
 			
 			if (consecutiveSetCells !== 0)
 			{
-				currentColumnNumbers.push(consecutiveSetCells);
+				currentRowNumbers.push(consecutiveSetCells);
 			}
 			
-			if (currentColumnNumbers.length > 0)
+			if (currentRowNumbers.length > 0)
 			{
-				numbers.push(currentColumnNumbers);			
+				numbers.push(currentRowNumbers);			
 			}
 			else
 			{
