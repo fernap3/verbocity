@@ -114,7 +114,8 @@ class PuzzleRenderer
 			for (var col = 0; col < this.puzzle[0].length; col++)
 			{
 				var tdElem = document.createElement("td");
-				
+				tdElem.className = "pictureCell";
+				rowElem.appendChild(tdElem);
 			}
 			
 			table.appendChild(rowElem);
