@@ -16,11 +16,12 @@ class Engine
 	private board: Array<Array<number>>
 	private boardHeight: number
 	private boardWidth: number
+	static canvasScale: number = 2;
 	
 	constructor (options:EngineOptions)
 	{
 		this.options = options;
-		//this._board = this._CreateBoardFromPuzzle(this._options.Puzzle);
+		this.board = this.CreateBoardFromPuzzle(this.options.Puzzle);
 		this.boardHeight = this.options.Puzzle.length;
 		this.boardWidth = this.options.Puzzle[0].length;
 	}
@@ -33,9 +34,52 @@ class Engine
 		});
 		
 		timer.Start();
+		
+		// sample board for testing
+		this.board = [
+			[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+			[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+			[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+			[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+			[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+			[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+			[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+			[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+			[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+			[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+			[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+			[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+			[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+			[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+			[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
+		];
+		
+		this.RenderPreview();
 	}
 	
-	_CreateBoardFromPuzzle (puzzle:Array<Array<number>>)
+	private RenderPreview ()
+	{
+		var canvas = <HTMLCanvasElement>document.getElementById("Preview");
+		
+		canvas.height = this.boardHeight * Engine.canvasScale * window.devicePixelRatio;
+		canvas.width = this.boardWidth * Engine.canvasScale * window.devicePixelRatio;
+		
+		var context = canvas.getContext("2d");
+		context.scale(Engine.canvasScale * window.devicePixelRatio, Engine.canvasScale * window.devicePixelRatio);
+		
+		for (var row = 0; row < this.boardHeight; row++)
+		{
+			for(var col = 0; col < this.boardWidth; col++)
+			{
+				if (this.board[col][row] === 1)
+				{
+					context.fillRect(col, row, 1, 1);
+				}
+			}
+		}
+	}
+	
+	private CreateBoardFromPuzzle (puzzle:Array<Array<number>>)
 	{
 		var board = [];
 		
@@ -54,7 +98,7 @@ class Engine
 		return board;
 	}
 	
-	_IsWinState (puzzle, board)
+	private IsWinState (puzzle, board)
 	{
 		for (var i = 0; i < this.boardHeight; i++)
 		{
