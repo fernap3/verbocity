@@ -7,8 +7,8 @@
 }
 
 body {
-	font-family:sans-serif;
-	
+	font-family:InputMono;
+	text-align: center;
 }
 
 @font-face {
@@ -16,7 +16,30 @@ body {
 	src: url("../Retro Computer.ttf");
 }
 
-table {
+.playArea {
+	display: inline-block;
+	margin: auto;
+	text-align: initial;
+	width: 500px;
+	position: relative;
+}
+
+.playArea .statusArea {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.playArea .playAreaMenu {
+	list-style: none;
+	padding: 0;
+}
+
+.playArea .playAreaMenu li {
+	cursor: pointer;
+}
+
+table.board {
 	table-layout: fixed;
 	text-align: center;
 	vertical-align: middle;
@@ -24,37 +47,65 @@ table {
 	font-size: 10px;
 	border-spacing: 1px;
     border-collapse: collapse;
-	margin: auto;
+	float: left;
 	.userSelectNone;
 }
 
-table td {
+table.board td {
 	width: 1.5em;
 	height: 1.5em;
 	border: none;
 }
 
-.pictureCell {
+table.board .pictureCell {
 	cursor: pointer;
 	border: 1px solid @color-normal-border;
 }
 
-td.pictureCell:nth-last-child(5n+1) {
+table.board td.pictureCell:nth-last-child(5n+1) {
 	border-right: 1px solid @color-guide-border;
 }
 
-td.pictureCell:nth-last-child(1) {
+table.board td.pictureCell:nth-last-child(1) {
 	border-right: 1px solid @color-normal-border;
 }
 
-tr:nth-last-child(5n+1) td.pictureCell {
+table.board tr:nth-last-child(5n+1) td.pictureCell {
 	border-bottom: 1px solid @color-guide-border;
 }
 
-tr:nth-last-child(1) td.pictureCell {
+table.board tr:nth-last-child(1) td.pictureCell {
 	border-bottom: 1px solid @color-normal-border;
 }
 
 canvas {
 	image-rendering: pixelated;
+}
+
+#MainMenu {
+	width: 300px;
+	margin: 0 auto;
+}
+
+#MainMenu h1 {
+	text-align: center;
+}
+
+#MainMenu ul {
+	text-align: center;
+	list-style: none;
+	padding: 0;
+}
+
+#MainMenu ul li {
+	padding: .5em 0;
+	cursor: pointer;
+}
+
+.timer {
+	display: block;
+}
+
+.preview {
+	
 }

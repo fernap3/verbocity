@@ -35,6 +35,8 @@ class Engine
 		
 		timer.Start();
 		
+		new PuzzleRenderer(this.options.Puzzle, this.options.Page).Render();
+		
 		// sample board for testing
 		this.board = [
 			[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
@@ -116,12 +118,12 @@ class Engine
 class PuzzleRenderer
 {
 	private puzzle: number[][];
-	private container: HTMLElement;
+	private table: HTMLElement;
 	
 	constructor (puzzle, container)
 	{
 		this.puzzle = puzzle;
-		this.container = container;
+		this.table = document.getElementById("Board");
 	}
 	
 	Render ()
@@ -134,10 +136,8 @@ class PuzzleRenderer
 	
 	private RenderToContainer(rowNumbers: number[][], columnNumbers: number[][])
 	{
-		var table = document.createElement("table");
-		
 		var maxNumberOfRowGroups = PuzzleRenderer.LongestArrayLength(rowNumbers);
-		this.RenderColumnHeaders(table, columnNumbers, maxNumberOfRowGroups);
+		this.RenderColumnHeaders(this.table, columnNumbers, maxNumberOfRowGroups);
 		
 		for (var row = 0; row < this.puzzle.length; row++)
 		{
@@ -162,10 +162,8 @@ class PuzzleRenderer
 				rowElem.appendChild(tdElem);
 			}
 			
-			table.appendChild(rowElem);
+			this.table.appendChild(rowElem);
 		}
-		
-		this.container.appendChild(table);
 	}
 	
 	private static LongestArrayLength (a: any[][])

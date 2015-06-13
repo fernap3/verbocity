@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>verbosity</title>
+		<title>verbocity</title>
 		<script src="js/puzzles.js"></script>
 		<script src="js/timer.js"></script>
 		<script src="js/engine.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/index.css"> </head>
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+	</head>
 	</head>
 	<body>
-		<div id="Timer"></div>
-		<canvas id="Preview"></canvas>
-		<script src="js/index.js"></script>		
+		<div class="playArea">
+			<table id="Board" class="board"></table>
+			<div class="statusArea">
+				<span id="Timer" class="timer"></span>
+				<ul class="playAreaMenu">
+					<li>Share</li>
+					<li>Quit</li>
+				</ul>
+				<canvas id="Preview" class="preview"></canvas>
+			</div>
+		</div>
+		<script src="js/index.js"></script>
 	</body>
+
 </html>
+<!--<div id="MainMenu" class="mainMenu">
+			<h1>verbocity</h1>
+			<ul>
+				<li>Play Level</li>
+				<li>Play Randomly-Generated Level</li>
+				<li>Create Level</li>
+			</ul>
+		</div>-->
