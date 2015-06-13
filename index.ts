@@ -7,16 +7,18 @@ var engine = new Engine({
 
 engine.StartGame();
 
-VerticallyCenterPlayArea();
+CenterPlayArea();
 
 window.onresize = (evt) => {
-	VerticallyCenterPlayArea();
+	CenterPlayArea();
 }
 
-function VerticallyCenterPlayArea ()
+function CenterPlayArea ()
 {
 	var playArea = document.getElementById("PlayArea");
 	var playAreaHeight = playArea.offsetHeight;
+	var playAreaWidth = playArea.offsetWidth;
 	
 	playArea.style.top = Math.max((window.innerHeight / 2) - (playAreaHeight / 2) , 0) + "px";
+	playArea.style.left = Math.max((window.innerWidth / 2) - (playAreaWidth / 2) , 0) + "px";
 }

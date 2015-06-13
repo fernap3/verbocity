@@ -43,6 +43,9 @@ class InputHandler
 			var row = parseInt(target.getAttribute("data-row"));
 			var col = parseInt(target.getAttribute("data-col"));
 			
+			if (isNaN(row) || isNaN(col))
+				return;
+							
 			if (isRightClick)
 			{
 				this.options.OnCellRightClickCallback(row, col);
