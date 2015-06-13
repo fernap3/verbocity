@@ -1,6 +1,3 @@
-//@import "puzzles.ts"
-//@import "engine.ts"
-
 var engine = new Engine({
 	Page: document.body,
 	Puzzle: Puzzles["Game Boy"],

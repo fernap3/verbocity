@@ -1,14 +1,14 @@
-//@import "timer.ts"
-//@import "puzzles.ts"
+//@import "inputHandler.ts"
+//@import "previewRenderer.ts"
+
+enum CellStates { Clear, Marked, Question }
 
 interface EngineOptions
 {
-	Page: Element;
+	Page: HTMLElement;
 	Puzzle: number[][];
 	OnTimerUpdateCallback: Function;
 }
-
-enum CellStates { Clear, Marked, Question }
 
 class Engine
 {
@@ -17,6 +17,8 @@ class Engine
 	private boardHeight: number
 	private boardWidth: number
 	static canvasScale: number = 2;
+	private puzzleRenderer: PuzzleRenderer;
+	private previewRenderer: PreviewRenderer;
 	
 	constructor (options:EngineOptions)
 	{
@@ -35,31 +37,40 @@ class Engine
 		
 		timer.Start();
 		
-		new PuzzleRenderer(this.options.Puzzle, this.options.Page).Render();
+		this.puzzleRenderer = new PuzzleRenderer(this.options.Puzzle, this.options.Page);
+		this.puzzleRenderer.RenderInitialBoard();
 		
+		this.previewRenderer = new PreviewRenderer(<HTMLCanvasElement>this.options.Page.querySelector("#Preview"));
 		
+		new InputHandler({
+			Page: this.options.Page,
+			OnCellClickCallback: (row: number, col: number) => { this.TryFillSpace(row, col); },
+			OnCellRightClickCallback: (row: number, col: number) => { this.ToggleQuestionSpace(row, col); }
+		});
 	}
 	
-	private RenderPreview ()
+	private TryFillSpace (row: number, col: number)
 	{
-		var canvas = <HTMLCanvasElement>document.getElementById("Preview");
-		
-		canvas.height = this.boardHeight * Engine.canvasScale * window.devicePixelRatio;
-		canvas.width = this.boardWidth * Engine.canvasScale * window.devicePixelRatio;
-		
-		var context = canvas.getContext("2d");
-		context.scale(Engine.canvasScale * window.devicePixelRatio, Engine.canvasScale * window.devicePixelRatio);
-		
-		for (var row = 0; row < this.boardHeight; row++)
+		if (this.IsSpaceInPicture(row, col) === true)
 		{
-			for(var col = 0; col < this.boardWidth; col++)
-			{
-				if (this.board[col][row] === 1)
-				{
-					context.fillRect(col, row, 1, 1);
-				}
-			}
+			this.board[row][col] = CellStates.Marked;
+			this.puzzleRenderer.FillSpace(row, col);
+			this.previewRenderer.UpdatePreview(this.board);
 		}
+		else
+		{
+			// The user tried to mark a space that is not in the picture; penalty!
+		}
+	}
+	
+	private IsSpaceInPicture (row: number, col: number): boolean
+	{
+		return this.options.Puzzle[row][col] === 1;
+	}
+	
+	private ToggleQuestionSpace (row: number, col: number)
+	{
+		
 	}
 	
 	private CreateBoardFromPuzzle (puzzle:Array<Array<number>>)

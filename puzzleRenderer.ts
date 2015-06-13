@@ -2,6 +2,7 @@ class PuzzleRenderer
 {
 	private puzzle: number[][];
 	private table: HTMLElement;
+	private static spaceFilledClassName = "filled";
 	
 	constructor (puzzle, container)
 	{
@@ -9,12 +10,23 @@ class PuzzleRenderer
 		this.table = document.getElementById("Board");
 	}
 	
-	Render ()
+	FillSpace (row: number, col: number)
+	{
+		var cell = this.GetCell(row, col);
+		cell.classList.add(PuzzleRenderer.spaceFilledClassName);
+	}
+	
+	RenderInitialBoard ()
 	{
 		var columnNumbers: number[][] = PuzzleRenderer.GenerateColumnNumbers(this.puzzle);
 		var rowNumbers: number[][] = PuzzleRenderer.GenerateRowNumbers(this.puzzle);
 		
 		this.RenderToContainer(rowNumbers, columnNumbers);
+	}
+	
+	private GetCell (row: number, col: number): HTMLElement
+	{
+		return <HTMLElement>this.table.querySelector("[data-row='" + row + "'][data-col='" + col + "']");
 	}
 	
 	private RenderToContainer(rowNumbers: number[][], columnNumbers: number[][])
@@ -42,6 +54,8 @@ class PuzzleRenderer
 			{
 				var tdElem = document.createElement("td");
 				tdElem.className = "pictureCell";
+				tdElem.setAttribute("data-row", row.toString());
+				tdElem.setAttribute("data-col", col.toString());
 				rowElem.appendChild(tdElem);
 			}
 			
