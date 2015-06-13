@@ -8,3 +8,14 @@ var engine = new Engine({
 engine.StartGame();
 
 
+window.onresize = (evt) => {
+	VerticallyCenterPlayArea();
+}
+
+function VerticallyCenterPlayArea ()
+{
+	var playArea = document.getElementById("PlayArea");
+	var playAreaHeight = playArea.offsetHeight;
+	
+	playArea.style.top = Math.max((window.innerHeight / 2) - (playAreaHeight / 2) , 0) + "px";
+}
