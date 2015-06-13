@@ -95,6 +95,7 @@ class Engine
 			if (currentTime <= 0)
 			{
 				this.timer.Stop();
+				this.timerRenderer.UpdateDisplay(0);				
 				this.options.OnLoseCallback();
 				return;
 			}
