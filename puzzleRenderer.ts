@@ -149,7 +149,7 @@ class PuzzleRenderer
 			}
 			else
 			{
-				numbers.push(0);
+				numbers.push([0]);
 			}
 		}
 		
@@ -189,7 +189,7 @@ class PuzzleRenderer
 			}
 			else
 			{
-				numbers.push(0);
+				numbers.push([0]);
 			}
 		}
 		
