@@ -1,7 +1,7 @@
 //@import "inputHandler.ts"
 //@import "previewRenderer.ts"
 
-enum CellStates { Clear, Marked, Question }
+enum CellStates { Clear, Marked, Flagged }
 
 interface EngineOptions
 {

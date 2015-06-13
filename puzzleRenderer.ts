@@ -3,7 +3,7 @@ class PuzzleRenderer
 	private puzzle: number[][];
 	private table: HTMLElement;
 	private static spaceFilledClassName = "filled";
-	private static spaceQuestionClassName = "question";
+	private static spaceFlaggedClassName = "flagged";
 	
 	constructor (puzzle, container)
 	{
@@ -14,14 +14,14 @@ class PuzzleRenderer
 	FillSpace (row: number, col: number)
 	{
 		var cell = this.GetCell(row, col);
-		cell.classList.remove(PuzzleRenderer.spaceQuestionClassName);
+		cell.classList.remove(PuzzleRenderer.spaceFlaggedClassName);
 		cell.classList.add(PuzzleRenderer.spaceFilledClassName);
 	}
 	
 	MarkSpaceAsQuestion (row: number, col: number)
 	{
 		var cell = this.GetCell(row, col);
-		cell.classList.add(PuzzleRenderer.spaceQuestionClassName);
+		cell.classList.add(PuzzleRenderer.spaceFlaggedClassName);
 	}
 	
 	RenderInitialBoard ()
