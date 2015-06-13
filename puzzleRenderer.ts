@@ -2,7 +2,7 @@ class PuzzleRenderer
 {
 	private puzzle: number[][];
 	private table: HTMLElement;
-	private static spaceFilledClassName = "filled";
+	private static spaceMarkedClassName = "filled";
 	private static spaceFlaggedClassName = "flagged";
 	
 	constructor (puzzle, container)
@@ -11,17 +11,24 @@ class PuzzleRenderer
 		this.table = document.getElementById("Board");
 	}
 	
-	FillSpace (row: number, col: number)
+	MarkSpace (row: number, col: number)
 	{
 		var cell = this.GetCell(row, col);
 		cell.classList.remove(PuzzleRenderer.spaceFlaggedClassName);
-		cell.classList.add(PuzzleRenderer.spaceFilledClassName);
+		cell.classList.add(PuzzleRenderer.spaceMarkedClassName);
 	}
 	
-	MarkSpaceAsQuestion (row: number, col: number)
+	FlagSpace (row: number, col: number)
 	{
 		var cell = this.GetCell(row, col);
 		cell.classList.add(PuzzleRenderer.spaceFlaggedClassName);
+	}
+	
+	ClearSpace (row: number, col: number)
+	{
+		var cell = this.GetCell(row, col);
+		cell.classList.remove(PuzzleRenderer.spaceFlaggedClassName);
+		cell.classList.remove(PuzzleRenderer.spaceMarkedClassName);
 	}
 	
 	RenderInitialBoard ()

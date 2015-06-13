@@ -56,7 +56,7 @@ class Engine
 		new InputHandler({
 			Page: this.options.Page,
 			OnCellClickCallback: (row: number, col: number) => { this.TryFillSpace(row, col); },
-			OnCellRightClickCallback: (row: number, col: number) => { this.ToggleQuestionSpace(row, col); }
+			OnCellRightClickCallback: (row: number, col: number) => { this.ToggleSpaceFlag(row, col); }
 		});
 	}
 	
@@ -76,7 +76,7 @@ class Engine
 		if (this.IsSpaceInPicture(row, col) === true)
 		{
 			this.board[row][col] = CellStates.Marked;
-			this.puzzleRenderer.FillSpace(row, col);
+			this.puzzleRenderer.MarkSpace(row, col);
 			this.previewRenderer.UpdatePreview(this.board);
 			
 			if (this.IsWinState(this.options.Puzzle, this.board))
@@ -104,13 +104,22 @@ class Engine
 		}
 	}
 	
-	private ToggleQuestionSpace (row: number, col: number)
+	private ToggleSpaceFlag (row: number, col: number)
 	{
 		// If the space is already marked, don't allow the user to turn it into a question
 		if (this.board[row][col] === CellStates.Marked)
 			return;
 		
-		this.puzzleRenderer.MarkSpaceAsQuestion(row, col);
+		if (this.board[row][col] === CellStates.Clear)
+		{
+			this.board[row][col] = CellStates.Flagged;
+			this.puzzleRenderer.FlagSpace(row, col);
+		}
+		else
+		{
+			this.board[row][col] = CellStates.Clear;
+			this.puzzleRenderer.ClearSpace(row, col);	
+		}
 	}
 	
 	private IsSpaceInPicture (row: number, col: number): boolean
