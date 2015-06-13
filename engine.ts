@@ -63,14 +63,18 @@ class Engine
 		}
 	}
 	
+	private ToggleQuestionSpace (row: number, col: number)
+	{
+		// If the space is already marked, don't allow the user to turn it into a question
+		if (this.board[row][col] === CellStates.Marked)
+			return;
+		
+		this.puzzleRenderer.MarkSpaceAsQuestion(row, col);
+	}
+	
 	private IsSpaceInPicture (row: number, col: number): boolean
 	{
 		return this.options.Puzzle[row][col] === 1;
-	}
-	
-	private ToggleQuestionSpace (row: number, col: number)
-	{
-		
 	}
 	
 	private CreateBoardFromPuzzle (puzzle:Array<Array<number>>)
