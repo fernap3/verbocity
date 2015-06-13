@@ -7,6 +7,7 @@ var engine = new Engine({
 
 engine.StartGame();
 
+VerticallyCenterPlayArea();
 
 window.onresize = (evt) => {
 	VerticallyCenterPlayArea();

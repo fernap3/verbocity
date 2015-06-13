@@ -14,15 +14,16 @@ interface EngineOptions
 
 class Engine
 {
+	private static startTime: number = 50;
 	private options: EngineOptions
 	private board: Array<Array<number>>
 	private boardHeight: number
 	private boardWidth: number
-	static canvasScale: number = 2;
 	private puzzleRenderer: PuzzleRenderer;
 	private previewRenderer: PreviewRenderer;
 	private timerRenderer: TimerRenderer;
 	private timer: Timer;
+	private nextPenalty: number;
 	
 	constructor (options:EngineOptions)
 	{
@@ -30,6 +31,7 @@ class Engine
 		this.board = this.CreateBoardFromPuzzle(this.options.Puzzle);
 		this.boardHeight = this.options.Puzzle.length;
 		this.boardWidth = this.options.Puzzle[0].length;
+		this.nextPenalty = 10;
 	}
 	
 	StartGame ()
@@ -39,10 +41,11 @@ class Engine
 		});
 		
 		this.timer = new Timer({
-			StartSeconds: 5,
+			StartSeconds: Engine.startTime,
 			UpdateCallback: (seconds: number) => { this.HandleTimerTick(seconds); }
 		});
 		
+		this.timerRenderer.UpdateDisplay(Engine.startTime);
 		this.timer.Start();
 		
 		this.puzzleRenderer = new PuzzleRenderer(this.options.Puzzle, this.options.Page);
@@ -86,6 +89,18 @@ class Engine
 		else
 		{
 			// The user tried to mark a space that is not in the picture; penalty!
+			var currentTime = this.timer.GetTime();
+			currentTime -= this.nextPenalty;
+			
+			if (currentTime <= 0)
+			{
+				this.timer.Stop();
+				this.options.OnLoseCallback();
+				return;
+			}
+			
+			this.timer.SetTime(currentTime);
+			this.timerRenderer.UpdateDisplay(currentTime);
 		}
 	}
 	
