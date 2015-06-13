@@ -1,5 +1,6 @@
 //@import "inputHandler.ts"
 //@import "previewRenderer.ts"
+//@import "timerRenderer.ts"
 
 enum CellStates { Clear, Marked, Flagged }
 
@@ -7,7 +8,8 @@ interface EngineOptions
 {
 	Page: HTMLElement;
 	Puzzle: number[][];
-	OnTimerUpdateCallback: Function;
+	OnWinCallback: () => void;
+	OnLoseCallback: () => void;
 }
 
 class Engine
@@ -19,6 +21,8 @@ class Engine
 	static canvasScale: number = 2;
 	private puzzleRenderer: PuzzleRenderer;
 	private previewRenderer: PreviewRenderer;
+	private timerRenderer: TimerRenderer;
+	private timer: Timer;
 	
 	constructor (options:EngineOptions)
 	{
@@ -30,12 +34,16 @@ class Engine
 	
 	StartGame ()
 	{
-		var timer = new Timer({
-			StartSeconds: 64,
-			UpdateCallback: this.options.OnTimerUpdateCallback
+		this.timerRenderer = new TimerRenderer({
+			TimerContainer: <HTMLElement>this.options.Page.querySelector("#Timer")
 		});
 		
-		timer.Start();
+		this.timer = new Timer({
+			StartSeconds: 5,
+			UpdateCallback: (seconds: number) => { this.HandleTimerTick(seconds); }
+		});
+		
+		this.timer.Start();
 		
 		this.puzzleRenderer = new PuzzleRenderer(this.options.Puzzle, this.options.Page);
 		this.puzzleRenderer.RenderInitialBoard();
@@ -49,6 +57,17 @@ class Engine
 		});
 	}
 	
+	private HandleTimerTick (seconds: number)
+	{
+		this.timerRenderer.UpdateDisplay(seconds);
+		
+		if (seconds === 0)
+		{
+			this.timer.Stop();
+			this.options.OnLoseCallback();
+		}
+	}
+	
 	private TryFillSpace (row: number, col: number)
 	{
 		if (this.IsSpaceInPicture(row, col) === true)
@@ -56,6 +75,13 @@ class Engine
 			this.board[row][col] = CellStates.Marked;
 			this.puzzleRenderer.FillSpace(row, col);
 			this.previewRenderer.UpdatePreview(this.board);
+			
+			if (this.IsWinState(this.options.Puzzle, this.board))
+			{
+				this.timer.Stop();
+				this.options.OnWinCallback();
+				return;
+			}
 		}
 		else
 		{

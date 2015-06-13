@@ -6,41 +6,63 @@ class TimerOptions
 
 class Timer
 {
-	_options: TimerOptions
-	_lastSeconds: number
-	_lastSecondsSinceEpoch: number;
-	_currentCountdownSeconds: number;
+	private options: TimerOptions
+	private lastSeconds: number
+	private lastSecondsSinceEpoch: number;
+	private currentCountdownSeconds: number;
+	private isActive: boolean;
 	
 	constructor (options:TimerOptions)
 	{
-		this._options = options;
-		this._lastSeconds = null;
+		this.options = options;
+		this.lastSeconds = null;
 	}
 	
-	Start () {
-		this._lastSecondsSinceEpoch = Math.floor(new Date().getTime() / 1000);
-		this._currentCountdownSeconds = this._options.StartSeconds;
-		this._CheckUpdate();
-	}
-	
-	_CheckUpdate ()
+	Start ()
 	{
+		this.lastSecondsSinceEpoch = Math.floor(new Date().getTime() / 1000);
+		this.currentCountdownSeconds = this.options.StartSeconds;
+		this.isActive = true;
+		this.CheckUpdate();
+	}
+	
+	Stop ()
+	{
+		this.isActive = false;
+	}
+	
+	SetTime (seconds: number)
+	{
+		this.currentCountdownSeconds = seconds;
+		this.lastSecondsSinceEpoch = Math.floor(new Date().getTime() / 1000);
+	}
+	
+	GetTime ()
+	{
+		return this.currentCountdownSeconds;
+	}
+	
+	private CheckUpdate ()
+	{
+		if (this.isActive === false)
+			return;
+		
 		var currentSecondsSinceEpoch = Math.floor(new Date().getTime() / 1000);
 		
-		if (currentSecondsSinceEpoch !== this._lastSecondsSinceEpoch)
+		if (currentSecondsSinceEpoch !== this.lastSecondsSinceEpoch)
 		{
-			this._currentCountdownSeconds--;
-			this._options.UpdateCallback(this._currentCountdownSeconds);
-			this._lastSecondsSinceEpoch = currentSecondsSinceEpoch;
+			this.currentCountdownSeconds -= 1;
+			this.options.UpdateCallback(this.currentCountdownSeconds);
+			this.lastSecondsSinceEpoch = currentSecondsSinceEpoch;
 		}
 		
-		if (this._currentCountdownSeconds === 0)
+		if (this.currentCountdownSeconds === 0)
 			return;
 		
 		var thisObj = this;
 		
 		setTimeout(function() {
-			thisObj._CheckUpdate();
+			thisObj.CheckUpdate();
 		}, 100);
 	}
 }
