@@ -1,6 +1,7 @@
 var engine = new Engine({
 	Page: document.body,
-	Puzzle: Puzzles["Test"],
+	//Puzzle: Puzzles.Random(15),
+	Puzzle: Puzzles["Game Boy"],
 	OnWinCallback: () => { console.log("WIN"); },
 	OnLoseCallback: () => { console.log("LOSE"); }
 });

@@ -34,5 +34,25 @@ class Puzzles
 		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-	]
+	];
+	
+	// Needs some work to make sure the puzzle is reasonably solvable!
+	static Random(size: number)
+	{
+		var puzzle = [];
+		
+		for (var i = 0; i < size; i++)
+		{
+			var row = [];
+			
+			for (var j = 0; j < size; j++)
+			{
+				row.push(Math.round(Math.random()));
+			}
+			
+			puzzle.push(row);
+		}
+		
+		return puzzle;
+	}
 }
