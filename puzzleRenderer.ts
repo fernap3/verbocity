@@ -36,6 +36,7 @@ class PuzzleRenderer
 		var columnNumbers: number[][] = PuzzleRenderer.GenerateColumnNumbers(this.puzzle);
 		var rowNumbers: number[][] = PuzzleRenderer.GenerateRowNumbers(this.puzzle);
 		
+		this.table.innerHTML = "";
 		this.RenderToContainer(rowNumbers, columnNumbers);
 	}
 	

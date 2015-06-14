@@ -9,6 +9,7 @@ interface EngineOptions
 	Page: HTMLElement;
 	OnWinCallback: () => void;
 	OnLoseCallback: () => void;
+	OnQuitCallback: () => void;
 }
 
 class Engine
@@ -59,7 +60,11 @@ class Engine
 		new InputHandler({
 			Page: this.options.Page,
 			OnCellClickCallback: (row: number, col: number) => { this.TryFillSpace(row, col); },
-			OnCellRightClickCallback: (row: number, col: number) => { this.ToggleSpaceFlag(row, col); }
+			OnCellRightClickCallback: (row: number, col: number) => { this.ToggleSpaceFlag(row, col); },
+			OnQuitClickCallback: () => {
+				this.timer.Stop();
+				this.options.OnQuitCallback();
+			}
 		});
 		
 		Centerer.CenterContainers();

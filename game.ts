@@ -14,7 +14,8 @@ class Game
 		this.engine = new Engine({
 			Page: document.getElementById("PlayArea"),
 			OnWinCallback: () => { console.log("WIN"); },
-			OnLoseCallback: () => { console.log("LOSE"); }
+			OnLoseCallback: () => { console.log("LOSE"); },
+			OnQuitCallback: () => { this.HidePlayArea(); this.mainMenu.Show(); }
 		});
 		
 		this.playArea = document.getElementById("PlayArea");
@@ -33,13 +34,23 @@ class Game
 	}
 	
 	// Choose a random puzzle from the list to play
-	StartJustPlay ()
+	private StartJustPlay ()
 	{
 		this.mainMenu.Hide();
-		this.playArea.style.display = "block";
+		this.ShowPlayArea();
 		
 		this.engine.SetPuzzle(Puzzles["Game Boy"]);
 		this.engine.StartGame();
+	}
+	
+	private ShowPlayArea ()
+	{
+		this.playArea.style.display = "block";		
+	}
+	
+	private HidePlayArea ()
+	{
+		this.playArea.style.display = "none";		
 	}
 }
 

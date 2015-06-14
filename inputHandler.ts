@@ -3,12 +3,14 @@ interface InputHandlerOptions
 	Page: HTMLElement;
 	OnCellClickCallback: (row:number, col:number) => void;
 	OnCellRightClickCallback: (row:number, col:number) => void;
+	OnQuitClickCallback: () => void;
 }
 
 class InputHandler
 {
 	private options: InputHandlerOptions;
 	private table: HTMLElement;
+	private quitButton: HTMLElement;
 	
 	constructor (options: InputHandlerOptions)
 	{
@@ -25,6 +27,9 @@ class InputHandler
 			evt.preventDefault();
 			return false;
 		};
+		
+		this.quitButton = <HTMLElement>document.querySelector("[data-action='quit']");
+		this.quitButton.onclick = (evt) => { this.options.OnQuitClickCallback(); };
 	}
 	
 	HandleTableClick (evt: MouseEvent)
