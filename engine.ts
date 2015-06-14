@@ -102,13 +102,15 @@ class Engine
 			if (currentTime <= 0)
 			{
 				this.timer.Stop();
-				this.timerRenderer.UpdateDisplay(0);				
+				this.timerRenderer.UpdateDisplay(0);
+				this.timerRenderer.IndicatePenalty();
 				this.options.OnLoseCallback();
 				return;
 			}
 			
 			this.timer.SetTime(currentTime);
 			this.timerRenderer.UpdateDisplay(currentTime);
+			this.timerRenderer.IndicatePenalty();
 		}
 	}
 	

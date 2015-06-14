@@ -34,4 +34,17 @@ class TimerRenderer
 		
 		this.options.TimerContainer.innerHTML = timeString;
 	}
+	
+	IndicatePenalty ()
+	{
+		// Make the timer flash red
+		
+		this.options.TimerContainer.classList.remove("timerAnimate");
+		this.options.TimerContainer.style.color = "red";
+		
+		setTimeout(() => {
+			this.options.TimerContainer.classList.add("timerAnimate");
+			this.options.TimerContainer.style.color = "";
+		}, 0);
+	}
 }
