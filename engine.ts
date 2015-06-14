@@ -95,6 +95,8 @@ class Engine
 			var currentTime = this.timer.GetTime();
 			currentTime -= this.nextPenalty;
 			
+			this.puzzleRenderer.ShowPenalty(row, col, this.nextPenalty);
+			
 			this.IncrementPenalty();
 			
 			if (currentTime <= 0)

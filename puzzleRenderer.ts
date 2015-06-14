@@ -39,6 +39,48 @@ class PuzzleRenderer
 		this.RenderToContainer(rowNumbers, columnNumbers);
 	}
 	
+	ShowPenalty (row: number, col: number, seconds: number)
+	{
+		// Shows a little animation over the cell to indicate the number
+		// of penalty seconds subtracted from the time.
+		// NOTE: Only works with whole-minute penalties for now
+		
+		var cell = this.GetCell(row, col);
+		var cellBounds = cell.getBoundingClientRect();
+		
+		var textContainer = document.createElement("span");
+		textContainer.classList.add("cellPenaltyAnimationText");
+		textContainer.innerHTML = "-" + (seconds / 60) + ":00";
+		
+		// Render the container to get its width
+		textContainer.style.visibility = "hidden";
+		document.body.appendChild(textContainer);
+		var textBounds = textContainer.getBoundingClientRect();
+		
+		textContainer.style.top = cellBounds.top - textBounds.height + "px";
+		textContainer.style.left = cellBounds.left + (cellBounds.width / 2) - (textBounds.width / 2) + "px";
+		textContainer.style.visibility = "";
+		
+		// Start the animation in a different "thread" so the browser has
+		// free cycles to render the initial state.
+		setTimeout(() => { this.AnimatePenalty(textContainer) }, 0);
+	}
+	
+	private AnimatePenalty (textContainer: HTMLElement)
+	{
+		textContainer.addEventListener("transitionend", (evt) => {
+			// If the text container has already been removed, do nothing
+			if (textContainer.parentNode === null)
+				return;
+				
+			textContainer.parentNode.removeChild(textContainer);
+		});
+
+		var textBounds = textContainer.getBoundingClientRect();
+		textContainer.style.opacity = "0";
+		textContainer.style.top = textBounds.top - 20 + "px";
+	}
+	
 	private GetCell (row: number, col: number): HTMLElement
 	{
 		return <HTMLElement>this.table.querySelector("[data-row='" + row + "'][data-col='" + col + "']");
