@@ -10,6 +10,7 @@
 		<script src="js/timerRenderer.js"></script>
 		<script src="js/inputHandler.js"></script>
 		<script src="js/mainMenu.js"></script>
+		<script src="js/sharePrompt.js"></script>
 		<script src="js/engine.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/index.css">
 	</head>
@@ -20,7 +21,7 @@
 			<div class="statusArea">
 				<span id="Timer" class="timer"></span>
 				<ul class="playAreaMenu">
-					<li>Share</li>
+					<li data-action='share'>Share</li>
 					<li data-action="quit">Quit</li>
 				</ul>
 				<canvas id="Preview" class="preview"></canvas>
@@ -34,6 +35,9 @@
 				<!--<li>Play Randomly-Generated Level</li>-->
 				<li>Create Level...</li>
 			</ul>
+		</div>
+		<div id="SharePrompt" class="sharePrompt" style="display:none" data-center="">
+			<input type="text" disabled></input>
 		</div>
 		<script src="js/game.js"></script>
 	</body>

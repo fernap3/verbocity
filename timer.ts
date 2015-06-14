@@ -16,12 +16,12 @@ class Timer
 	{
 		this.options = options;
 		this.lastSeconds = null;
+		this.currentCountdownSeconds = this.options.StartSeconds;
 	}
 	
 	Start ()
 	{
 		this.lastSecondsSinceEpoch = Math.floor(new Date().getTime() / 1000);
-		this.currentCountdownSeconds = this.options.StartSeconds;
 		this.isActive = true;
 		this.CheckUpdate();
 	}

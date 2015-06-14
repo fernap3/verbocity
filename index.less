@@ -137,3 +137,27 @@ canvas {
 	opacity: 1;
 	transition: opacity 1.5s ease-out,  top 1.5s ease-out;
 }
+
+.sharePrompt {
+	background-color: white;
+	width: 400px;
+	height: 150px;
+	border: 1px solid lightgray;
+	position: absolute;
+	z-index: 2;
+}
+
+.clearOverlay {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	.userSelectNone;
+}
+
+.blurred {
+	-webkit-filter: blur(2px) grayscale(50%) brightness(70%);
+	filter: blur(2px) grayscale(50%) brightness(70%);
+}

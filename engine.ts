@@ -27,10 +27,16 @@ class Engine
 	private timer: Timer;
 	private nextPenalty: number;
 	private puzzle: number[][];
+	private sharePrompt: SharePrompt;
 	
 	constructor (options:EngineOptions)
 	{
 		this.options = options;
+		
+		this.sharePrompt = new SharePrompt({
+			Container: document.getElementById("SharePrompt"),
+			OnCloseCallback: () => { this.OnSharePromptClose(); }
+		});
 	}
 	
 	StartGame ()
@@ -61,6 +67,11 @@ class Engine
 			Page: this.options.Page,
 			OnCellClickCallback: (row: number, col: number) => { this.TryFillSpace(row, col); },
 			OnCellRightClickCallback: (row: number, col: number) => { this.ToggleSpaceFlag(row, col); },
+			OnShareClickCallback: () => {
+				this.timer.Stop();
+				document.getElementById("PlayArea").classList.add("blurred");
+				this.sharePrompt.Show();
+			},
 			OnQuitClickCallback: () => {
 				this.timer.Stop();
 				this.options.OnQuitCallback();
@@ -68,6 +79,12 @@ class Engine
 		});
 		
 		Centerer.CenterContainers();
+	}
+	
+	private OnSharePromptClose ()
+	{
+		this.timer.Start();
+		document.getElementById("PlayArea").classList.remove("blurred");
 	}
 	
 	SetPuzzle (puzzle: number[][])

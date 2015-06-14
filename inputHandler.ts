@@ -3,6 +3,7 @@ interface InputHandlerOptions
 	Page: HTMLElement;
 	OnCellClickCallback: (row:number, col:number) => void;
 	OnCellRightClickCallback: (row:number, col:number) => void;
+	OnShareClickCallback: () => void;
 	OnQuitClickCallback: () => void;
 }
 
@@ -10,6 +11,7 @@ class InputHandler
 {
 	private options: InputHandlerOptions;
 	private table: HTMLElement;
+	private shareButton: HTMLElement;
 	private quitButton: HTMLElement;
 	
 	constructor (options: InputHandlerOptions)
@@ -30,6 +32,9 @@ class InputHandler
 		
 		this.quitButton = <HTMLElement>document.querySelector("[data-action='quit']");
 		this.quitButton.onclick = (evt) => { this.options.OnQuitClickCallback(); };
+		
+		this.shareButton = <HTMLElement>document.querySelector("[data-action='share']");
+		this.shareButton.onclick = (evt) => { this.options.OnShareClickCallback(); };
 	}
 	
 	HandleTableClick (evt: MouseEvent)
