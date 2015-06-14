@@ -14,7 +14,9 @@ interface EngineOptions
 
 class Engine
 {
-	private static startTime: number = 50;
+	private static startTime: number = 30 * 60;
+	private static initialPenalty: number = 2 * 60;
+	private static maxPenalty: number = 8 * 60;
 	private options: EngineOptions
 	private board: Array<Array<number>>
 	private boardHeight: number
@@ -31,7 +33,7 @@ class Engine
 		this.board = this.CreateBoardFromPuzzle(this.options.Puzzle);
 		this.boardHeight = this.options.Puzzle.length;
 		this.boardWidth = this.options.Puzzle[0].length;
-		this.nextPenalty = 10;
+		this.nextPenalty = Engine.initialPenalty;
 	}
 	
 	StartGame ()
@@ -75,6 +77,7 @@ class Engine
 	{
 		if (this.IsSpaceInPicture(row, col) === true)
 		{
+			// The user marked a space that exists in the picture, great!
 			this.board[row][col] = CellStates.Marked;
 			this.puzzleRenderer.MarkSpace(row, col);
 			this.previewRenderer.UpdatePreview(this.board);
@@ -92,6 +95,8 @@ class Engine
 			var currentTime = this.timer.GetTime();
 			currentTime -= this.nextPenalty;
 			
+			this.IncrementPenalty();
+			
 			if (currentTime <= 0)
 			{
 				this.timer.Stop();
@@ -103,6 +108,14 @@ class Engine
 			this.timer.SetTime(currentTime);
 			this.timerRenderer.UpdateDisplay(currentTime);
 		}
+	}
+	
+	private IncrementPenalty ()
+	{
+		if (this.nextPenalty * 2 > Engine.maxPenalty)
+			return;
+			
+		this.nextPenalty *= 2;
 	}
 	
 	private ToggleSpaceFlag (row: number, col: number)
