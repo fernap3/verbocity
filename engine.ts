@@ -7,7 +7,6 @@ enum CellStates { Clear, Marked, Flagged }
 interface EngineOptions
 {
 	Page: HTMLElement;
-	Puzzle: number[][];
 	OnWinCallback: () => void;
 	OnLoseCallback: () => void;
 }
@@ -26,18 +25,20 @@ class Engine
 	private timerRenderer: TimerRenderer;
 	private timer: Timer;
 	private nextPenalty: number;
+	private puzzle: number[][];
 	
 	constructor (options:EngineOptions)
 	{
 		this.options = options;
-		this.board = this.CreateBoardFromPuzzle(this.options.Puzzle);
-		this.boardHeight = this.options.Puzzle.length;
-		this.boardWidth = this.options.Puzzle[0].length;
-		this.nextPenalty = Engine.initialPenalty;
 	}
 	
 	StartGame ()
 	{
+		this.nextPenalty = Engine.initialPenalty;
+		this.board = this.CreateBoardFromPuzzle(this.puzzle);
+		this.boardHeight = this.puzzle.length;
+		this.boardWidth = this.puzzle[0].length;		
+		
 		this.timerRenderer = new TimerRenderer({
 			TimerContainer: <HTMLElement>this.options.Page.querySelector("#Timer")
 		});
@@ -50,7 +51,7 @@ class Engine
 		this.timerRenderer.UpdateDisplay(Engine.startTime);
 		this.timer.Start();
 		
-		this.puzzleRenderer = new PuzzleRenderer(this.options.Puzzle, this.options.Page);
+		this.puzzleRenderer = new PuzzleRenderer(this.puzzle, this.options.Page);
 		this.puzzleRenderer.RenderInitialBoard();
 		
 		this.previewRenderer = new PreviewRenderer(<HTMLCanvasElement>this.options.Page.querySelector("#Preview"));
@@ -60,6 +61,13 @@ class Engine
 			OnCellClickCallback: (row: number, col: number) => { this.TryFillSpace(row, col); },
 			OnCellRightClickCallback: (row: number, col: number) => { this.ToggleSpaceFlag(row, col); }
 		});
+		
+		Centerer.CenterContainers();
+	}
+	
+	SetPuzzle (puzzle: number[][])
+	{
+		this.puzzle = puzzle;
 	}
 	
 	private HandleTimerTick (seconds: number)
@@ -82,7 +90,7 @@ class Engine
 			this.puzzleRenderer.MarkSpace(row, col);
 			this.previewRenderer.UpdatePreview(this.board);
 			
-			if (this.IsWinState(this.options.Puzzle, this.board))
+			if (this.IsWinState(this.puzzle, this.board))
 			{
 				this.timer.Stop();
 				this.options.OnWinCallback();
@@ -142,7 +150,7 @@ class Engine
 	
 	private IsSpaceInPicture (row: number, col: number): boolean
 	{
-		return this.options.Puzzle[row][col] === 1;
+		return this.puzzle[row][col] === 1;
 	}
 	
 	private CreateBoardFromPuzzle (puzzle:Array<Array<number>>)

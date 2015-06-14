@@ -2,18 +2,20 @@
 <html>
 	<head>
 		<title>verbocity</title>
+		<script src="js/centerer.js"></script>
 		<script src="js/puzzles.js"></script>
 		<script src="js/timer.js"></script>
 		<script src="js/puzzleRenderer.js"></script>
 		<script src="js/previewRenderer.js"></script>
 		<script src="js/timerRenderer.js"></script>
 		<script src="js/inputHandler.js"></script>
+		<script src="js/mainMenu.js"></script>
 		<script src="js/engine.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/index.css">
 	</head>
 	</head>
 	<body>
-		<div id="PlayArea" class="playArea">
+		<div id="PlayArea" class="playArea" style="display:none" data-center="">
 			<table id="Board" class="board"></table>
 			<div class="statusArea">
 				<span id="Timer" class="timer"></span>
@@ -24,15 +26,15 @@
 				<canvas id="Preview" class="preview"></canvas>
 			</div>
 		</div>
-		<script src="js/index.js"></script>
-	</body>
-
-</html>
-<!--<div id="MainMenu" class="mainMenu">
+		<div id="MainMenu" class="mainMenu" style="display:none" data-center="">
 			<h1>verbocity</h1>
 			<ul>
-				<li>Play Level</li>
-				<li>Play Randomly-Generated Level</li>
-				<li>Create Level</li>
+				<li data-action="justplay">Just Play</li>
+				<li>Choose Level...</li>
+				<!--<li>Play Randomly-Generated Level</li>-->
+				<li>Create Level...</li>
 			</ul>
-		</div>-->
+		</div>
+		<script src="js/index.js"></script>
+	</body>
+</html>
