@@ -16,6 +16,13 @@ body {
 	src: url("../Retro Computer.ttf");
 }
 
+button {
+	border: none;
+	background-color: white;
+	cursor: pointer;
+	font: inherit;
+}
+
 .playArea {
 	display: inline-block;
 	text-align: initial;
@@ -145,6 +152,30 @@ canvas {
 	border: 1px solid lightgray;
 	position: absolute;
 	z-index: 2;
+}
+
+.puzzleChooser {
+	background-color: white;
+	width: 400px;
+	height: 80%;
+	border: 1px solid lightgray;
+	position: absolute;
+	z-index: 2;
+	.userSelectNone;
+}
+
+.puzzleChooserButtonContainer {
+	height: 2em;
+}
+
+.puzzleChooserButtonContainer button {
+	font-size: 10px;
+	padding: 8px;
+	outline: none;
+}
+
+.puzzleChooserPuzzleList {
+	height: calc(~"100% - 2em");
 }
 
 .clearOverlay {

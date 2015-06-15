@@ -6,6 +6,7 @@ class Game
 	private mainMenu: MainMenu;
 	private engine: Engine;
 	private playArea: HTMLElement;
+	private puzzleChooser: PuzzleChooser;
 	
 	constructor (page: HTMLElement)
 	{
@@ -18,6 +19,11 @@ class Game
 			OnQuitCallback: () => { this.HidePlayArea(); this.mainMenu.Show(); }
 		});
 		
+		this.puzzleChooser = new PuzzleChooser({
+			Container: document.getElementById("PuzzleChooser"),
+			OnCloseCallback: () => {}
+		});
+		
 		this.playArea = document.getElementById("PlayArea");
 		
 		Centerer.SetupResizeHandler();
@@ -27,7 +33,8 @@ class Game
 	{
 		this.mainMenu = new MainMenu({
 			MenuContainer: document.getElementById("MainMenu"),
-			OnJustPlayCallback: () => { this.StartJustPlay(); }
+			OnJustPlayCallback: () => { this.StartJustPlay(); },
+			OnChoosePuzzleCallback: () => { this.ShowPuzzleChooser(); }
 		});
 		
 		this.mainMenu.Show();
@@ -41,6 +48,11 @@ class Game
 		
 		this.engine.SetPuzzle(Puzzles["Game Boy"]);
 		this.engine.StartGame();
+	}
+	
+	private ShowPuzzleChooser ()
+	{
+		this.puzzleChooser.Show();
 	}
 	
 	private ShowPlayArea ()

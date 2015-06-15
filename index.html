@@ -10,6 +10,7 @@
 		<script src="js/timerRenderer.js"></script>
 		<script src="js/inputHandler.js"></script>
 		<script src="js/mainMenu.js"></script>
+		<script src="js/puzzleChooser.js"></script>
 		<script src="js/sharePrompt.js"></script>
 		<script src="js/engine.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/index.css">
@@ -31,13 +32,25 @@
 			<h1>verbocity</h1>
 			<ul>
 				<li data-action="justplay">Just Play</li>
-				<li>Choose Level...</li>
+				<li data-action="choosepuzzle">Choose Level...</li>
 				<!--<li>Play Randomly-Generated Level</li>-->
 				<li>Create Level...</li>
 			</ul>
 		</div>
 		<div id="SharePrompt" class="sharePrompt" style="display:none" data-center="">
 			<input type="text" disabled></input>
+		</div>
+		<div id="PuzzleChooser" class="puzzleChooser" style="display:none" data-center="">
+			<div class="puzzleChooserButtonContainer">
+				<button data-tab="builtin">Built-In</button>
+				<button data-tab="custom">Custom and Shared with Me</button>
+			</div>
+			<div class="puzzleChooserPuzzleList" data-tab="builtin" style="">
+				<ul></ul>builtin
+			</div>
+			<div class="puzzleChooserPuzzleList" data-tab="custom" style="display:none">
+				<ul></ul>custom
+			</div>
 		</div>
 		<script src="js/game.js"></script>
 	</body>
