@@ -26,7 +26,7 @@ class Engine
 	private timerRenderer: TimerRenderer;
 	private timer: Timer;
 	private nextPenalty: number;
-	private puzzle: number[][];
+	private puzzle: Puzzle;
 	private sharePrompt: SharePrompt;
 	
 	constructor (options:EngineOptions)
@@ -43,8 +43,8 @@ class Engine
 	{
 		this.nextPenalty = Engine.initialPenalty;
 		this.board = this.CreateBoardFromPuzzle(this.puzzle);
-		this.boardHeight = this.puzzle.length;
-		this.boardWidth = this.puzzle[0].length;		
+		this.boardHeight = this.puzzle.Definition.length;
+		this.boardWidth = this.puzzle.Definition[0].length;		
 		
 		this.timerRenderer = new TimerRenderer({
 			TimerContainer: <HTMLElement>this.options.Page.querySelector("#Timer")
@@ -87,7 +87,7 @@ class Engine
 		document.getElementById("PlayArea").classList.remove("blurred");
 	}
 	
-	SetPuzzle (puzzle: number[][])
+	SetPuzzle (puzzle: Puzzle)
 	{
 		this.puzzle = puzzle;
 	}
@@ -172,18 +172,18 @@ class Engine
 	
 	private IsSpaceInPicture (row: number, col: number): boolean
 	{
-		return this.puzzle[row][col] === 1;
+		return this.puzzle.Definition[row][col] === 1;
 	}
 	
-	private CreateBoardFromPuzzle (puzzle:Array<Array<number>>)
+	private CreateBoardFromPuzzle (puzzle: Puzzle)
 	{
 		var board = [];
 		
-		for (var i = 0; i < puzzle.length; i++)
+		for (var i = 0; i < puzzle.Definition.length; i++)
 		{
 			var row = [];
 			
-			for (var j = 0; j < puzzle[i].length; j++)
+			for (var j = 0; j < puzzle.Definition[i].length; j++)
 			{
 				row.push(CellStates.Clear);
 			}
@@ -200,7 +200,7 @@ class Engine
 		{
 			for (var j = 0; j < this.boardWidth; j++)
 			{
-				if (puzzle[i][j] === 1 && board[i][j] !== CellStates.Marked)
+				if (puzzle.Definition[i][j] === 1 && board[i][j] !== CellStates.Marked)
 					return false;
 			}
 		}

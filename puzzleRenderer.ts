@@ -1,6 +1,6 @@
 class PuzzleRenderer
 {
-	private puzzle: number[][];
+	private puzzle: Puzzle;
 	private table: HTMLElement;
 	private static spaceMarkedClassName = "filled";
 	private static spaceFlaggedClassName = "flagged";
@@ -92,7 +92,7 @@ class PuzzleRenderer
 		var maxNumberOfRowGroups = PuzzleRenderer.LongestArrayLength(rowNumbers);
 		this.RenderColumnHeaders(this.table, columnNumbers, maxNumberOfRowGroups);
 		
-		for (var row = 0; row < this.puzzle.length; row++)
+		for (var row = 0; row < this.puzzle.Definition.length; row++)
 		{
 			var rowElem = document.createElement("tr");
 			
@@ -108,7 +108,7 @@ class PuzzleRenderer
 				rowElem.appendChild(tdElem);
 			}
 			
-			for (var col = 0; col < this.puzzle[0].length; col++)
+			for (var col = 0; col < this.puzzle.Definition[0].length; col++)
 			{
 				var tdElem = document.createElement("td");
 				tdElem.className = "pictureCell";
@@ -166,18 +166,18 @@ class PuzzleRenderer
 		}
 	}
 	
-	private static GenerateColumnNumbers (puzzle: number[][]) : number[][]
+	private static GenerateColumnNumbers (puzzle: Puzzle) : number[][]
 	{
 		var numbers = [];
 		
-		for (var col = 0; col < puzzle[0].length; col++)
+		for (var col = 0; col < puzzle.Definition[0].length; col++)
 		{
 			var currentColumnNumbers = [];
 			var consecutiveSetCells = 0;
 			
-			for (var row = 0; row < puzzle.length; row++)
+			for (var row = 0; row < puzzle.Definition.length; row++)
 			{
-				if (puzzle[row][col] === 1)
+				if (puzzle.Definition[row][col] === 1)
 				{
 					consecutiveSetCells += 1;
 				}
@@ -206,18 +206,18 @@ class PuzzleRenderer
 		return numbers;
 	}
 	
-	private static GenerateRowNumbers (puzzle: number[][]) : number[][]
+	private static GenerateRowNumbers (puzzle: Puzzle) : number[][]
 	{
 		var numbers = [];
 		
-		for (var row = 0; row < puzzle[0].length; row++)
+		for (var row = 0; row < puzzle.Definition[0].length; row++)
 		{
 			var currentRowNumbers = [];
 			var consecutiveSetCells = 0;
 			
-			for (var col = 0; col < puzzle.length; col++)
+			for (var col = 0; col < puzzle.Definition.length; col++)
 			{
-				if (puzzle[row][col] === 1)
+				if (puzzle.Definition[row][col] === 1)
 				{
 					consecutiveSetCells += 1;
 				}

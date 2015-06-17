@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>verbocity</title>
+		<script src="js/puzzle.js"></script>
 		<script src="js/centerer.js"></script>
 		<script src="js/puzzles.js"></script>
 		<script src="js/timer.js"></script>
@@ -45,8 +46,8 @@
 				<button data-tab="builtin">Built-In</button>
 				<button data-tab="custom">Custom and Shared with Me</button>
 			</div>
-			<div class="puzzleChooserPuzzleList" data-tab="builtin" style="">
-				<ul></ul>builtin
+			<div class="puzzleChooserPuzzleList puzzleChooserGrid" data-tab="builtin" style="">
+				<ul id="BuiltinPreviewList"></ul>
 			</div>
 			<div class="puzzleChooserPuzzleList" data-tab="custom" style="display:none">
 				<ul></ul>custom

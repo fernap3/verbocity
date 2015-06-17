@@ -1,7 +1,10 @@
 interface PuzzleChooserOptions
 {
 	Container: HTMLElement;
+	Puzzles: Puzzle[];
+	SolvedPuzzleIds: string[];
 	OnCloseCallback: () => void;
+	OnPuzzleSelectCallback: (puzzle: Puzzle) => void;
 }
 
 class PuzzleChooser
@@ -19,7 +22,7 @@ class PuzzleChooser
 		this.overlay.className = "clearOverlay";
 		
 		this.onOverlayClick = (MouseEvent) => {
-			this.Close();
+			this.Hide();
 		}
 		
 		var builtinTabButton = <HTMLElement>this.options.Container.querySelector("button[data-tab='builtin']");
@@ -49,13 +52,55 @@ class PuzzleChooser
 		setTimeout(() => {
 			this.overlay.addEventListener("click", this.onOverlayClick );
 		}, 0);
+		
+		this.RenderBuiltinPreviews();
 	}
 	
-	Close ()
+	Hide ()
 	{
 		this.overlay.removeEventListener("click", this.onOverlayClick );
 		this.options.Container.style.display = "none";
 		document.body.removeChild(this.overlay);
 		this.options.OnCloseCallback();
+	}
+	
+	private RenderBuiltinPreviews ()
+	{
+		var list = <HTMLUListElement>this.options.Container.querySelector("ul#BuiltinPreviewList");
+		list.innerHTML = "";
+		
+		for (var i = 0; i < this.options.Puzzles.length; i++)
+		{
+			var puzzle = this.options.Puzzles[i];
+			var li = document.createElement("li");
+			
+			if (this.options.SolvedPuzzleIds.indexOf(puzzle.Id) !== -1)
+			{
+				// The puzzle has been solved; show the solved image instead of the default
+				// mysteriousi question mark
+				li.classList.add("solved");
+				li.appendChild(this.GetPreviewCanvas(puzzle));
+			}
+
+			li.onclick = this.CreatePuzzleClickHandler(puzzle);
+			
+			list.appendChild(li);
+		}
+	}
+	
+	private CreatePuzzleClickHandler  (puzzle: Puzzle): (evt) => void
+	{
+		return (evt) =>
+		{
+			this.options.OnPuzzleSelectCallback(puzzle);
+		};
+	}
+	
+	private GetPreviewCanvas (puzzle: Puzzle): HTMLCanvasElement
+	{
+		var canvas = document.createElement("canvas");
+		var renderer = new PreviewRenderer(canvas);
+		renderer.UpdatePreview(puzzle.Definition);
+		return canvas;
 	}
 }

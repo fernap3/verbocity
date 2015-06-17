@@ -21,7 +21,13 @@ class Game
 		
 		this.puzzleChooser = new PuzzleChooser({
 			Container: document.getElementById("PuzzleChooser"),
-			OnCloseCallback: () => {}
+			Puzzles: PuzzleProvider.BuiltinPuzzles,
+			SolvedPuzzleIds: ["MOCKID"],
+			OnCloseCallback: () => {},
+			OnPuzzleSelectCallback: (puzzle) => {
+				this.puzzleChooser.Hide();
+				this.StartPuzzle(puzzle);
+			}
 		});
 		
 		this.playArea = document.getElementById("PlayArea");
@@ -46,7 +52,16 @@ class Game
 		this.mainMenu.Hide();
 		this.ShowPlayArea();
 		
-		this.engine.SetPuzzle(Puzzles["Game Boy"]);
+		this.engine.SetPuzzle(PuzzleProvider.GetRandomBuiltinPuzzle());
+		this.engine.StartGame();
+	}
+	
+	private StartPuzzle (puzzle: Puzzle)
+	{
+		this.mainMenu.Hide();
+		this.ShowPlayArea();
+		
+		this.engine.SetPuzzle(puzzle);
 		this.engine.StartGame();
 	}
 	

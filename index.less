@@ -156,7 +156,7 @@ canvas {
 
 .puzzleChooser {
 	background-color: white;
-	width: 400px;
+	width: 344px;
 	height: 80%;
 	border: 1px solid lightgray;
 	position: absolute;
@@ -176,6 +176,42 @@ canvas {
 
 .puzzleChooserPuzzleList {
 	height: calc(~"100% - 2em");
+}
+
+.puzzleChooserPuzzleList.puzzleChooserGrid ul {
+	margin: 0;
+	padding: 0;
+}
+
+/*
+Flag Icon made by Freepik (http://www.freepik.com),
+licensed under Creative Commons BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
+*/
+.puzzleChooserPuzzleList.puzzleChooserGrid ul li {
+	display: block;
+	float: left;
+	margin-left: 4px;
+	margin-bottom: 4px;
+	height: 30px;
+	width: 30px;
+	background-image: url('../unsolvedpuzzlepreview.svg');
+	background-size: 20px 20px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.puzzleChooserPuzzleList.puzzleChooserGrid ul li:hover {
+	background-size: 22px 22px;
+}
+
+.puzzleChooserPuzzleList.puzzleChooserGrid ul li.solved {
+	background-image: none;
+}
+
+.puzzleChooserPuzzleList.puzzleChooserGrid ul li.solved canvas {
+	height: 30px;
+	width: 30px;
 }
 
 .clearOverlay {
