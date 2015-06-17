@@ -1,1 +1,1 @@
-# verbosity
+# verbocity
