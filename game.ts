@@ -7,6 +7,7 @@ class Game
 	private engine: Engine;
 	private playArea: HTMLElement;
 	private puzzleChooser: PuzzleChooser;
+	private currentPuzzle: Puzzle;
 	
 	constructor (page: HTMLElement)
 	{
@@ -14,7 +15,7 @@ class Game
 		
 		this.engine = new Engine({
 			Page: document.getElementById("PlayArea"),
-			OnWinCallback: () => { console.log("WIN"); },
+			OnWinCallback: () => { SaveDataProvider.AddSolvedPuzzleId(this.currentPuzzle.Id); },
 			OnLoseCallback: () => { console.log("LOSE"); },
 			OnQuitCallback: () => { this.HidePlayArea(); this.mainMenu.Show(); }
 		});
@@ -22,7 +23,6 @@ class Game
 		this.puzzleChooser = new PuzzleChooser({
 			Container: document.getElementById("PuzzleChooser"),
 			Puzzles: PuzzleProvider.BuiltinPuzzles,
-			SolvedPuzzleIds: ["MOCKID"],
 			OnCloseCallback: () => {},
 			OnPuzzleSelectCallback: (puzzle) => {
 				this.puzzleChooser.Hide();
@@ -61,6 +61,7 @@ class Game
 		this.mainMenu.Hide();
 		this.ShowPlayArea();
 		
+		this.currentPuzzle = puzzle;
 		this.engine.SetPuzzle(puzzle);
 		this.engine.StartGame();
 	}

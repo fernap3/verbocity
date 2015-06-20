@@ -2,7 +2,6 @@ interface PuzzleChooserOptions
 {
 	Container: HTMLElement;
 	Puzzles: Puzzle[];
-	SolvedPuzzleIds: string[];
 	OnCloseCallback: () => void;
 	OnPuzzleSelectCallback: (puzzle: Puzzle) => void;
 }
@@ -74,7 +73,7 @@ class PuzzleChooser
 			var puzzle = this.options.Puzzles[i];
 			var li = document.createElement("li");
 			
-			if (this.options.SolvedPuzzleIds.indexOf(puzzle.Id) !== -1)
+			if (SaveDataProvider.SolvedPuzzleIds.indexOf(puzzle.Id) !== -1)
 			{
 				// The puzzle has been solved; show the solved image instead of the default
 				// mysteriousi question mark

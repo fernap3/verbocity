@@ -5,7 +5,7 @@ var watch = require('gulp-watch');
 var typescript = require('gulp-typescript');
 var concat = require('gulp-concat');
 
-var sourceTsFiles = ["puzzle.ts", "puzzles.ts", "centerer.ts", "timer.ts", "puzzleRenderer.ts",
+var sourceTsFiles = ["saveDataProvider.ts", "puzzle.ts", "puzzles.ts", "centerer.ts", "timer.ts", "puzzleRenderer.ts",
    "previewRenderer.ts", "timerRenderer.ts", "inputHandler.ts", "mainMenu.ts", "puzzleChooser.ts",
    "sharePrompt.ts", "engine.ts", "game.ts"];
 

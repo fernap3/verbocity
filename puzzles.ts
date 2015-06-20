@@ -28,7 +28,7 @@ class PuzzleProvider
 
 PuzzleProvider.BuiltinPuzzles = [
 	{
-		Id: "MOCKID",
+		Id: "dd56e5ef-69e3-44de-80f3-b6750feb6000",
 		Name: "Game Boy",
 		Definition: [
 			[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -49,7 +49,7 @@ PuzzleProvider.BuiltinPuzzles = [
 		]
 	},
 	{
-		Id: "MOCKID2",
+		Id: "2a8a8545-dc16-4de2-a640-e6a2b79c8325",
 		Name: "Test",
 		Definition: [
 			[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
