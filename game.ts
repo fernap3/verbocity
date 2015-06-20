@@ -52,7 +52,9 @@ class Game
 		this.mainMenu.Hide();
 		this.ShowPlayArea();
 		
-		this.engine.SetPuzzle(PuzzleProvider.GetRandomBuiltinPuzzle());
+		var puzzle = PuzzleProvider.GetRandomBuiltinPuzzle();
+		this.currentPuzzle = puzzle;
+		this.engine.SetPuzzle(puzzle);
 		this.engine.StartGame();
 	}
 	
