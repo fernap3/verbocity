@@ -85,7 +85,7 @@
 		},
 		
 		{
-			"taskName": "build-typescript",
+			"taskName": "build-debug",
 			// Make this the default build command.
 			"isBuildCommand": true,
 			"isShellCommand": true,

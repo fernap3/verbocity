@@ -3,14 +3,19 @@ var gulp = require('gulp');
 var less = require("gulp-less");
 var watch = require('gulp-watch');
 var typescript = require('gulp-typescript');
+var concat = require('gulp-concat');
 
-//gulp.task('default', ["less", "build" "watch"]);
+
+gulp.task('build-debug', ['build-typescript', 'less']);
 
 gulp.task('build-typescript', function () {
       
-   var sourceTsFiles = ["*.ts"];     //reference to app.d.ts files
+   var sourceTsFiles = ["puzzle.ts", "puzzles.ts", "centerer.ts", "timer.ts", "puzzleRenderer.ts",
+   "previewRenderer.ts", "timerRenderer.ts", "inputHandler.ts", "mainMenu.ts", "puzzleChooser.ts",
+   "sharePrompt.ts", "engine.ts", "game.ts"];
 
    var tsResult = gulp.src(sourceTsFiles)
+                    .pipe(concat('verbocity.ts'))
                     .pipe(typescript({
                         target: 'ES5',
                         declarationFiles: false,
@@ -18,16 +23,11 @@ gulp.task('build-typescript', function () {
                     }));
 
         tsResult.dts.pipe(gulp.dest("js"));
-        return tsResult.js
-               .pipe(gulp.dest("js"));
+        return tsResult.js.pipe(gulp.dest("js"));
 });
 
 gulp.task('less', function () {
    gulp.src('*.less')
       .pipe(less())
       .pipe(gulp.dest('css'));
-});
-
-gulp.task('watch-less', function () {
-   gulp.watch('*.less', ['less']);
 });
