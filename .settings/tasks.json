@@ -83,7 +83,6 @@
 				"watchedTaskEndsRegExp": "^\\[\\d+:\\d+:\\d+\\] Finished 'styles' after \\d+"
 			}
 		},
-		
 		{
 			"taskName": "build-debug",
 			// Make this the default build command.
@@ -98,6 +97,22 @@
 			},
 			
 			"args": ["--outDir", "js"],
+			
+			// use the standard tsc problem matcher to find compile problems
+			// in the output.
+			"problemMatcher": "$tsc"
+		},
+		{
+			"taskName": "deploy",
+			// Make this the default build command.
+			"isBuildCommand": false,
+			"isShellCommand": true,
+			// Show the output window only if unrecognized errors occur.
+			"showOutput": "silent",
+			
+			// Under windows use tsc.exe. This ensures we don't need a shell.
+			"windows": {
+			},
 			
 			// use the standard tsc problem matcher to find compile problems
 			// in the output.
