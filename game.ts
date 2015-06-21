@@ -9,6 +9,10 @@ class Game
 	private puzzleChooser: PuzzleChooser;
 	private currentPuzzle: Puzzle;
 	
+	// Images that we need to appear responsively on user input are preloaded
+	// in anticipation of them actually being needed.
+	private static imagesToPreload = ["flag.svg"];
+	
 	constructor (page: HTMLElement)
 	{
 		this.page = page;
@@ -44,6 +48,16 @@ class Game
 		});
 		
 		this.mainMenu.Show();
+		Game.PreloadImages(Game.imagesToPreload);
+	}
+	
+	private static PreloadImages (urls: string[])
+	{
+		for (var i = 0; i < urls.length; i++)
+		{
+			var image = new Image();
+			image.src = urls[i];
+		}
 	}
 	
 	// Choose a random puzzle from the list to play
