@@ -1,14 +1,20 @@
-@color-guide-border: #222;
-@color-normal-border: #ccc;
+@color-guide-border: #111;
+@color-normal-border: #888;
 
 .userSelectNone {
 	-webkit-user-select: none;
 	user-select: none;
 }
 
+html {
+	height: 100%;
+}
+
 body {
 	font-family:InputMono;
 	text-align: center;
+	height: 100%;
+	margin: 0;
 }
 
 @font-face {
@@ -27,6 +33,7 @@ button {
 	display: inline-block;
 	text-align: initial;
 	width: 500px;
+	height: 500px;
 	position: absolute;
 }
 
@@ -44,6 +51,26 @@ button {
 
 .playArea .playAreaMenu li {
 	cursor: pointer;
+}
+
+.playAreaBackground {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 1;
+	background-color: white;
+	opacity: .9;
+}
+
+.playAreaForeground {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 2;
 }
 
 table.board {
@@ -141,6 +168,7 @@ canvas {
 	color: red;
 	display: inline-block;
 	position: absolute;
+	z-index: 3;
 	opacity: 1;
 	transition: opacity 1.5s ease-out,  top 1.5s ease-out;
 }
@@ -190,6 +218,7 @@ licensed under Creative Commons BY 3.0 (http://creativecommons.org/licenses/by/3
 .puzzleChooserPuzzleList.puzzleChooserGrid ul li {
 	display: block;
 	float: left;
+	position: relative;
 	margin-left: 4px;
 	margin-bottom: 4px;
 	height: 30px;
@@ -199,6 +228,20 @@ licensed under Creative Commons BY 3.0 (http://creativecommons.org/licenses/by/3
 	background-position: center center;
 	background-repeat: no-repeat;
 	cursor: pointer;
+}
+
+.puzzleChooserPuzzleList.puzzleChooserGrid ul li .videoIcon {
+	background-color: red;
+	height: 12px;
+	width: 12px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	border-radius: 6px;
+	background-image: url("../video.svg");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 8px 8px;
 }
 
 .puzzleChooserPuzzleList.puzzleChooserGrid ul li:hover {
@@ -227,4 +270,10 @@ licensed under Creative Commons BY 3.0 (http://creativecommons.org/licenses/by/3
 .blurred {
 	-webkit-filter: blur(2px) grayscale(50%) brightness(70%);
 	filter: blur(2px) grayscale(50%) brightness(70%);
+}
+
+//<div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
+.blah {
+	background-image: url("");
 }

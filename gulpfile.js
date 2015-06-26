@@ -7,7 +7,7 @@ var concat = require('gulp-concat');
 
 var sourceTsFiles = ["saveDataProvider.ts", "puzzle.ts", "puzzles.ts", "centerer.ts", "timer.ts", "puzzleRenderer.ts",
    "previewRenderer.ts", "timerRenderer.ts", "inputHandler.ts", "mainMenu.ts", "puzzleChooser.ts",
-   "sharePrompt.ts", "engine.ts", "game.ts"];
+   "sharePrompt.ts", "visualization.ts", "engine.ts", "game.ts"];
 
 gulp.task('build-debug', ['build-typescript', 'less']);
 gulp.task('deploy', ['deploybuild-typescript', 'less']);

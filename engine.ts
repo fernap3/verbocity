@@ -28,6 +28,7 @@ class Engine
 	private nextPenalty: number;
 	private puzzle: Puzzle;
 	private sharePrompt: SharePrompt;
+	private visualization: Visualization;
 	
 	constructor (options:EngineOptions)
 	{
@@ -75,10 +76,17 @@ class Engine
 			OnQuitClickCallback: () => {
 				this.timer.Stop();
 				this.options.OnQuitCallback();
+			},
+			OnPauseClickCallback: () => {
+				this.timer.Stop();
+				this.visualization.Stop();
 			}
 		});
 		
 		Centerer.CenterContainers();
+		
+		this.visualization = VisualizationFactory.Create(this.puzzle);
+		this.visualization.Start(document.body);
 	}
 	
 	private OnSharePromptClose ()
@@ -207,4 +215,20 @@ class Engine
 		
 		return true;
 	}
+	
+	private StartVideo ()
+	{
+		
+	}
+}
+
+declare var YT: any;
+
+function onPlayerReady (event) {
+	event.target.playVideo();
+}
+
+function onPlayerStateChange (event) {
+	console.log(event.data);
+	
 }

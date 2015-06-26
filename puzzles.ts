@@ -5,6 +5,11 @@ interface Puzzle
 	Definition: number[][];
 }
 
+interface VideoPuzzle extends Puzzle
+{
+	VideoUrl: string;
+}
+
 class PuzzleProvider
 {
 	static BuiltinPuzzles: Puzzle[];
@@ -51,6 +56,7 @@ PuzzleProvider.BuiltinPuzzles = [
 	{
 		Id: "2a8a8545-dc16-4de2-a640-e6a2b79c8325",
 		Name: "Test",
+		VideoUrl: "https://www.youtube.com/watch?v=DMfxKYEN_KQ",
 		Definition: [
 			[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],

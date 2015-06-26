@@ -80,11 +80,24 @@ class PuzzleChooser
 				li.classList.add("solved");
 				li.appendChild(this.GetPreviewCanvas(puzzle));
 			}
+			
+			if ((<VideoPuzzle>puzzle).VideoUrl != null)
+			{
+				PuzzleChooser.AddVideoIcon(li);
+			}
 
 			li.onclick = this.CreatePuzzleClickHandler(puzzle);
 			
 			list.appendChild(li);
 		}
+	}
+	
+	private static AddVideoIcon (element: HTMLElement)
+	{
+		var iconContainer = document.createElement("div");
+		iconContainer.className = "videoIcon";
+		
+		element.appendChild(iconContainer);
 	}
 	
 	private CreatePuzzleClickHandler  (puzzle: Puzzle): (evt) => void
