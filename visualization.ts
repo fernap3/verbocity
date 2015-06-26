@@ -32,10 +32,12 @@ class VideoVisualization implements Visualization
 	{
 		this.player = new YT.Player("Video", {
 			videoId: VideoVisualization.GetYouTubeVideoIdFromUrl(this.videoUrl),
+			height: "100%",
+			width: "100%",
 			playerVars: {
 				autoplay: '0',
 				controls: '0',
-				disablekb: '0',
+				disablekb: '1',
 				iv_load_policy: '3',
 				modestbranding: '1',
 				rel: '0',
@@ -56,9 +58,6 @@ class VideoVisualization implements Visualization
 	private OnPlayerReady ()
 	{
 		var videoIframe = document.getElementById("Video");
-		
-		videoIframe.style.height = "100%";
-		videoIframe.style.width = "100%";
 		
 		this.player.playVideo();
 		//alert(this.player.getDuration());
