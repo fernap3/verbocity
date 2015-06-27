@@ -9,18 +9,15 @@
 	</head>
 	<body>
 		<div id="PlayArea" class="playArea" style="display:none" data-center="">
-			<div class="playAreaBackground"></div>
-			<div class="playAreaForeground">
-				<table id="Board" class="board"></table>
-				<div class="statusArea">
-					<span id="Timer" class="timer"></span>
-					<ul class="playAreaMenu">
-						<li data-action='pause'>Pause</li>
-						<li data-action='share'>Share</li>
-						<li data-action="quit">Quit</li>
-					</ul>
-					<canvas id="Preview" class="preview"></canvas>
-				</div>
+			<table id="Board" class="board"></table>
+			<div class="statusArea">
+				<span id="Timer" class="timer"></span>
+				<ul class="playAreaMenu">
+					<li data-action='pause'>Pause</li>
+					<li data-action='share'>Share</li>
+					<li data-action="quit">Quit</li>
+				</ul>
+				<canvas id="Preview" class="preview"></canvas>
 			</div>
 		</div>
 		<div id="MainMenu" class="mainMenu" style="display:none" data-center="">
@@ -49,4 +46,5 @@
 		<div id="Video"></div>
 		<script src="js/verbocity.js"></script>
 	</body>
+
 </html>

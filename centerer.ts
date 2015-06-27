@@ -26,8 +26,8 @@ class Centerer
 			
 			var width = container.offsetWidth;
 			
-			container.style.left = (window.innerWidth / 2) - (width / 2) + "px";
-			container.style.top = (window.innerHeight / 2) - (height / 2) + "px";
+			container.style.left = Math.max((window.innerWidth / 2) - (width / 2), 0) + "px";
+			container.style.top = Math.max((window.innerHeight / 2) - (height / 2), 0) + "px";
 		}
 	}
 }
