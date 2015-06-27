@@ -15,6 +15,7 @@ body {
 	text-align: center;
 	height: 100%;
 	margin: 0;
+	font-size: 0; // To prevent whitespace from appearing at the bottom of the page, causing scrolling
 }
 
 @font-face {
@@ -36,6 +37,7 @@ button {
 	cursor: default;
 	background-color: ~"rgba(255, 255, 255, .9)";
 	padding: 1em;
+	font-size: initial;
 	.userSelectNone;
 }
 
@@ -117,6 +119,7 @@ canvas {
 #MainMenu {
 	width: 300px;
 	position: absolute;
+	font-size: initial;
 }
 
 #MainMenu h1 {
@@ -163,6 +166,7 @@ canvas {
 	border: 1px solid lightgray;
 	position: absolute;
 	z-index: 2;
+	font-size: initial;
 }
 
 .puzzleChooser {
@@ -172,6 +176,7 @@ canvas {
 	border: 1px solid lightgray;
 	position: absolute;
 	z-index: 2;
+	font-size: initial;
 	.userSelectNone;
 }
 
@@ -253,10 +258,4 @@ licensed under Creative Commons BY 3.0 (http://creativecommons.org/licenses/by/3
 .blurred {
 	-webkit-filter: blur(2px) grayscale(50%) brightness(70%);
 	filter: blur(2px) grayscale(50%) brightness(70%);
-}
-
-//<div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
-
-.blah {
-	background-image: url("");
 }
