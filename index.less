@@ -32,18 +32,18 @@ button {
 .playArea {
 	display: inline-block;
 	text-align: initial;
-	width: 500px;
 	position: absolute;
 	cursor: default;
-	background-color: ~"rgba(255, 255, 255, .8)";
+	background-color: ~"rgba(255, 255, 255, .9)";
+	padding: 1em;
 	.userSelectNone;
 }
 
 .playArea .statusArea {
-	position: absolute;
-	bottom: 0;
-	right: 0;
 	width: 100px;
+	display: inline-block;
+	vertical-align: bottom;
+	margin-left: 1em;
 }
 
 .playArea .playAreaMenu {
@@ -63,8 +63,8 @@ table.board {
 	font-size: 10px;
 	border-spacing: 1px;
     border-collapse: collapse;
-	float: left;
 	cursor: default;
+	display: inline-block;
 	.userSelectNone;
 }
 
@@ -143,7 +143,8 @@ canvas {
 }
 
 .preview {
-	
+	height: 60px;
+	width: 60px;
 }
 
 .cellPenaltyAnimationText {
