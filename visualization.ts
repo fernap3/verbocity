@@ -1,3 +1,5 @@
+declare var YT: any;
+
 class VisualizationFactory
 {
 	static Create (puzzle: Puzzle): Visualization
@@ -14,6 +16,7 @@ class VisualizationFactory
 interface Visualization
 {
 	Start: (container: HTMLElement) => void;
+	Pause: () => void;
 	Stop: () => void;
 }
 
@@ -50,9 +53,15 @@ class VideoVisualization implements Visualization
 		});
 	}
 	
-	Stop  ()
+	Pause ()
 	{
-		this.player.pauseVideo();
+		this.player.pauseVideo();		
+	}
+	
+	Stop ()
+	{
+		var video = document.getElementById("Video");
+		this.player.destroy();
 	}
 	
 	private OnPlayerReady ()
@@ -80,7 +89,12 @@ class PartyModeVisualization implements Visualization
 		
 	}
 	
-	Stop  ()
+	Pause ()
+	{
+		
+	}
+	
+	Stop ()
 	{
 		
 	}

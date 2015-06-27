@@ -20,7 +20,7 @@ class Game
 		this.engine = new Engine({
 			Page: document.getElementById("PlayArea"),
 			OnWinCallback: () => { SaveDataProvider.AddSolvedPuzzleId(this.currentPuzzle.Id); },
-			OnLoseCallback: () => { console.log("LOSE"); },
+			OnLoseCallback: () => { this.HidePlayArea(); this.mainMenu.Show(); },
 			OnQuitCallback: () => { this.HidePlayArea(); this.mainMenu.Show(); }
 		});
 		

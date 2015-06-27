@@ -74,12 +74,11 @@ class Engine
 				this.sharePrompt.Show();
 			},
 			OnQuitClickCallback: () => {
-				this.timer.Stop();
-				this.options.OnQuitCallback();
+				this.QuitGame();
 			},
 			OnPauseClickCallback: () => {
 				this.timer.Stop();
-				this.visualization.Stop();
+				this.visualization.Pause();
 			}
 		});
 		
@@ -87,6 +86,26 @@ class Engine
 		
 		this.visualization = VisualizationFactory.Create(this.puzzle);
 		this.visualization.Start(document.body);
+	}
+	
+	private OnGameWin ()
+	{
+		this.timer.Stop();
+		this.visualization.Stop();
+		this.options.OnWinCallback();
+	}
+	
+	private OnGameLose ()
+	{
+		this.visualization.Stop();
+		this.options.OnLoseCallback();
+	}
+	
+	private QuitGame ()
+	{
+		this.timer.Stop();
+		this.visualization.Stop();
+		this.options.OnQuitCallback();
 	}
 	
 	private OnSharePromptClose ()
@@ -107,7 +126,7 @@ class Engine
 		if (seconds === 0)
 		{
 			this.timer.Stop();
-			this.options.OnLoseCallback();
+			this.OnGameLose();
 		}
 	}
 	
@@ -122,8 +141,7 @@ class Engine
 			
 			if (this.IsWinState(this.puzzle, this.board))
 			{
-				this.timer.Stop();
-				this.options.OnWinCallback();
+				this.OnGameWin();
 				return;
 			}
 		}
@@ -142,7 +160,7 @@ class Engine
 				this.timer.Stop();
 				this.timerRenderer.UpdateDisplay(0);
 				this.timerRenderer.IndicatePenalty();
-				this.options.OnLoseCallback();
+				this.OnGameLose();
 				return;
 			}
 			
@@ -215,20 +233,4 @@ class Engine
 		
 		return true;
 	}
-	
-	private StartVideo ()
-	{
-		
-	}
-}
-
-declare var YT: any;
-
-function onPlayerReady (event) {
-	event.target.playVideo();
-}
-
-function onPlayerStateChange (event) {
-	console.log(event.data);
-	
 }
