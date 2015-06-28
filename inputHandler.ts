@@ -22,6 +22,9 @@ class InputHandler
 	private beginSelectCell: CellCoord;
 	private endSelectCell: CellCoord;
 	private cellSelectType: CellSelectType;
+	private isShiftHeld: boolean;
+	
+	private static KeyCodes = { Shift: 16 };
 	
 	constructor (options: InputHandlerOptions)
 	{
@@ -40,8 +43,10 @@ class InputHandler
 		this.cellSelectType = null;
 		
 		document.addEventListener("mousemove", (evt: PointerEvent) => { this.HandleMouseMoveWhileSelecting(evt); });
-		document.addEventListener("mouseup", (evt: MouseEvent) => { this.HandleTableMouseup(evt); });
-		document.addEventListener("mousedown", (evt: MouseEvent) => { this.HandleTableMousedown(evt); });
+		document.addEventListener("mouseup", (evt: MouseEvent) => { this.HandleDocumentMouseup(evt); });
+		this.table.addEventListener("mousedown", (evt: MouseEvent) => { this.HandleTableMousedown(evt); });
+		document.addEventListener("keydown", (evt: KeyboardEvent) => { this.HandleDocumentKeydown(evt); });
+		document.addEventListener("keyup", (evt: KeyboardEvent) => { this.HandleDocumentKeyup(evt); });
 		
 		
 		this.quitButton = <HTMLElement>document.querySelector("[data-action='quit']");
@@ -107,17 +112,28 @@ class InputHandler
 		this.cellSelectType = isRightClick === true ? CellSelectType.Flag : CellSelectType.Mark;
 	}
 	
-	private HandleTableMouseup (evt: MouseEvent)
+	private HandleDocumentKeydown (evt: KeyboardEvent)
 	{
-		if (this.IsEventTargetPictureCell(evt) === false)
+		switch (evt.keyCode)
 		{
-			this.beginSelectCell = null;
-			this.endSelectCell = null;
-			this.cellSelectType = null;
-			this.options.OnCellRangeDeselectCallback();
-			return;
+			case InputHandler.KeyCodes.Shift:
+				this.isShiftHeld = true;
+				break;
 		}
-			
+	}
+	
+	private HandleDocumentKeyup (evt: KeyboardEvent)
+	{
+		switch (evt.keyCode)
+		{
+			case InputHandler.KeyCodes.Shift:
+				this.isShiftHeld = false;
+				break;
+		}
+	}
+	
+	private HandleDocumentMouseup (evt: MouseEvent)
+	{
 		if (this.IsCurrentlySelecting() === false)
 			return;
 			
@@ -164,7 +180,7 @@ class InputHandler
 				selectedCells = [selectedCells[0]];
 			}
 		
-		if (isRightClick === true)
+		if (isRightClick === true || this.isShiftHeld === true)
 		{
 			this.options.OnCellsFlagCallback(selectedCells);
 		}

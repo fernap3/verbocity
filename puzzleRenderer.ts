@@ -18,17 +18,17 @@ class PuzzleRenderer
 		cell.classList.add(PuzzleRenderer.spaceMarkedClassName);
 	}
 	
-	FlagSpace (row: number, col: number)
+	FlagSpace (cellCoord: CellCoord)
 	{
-		//var cell = this.GetCell(row, col);
-		//cell.classList.add(PuzzleRenderer.spaceFlaggedClassName);
+		var cell = this.GetCell(cellCoord);
+		cell.classList.add(PuzzleRenderer.spaceFlaggedClassName);
 	}
 	
-	ClearSpace (row: number, col: number)
+	ClearSpace (cellCoord: CellCoord)
 	{
-		//var cell = this.GetCell(row, col);
-		//cell.classList.remove(PuzzleRenderer.spaceFlaggedClassName);
-		//cell.classList.remove(PuzzleRenderer.spaceMarkedClassName);
+		var cell = this.GetCell(cellCoord);
+		cell.classList.remove(PuzzleRenderer.spaceFlaggedClassName);
+		cell.classList.remove(PuzzleRenderer.spaceMarkedClassName);
 	}
 	
 	SetCellSelection (cells: CellCoord[])

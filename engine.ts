@@ -71,7 +71,7 @@ class Engine
 			OnCellRangeSelectCallback: (cells: CellCoord[]) => { this.puzzleRenderer.SetCellSelection(cells); },
 			OnCellRangeDeselectCallback: () => { this.puzzleRenderer.ClearCellSelection(); },
 			OnCellsMarkCallback: (cells: CellCoord[]) => { this.TryMarkCells(cells); },
-			OnCellsFlagCallback: (cells: CellCoord[]) => {console.log("flag cells");},
+			OnCellsFlagCallback: (cells: CellCoord[]) => { this.ToggleSpaceFlags(cells); },
 			OnShareClickCallback: () => {
 				this.timer.Stop();
 				document.getElementById("PlayArea").classList.add("blurred");
@@ -187,21 +187,26 @@ class Engine
 		this.nextPenalty *= 2;
 	}
 	
-	private ToggleSpaceFlag (row: number, col: number)
+	private ToggleSpaceFlags (cells: CellCoord[])
 	{
-		// If the space is already marked, don't allow the user to turn it into a question
-		if (this.board[row][col] === CellStates.Marked)
-			return;
-		
-		if (this.board[row][col] === CellStates.Clear)
+		for (var i = 0; i < cells.length; i++)
 		{
-			this.board[row][col] = CellStates.Flagged;
-			this.puzzleRenderer.FlagSpace(row, col);
-		}
-		else
-		{
-			this.board[row][col] = CellStates.Clear;
-			this.puzzleRenderer.ClearSpace(row, col);	
+			var cell = cells[i];
+			
+			// If the space is already marked, don't allow the user to turn it into a flag
+			if (this.board[cell.Row][cell.Col] === CellStates.Marked)
+				continue;
+			
+			if (this.board[cell.Row][cell.Col] === CellStates.Clear)
+			{
+				this.board[cell.Row][cell.Col] = CellStates.Flagged;
+				this.puzzleRenderer.FlagSpace(cell);
+			}
+			else
+			{
+				this.board[cell.Row][cell.Col] = CellStates.Clear;
+				this.puzzleRenderer.ClearSpace(cell);	
+			}
 		}
 	}
 	
