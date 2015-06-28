@@ -28,7 +28,7 @@ class InputHandler
 	private documentKeyDownHandler = (evt: KeyboardEvent) => { this.HandleDocumentKeydown(evt); };
 	private documentKeyUpHandler = (evt: KeyboardEvent) => { this.HandleDocumentKeyup(evt); };
 	
-	private static KeyCodes = { Shift: 16 };
+	private static KeyCodes = { Shift: 16, Escape: 27 };
 	
 	constructor (options: InputHandlerOptions)
 	{
@@ -131,7 +131,21 @@ class InputHandler
 			case InputHandler.KeyCodes.Shift:
 				this.isShiftHeld = true;
 				break;
+			case InputHandler.KeyCodes.Escape:
+				this.CancelSelection();
+				break;
 		}
+	}
+	
+	private CancelSelection ()
+	{
+		if (this.IsCurrentlySelecting() === false)
+			return;
+		
+		this.beginSelectCell = null;
+		this.endSelectCell = null;
+		this.cellSelectType = null;
+		this.options.OnCellRangeDeselectCallback();
 	}
 	
 	private HandleDocumentKeyup (evt: KeyboardEvent)
