@@ -1,7 +1,7 @@
 interface InputHandlerOptions
 {
 	Page: HTMLElement;
-	OnCellRangeSelectCallback: (beginCell: CellCoord, endCell: CellCoord, betweenCells: CellCoord[]) => void;
+	OnCellRangeSelectCallback: (cells: CellCoord[]) => void;
 	OnCellRangeDeselectCallback: () => void;
 	OnCellsMarkCallback: (cells: CellCoord[]) => void;
 	OnCellsFlagCallback: (cells: CellCoord[]) => void;
@@ -110,7 +110,12 @@ class InputHandler
 	private HandleTableMouseup (evt: MouseEvent)
 	{
 		if (this.IsEventTargetPictureCell(evt) === false)
+		{
+			this.beginSelectCell = null;
+			this.endSelectCell = null;
+			this.cellSelectType = null;
 			return;
+		}
 			
 		if (this.IsCurrentlySelecting() === false)
 			return;
@@ -130,6 +135,15 @@ class InputHandler
 			return;
 		}
 		
+		// If neither a straight row or straight column is selected, do nothing
+		if (InputHandler.AreCellsInSameRowOrColumn(this.beginSelectCell, this.endSelectCell) === false)
+		{
+			this.beginSelectCell = null;
+			this.endSelectCell = null;
+			this.cellSelectType = null;
+			return;
+		}
+		
 		// By this point, we know the event should trigger a cell range mark or flag event
 		
 		var target = <HTMLElement>evt.target;
@@ -139,13 +153,23 @@ class InputHandler
 		
 		this.options.OnCellRangeDeselectCallback();
 		
+		var betweenCells = InputHandler.GetCellsBetween(this.beginSelectCell, this.endSelectCell);
+		var selectedCells = [this.beginSelectCell].concat(betweenCells).concat([this.endSelectCell]);
+		
+		// If beginCell and endCell are the same, the user has only selected one cell
+		if (selectedCells.length === 2 && selectedCells[0].Row === selectedCells[1].Row &&
+			selectedCells[0].Col === selectedCells[1].Col)
+			{
+				selectedCells = [selectedCells[0]];
+			}
+		
 		if (isRightClick === true)
 		{
-			this.options.OnCellsFlagCallback([]);
+			this.options.OnCellsFlagCallback(selectedCells);
 		}
 		else
 		{
-			this.options.OnCellsMarkCallback([]);			
+			this.options.OnCellsMarkCallback(selectedCells);			
 		}
 		
 		this.beginSelectCell = null;
@@ -173,6 +197,7 @@ class InputHandler
 			// The user is not selecting a straight row or column (or only selecting a single cell),
 			// so select nothing
 			
+			this.endSelectCell = endCell;			
 			this.options.OnCellRangeDeselectCallback();
 			return;
 		}
@@ -184,26 +209,53 @@ class InputHandler
 			
 		this.endSelectCell = endCell;
 		
+		var betweenCells = InputHandler.GetCellsBetween(this.beginSelectCell, this.endSelectCell);
+		this.options.OnCellRangeSelectCallback([this.beginSelectCell].concat(betweenCells).concat([endCell]));		
+	}
+	
+	private static GetCellsBetween (beginCell: CellCoord, endCell: CellCoord) : CellCoord[]
+	{
 		var betweenCells = [];		
 		
-		if (this.beginSelectCell.Row === endCell.Row)
+		if (beginCell.Row === endCell.Row)
 		{
 			// The user is selecting a row of cells
-			for (var i = this.beginSelectCell.Col + 1; i < endCell.Col; i++)
+			// Make sure we iterate correctly in case beginCell comes before endCell
+			if (beginCell.Col > endCell.Col)
 			{
-				betweenCells.push({Row: this.beginSelectCell.Row, Col: i });
+				var temp = beginCell;
+				beginCell = endCell;
+				endCell = temp;
+			}
+			
+			for (var i = beginCell.Col + 1; i < endCell.Col; i++)
+			{
+				betweenCells.push({Row: beginCell.Row, Col: i });
 			}
 		}
 		
-		if (this.beginSelectCell.Col === endCell.Col)
+		if (beginCell.Col === endCell.Col)
 		{
 			// The user is selecting a column of cells
-			for (var i = this.beginSelectCell.Row + 1; i < endCell.Row; i++)
+			// Make sure we iterate correctly in case beginCell comes before endCell
+			if (beginCell.Row > endCell.Row)
 			{
-				betweenCells.push({Row: i, Col: this.beginSelectCell.Col });
+				var temp = beginCell;
+				beginCell = endCell;
+				endCell = temp;
+			}
+			
+			for (var i = beginCell.Row + 1; i < endCell.Row; i++)
+			{
+				betweenCells.push({Row: i, Col: beginCell.Col });
 			}
 		}
 		
-		this.options.OnCellRangeSelectCallback(this.beginSelectCell, endCell, betweenCells);		
+		return betweenCells;
+	}
+	
+	private static AreCellsInSameRowOrColumn (cell1: CellCoord, cell2: CellCoord)
+	{
+		return cell1.Row === cell2.Row || cell1.Col === cell2.Col;
 	}
 }

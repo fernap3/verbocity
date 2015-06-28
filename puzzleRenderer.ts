@@ -2,7 +2,7 @@ class PuzzleRenderer
 {
 	private puzzle: Puzzle;
 	private table: HTMLElement;
-	private static spaceMarkedClassName = "filled";
+	private static spaceMarkedClassName = "marked";
 	private static spaceFlaggedClassName = "flagged";
 	
 	constructor (puzzle, container)
@@ -11,24 +11,65 @@ class PuzzleRenderer
 		this.table = document.getElementById("Board");
 	}
 	
-	MarkSpace (row: number, col: number)
+	MarkCell (cellCoord: CellCoord)
 	{
-		var cell = this.GetCell(row, col);
+		var cell = this.GetCell(cellCoord);
 		cell.classList.remove(PuzzleRenderer.spaceFlaggedClassName);
 		cell.classList.add(PuzzleRenderer.spaceMarkedClassName);
 	}
 	
 	FlagSpace (row: number, col: number)
 	{
-		var cell = this.GetCell(row, col);
-		cell.classList.add(PuzzleRenderer.spaceFlaggedClassName);
+		//var cell = this.GetCell(row, col);
+		//cell.classList.add(PuzzleRenderer.spaceFlaggedClassName);
 	}
 	
 	ClearSpace (row: number, col: number)
 	{
-		var cell = this.GetCell(row, col);
-		cell.classList.remove(PuzzleRenderer.spaceFlaggedClassName);
-		cell.classList.remove(PuzzleRenderer.spaceMarkedClassName);
+		//var cell = this.GetCell(row, col);
+		//cell.classList.remove(PuzzleRenderer.spaceFlaggedClassName);
+		//cell.classList.remove(PuzzleRenderer.spaceMarkedClassName);
+	}
+	
+	SetCellSelection (cells: CellCoord[])
+	{
+		if (cells.length === 0)
+			return;
+			
+		this.ClearCellSelection();
+		
+		var beginCell = this.GetCell(cells[0]);
+		var endCell = this.GetCell(cells[cells.length - 1]);
+		var betweenCells = cells.slice(1, cells.length - 1).map((cellCoord: CellCoord) => {
+			return this.GetCell(cellCoord);
+		});
+		
+		beginCell.classList.add("beginSelect");
+		endCell.classList.add("endSelect");
+		
+		for (var i = 0; i < betweenCells.length; i++)
+		{
+			betweenCells[i].classList.add("betweenSelect");
+		}
+	}
+	
+	ClearCellSelection ()
+	{
+		var beginCell = <HTMLElement>(this.table.querySelector(".beginSelect"));
+		
+		// If there is no beginCell, there is no selection, so do nothing
+		if (beginCell === null)
+			return;
+			
+		beginCell.classList.remove("beginSelect");
+		
+		(<HTMLElement>(this.table.querySelector(".endSelect"))).classList.remove("endSelect");
+		var betweenCells = this.table.querySelectorAll(".betweenSelect");
+		
+		for (var i = 0; i < betweenCells.length; i++)
+		{
+			(<HTMLElement>betweenCells[i]).classList.remove("betweenSelect");
+		}
 	}
 	
 	RenderInitialBoard ()
@@ -40,13 +81,13 @@ class PuzzleRenderer
 		this.RenderToContainer(rowNumbers, columnNumbers);
 	}
 	
-	ShowPenalty (row: number, col: number, seconds: number)
+	ShowPenalty (cellCoord: CellCoord, seconds: number)
 	{
 		// Shows a little animation over the cell to indicate the number
 		// of penalty seconds subtracted from the time.
 		// NOTE: Only works with whole-minute penalties for now
 		
-		var cell = this.GetCell(row, col);
+		var cell = this.GetCell(cellCoord);
 		var cellBounds = cell.getBoundingClientRect();
 		
 		var textContainer = document.createElement("span");
@@ -82,9 +123,9 @@ class PuzzleRenderer
 		textContainer.style.top = textBounds.top - 20 + "px";
 	}
 	
-	private GetCell (row: number, col: number): HTMLElement
+	private GetCell (cellCoord: CellCoord): HTMLElement
 	{
-		return <HTMLElement>this.table.querySelector("[data-row='" + row + "'][data-col='" + col + "']");
+		return <HTMLElement>this.table.querySelector("[data-row='" + cellCoord.Row + "'][data-col='" + cellCoord.Col + "']");
 	}
 	
 	private RenderToContainer(rowNumbers: number[][], columnNumbers: number[][])

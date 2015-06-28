@@ -68,9 +68,9 @@ class Engine
 			Page: this.options.Page,
 			//OnCellClickCallback: (row: number, col: number) => { this.TryFillSpace(row, col); },
 			//OnCellRightClickCallback: (row: number, col: number) => { this.ToggleSpaceFlag(row, col); },
-			OnCellRangeSelectCallback: (beginCell: CellCoord, endCell: CellCoord, betweenCells: CellCoord[]) => {console.log("Range select");},
-			OnCellRangeDeselectCallback: () => {console.log("Range deselect");},
-			OnCellsMarkCallback: (cells: CellCoord[]) => {console.log("mark cells");},
+			OnCellRangeSelectCallback: (cells: CellCoord[]) => { this.puzzleRenderer.SetCellSelection(cells); },
+			OnCellRangeDeselectCallback: () => { this.puzzleRenderer.ClearCellSelection(); },
+			OnCellsMarkCallback: (cells: CellCoord[]) => { this.TryMarkCells(cells); },
 			OnCellsFlagCallback: (cells: CellCoord[]) => {console.log("flag cells");},
 			OnShareClickCallback: () => {
 				this.timer.Stop();
@@ -134,43 +134,48 @@ class Engine
 		}
 	}
 	
-	private TryFillSpace (row: number, col: number)
+	private TryMarkCells (cells: CellCoord[])
 	{
-		if (this.IsSpaceInPicture(row, col) === true)
+		for (var i = 0; i < cells.length; i++)
 		{
-			// The user marked a space that exists in the picture, great!
-			this.board[row][col] = CellStates.Marked;
-			this.puzzleRenderer.MarkSpace(row, col);
-			this.previewRenderer.UpdatePreview(this.board);
+			var cell = cells[i];
 			
-			if (this.IsWinState(this.puzzle, this.board))
+			if (this.IsCellInPicture(cell) === true)
 			{
-				this.OnGameWin();
-				return;
+				// The user marked a space that exists in the picture, great!
+				this.board[cell.Row][cell.Col] = CellStates.Marked;
+				this.puzzleRenderer.MarkCell(cell);
+				this.previewRenderer.UpdatePreview(this.board);
+				
+				if (this.IsWinState(this.puzzle, this.board))
+				{
+					this.OnGameWin();
+					return;
+				}
 			}
-		}
-		else
-		{
-			// The user tried to mark a space that is not in the picture; penalty!
-			var currentTime = this.timer.GetTime();
-			currentTime -= this.nextPenalty;
-			
-			this.puzzleRenderer.ShowPenalty(row, col, this.nextPenalty);
-			
-			this.IncrementPenalty();
-			
-			if (currentTime <= 0)
+			else
 			{
-				this.timer.Stop();
-				this.timerRenderer.UpdateDisplay(0);
+				// The user tried to mark a space that is not in the picture; penalty!
+				var currentTime = this.timer.GetTime();
+				currentTime -= this.nextPenalty;
+				
+				this.puzzleRenderer.ShowPenalty(cell, this.nextPenalty);
+				
+				this.IncrementPenalty();
+				
+				if (currentTime <= 0)
+				{
+					this.timer.Stop();
+					this.timerRenderer.UpdateDisplay(0);
+					this.timerRenderer.IndicatePenalty();
+					this.OnGameLose();
+					return;
+				}
+				
+				this.timer.SetTime(currentTime);
+				this.timerRenderer.UpdateDisplay(currentTime);
 				this.timerRenderer.IndicatePenalty();
-				this.OnGameLose();
-				return;
 			}
-			
-			this.timer.SetTime(currentTime);
-			this.timerRenderer.UpdateDisplay(currentTime);
-			this.timerRenderer.IndicatePenalty();
 		}
 	}
 	
@@ -200,9 +205,9 @@ class Engine
 		}
 	}
 	
-	private IsSpaceInPicture (row: number, col: number): boolean
+	private IsCellInPicture (cell: CellCoord): boolean
 	{
-		return this.puzzle.Definition[row][col] === 1;
+		return this.puzzle.Definition[cell.Row][cell.Col] === 1;
 	}
 	
 	private CreateBoardFromPuzzle (puzzle: Puzzle)
