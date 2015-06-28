@@ -66,8 +66,12 @@ class Engine
 		
 		new InputHandler({
 			Page: this.options.Page,
-			OnCellClickCallback: (row: number, col: number) => { this.TryFillSpace(row, col); },
-			OnCellRightClickCallback: (row: number, col: number) => { this.ToggleSpaceFlag(row, col); },
+			//OnCellClickCallback: (row: number, col: number) => { this.TryFillSpace(row, col); },
+			//OnCellRightClickCallback: (row: number, col: number) => { this.ToggleSpaceFlag(row, col); },
+			OnCellRangeSelectCallback: (beginCell: CellCoord, endCell: CellCoord, betweenCells: CellCoord[]) => {console.log("Range select");},
+			OnCellRangeDeselectCallback: () => {console.log("Range deselect");},
+			OnCellsMarkCallback: (cells: CellCoord[]) => {console.log("mark cells");},
+			OnCellsFlagCallback: (cells: CellCoord[]) => {console.log("flag cells");},
 			OnShareClickCallback: () => {
 				this.timer.Stop();
 				document.getElementById("PlayArea").classList.add("blurred");
@@ -233,4 +237,9 @@ class Engine
 		
 		return true;
 	}
+}
+
+interface CellCoord {
+	Row: number;
+	Col: number;
 }
