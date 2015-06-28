@@ -23,6 +23,7 @@ class Engine
 	private boardWidth: number
 	private puzzleRenderer: PuzzleRenderer;
 	private previewRenderer: PreviewRenderer;
+	private inputHandler: InputHandler;
 	private timerRenderer: TimerRenderer;
 	private timer: Timer;
 	private nextPenalty: number;
@@ -64,10 +65,8 @@ class Engine
 		
 		this.previewRenderer = new PreviewRenderer(<HTMLCanvasElement>this.options.Page.querySelector("#Preview"));
 		
-		new InputHandler({
+		this.inputHandler = new InputHandler({
 			Page: this.options.Page,
-			//OnCellClickCallback: (row: number, col: number) => { this.TryFillSpace(row, col); },
-			//OnCellRightClickCallback: (row: number, col: number) => { this.ToggleSpaceFlag(row, col); },
 			OnCellRangeSelectCallback: (cells: CellCoord[]) => { this.puzzleRenderer.SetCellSelection(cells); },
 			OnCellRangeDeselectCallback: () => { this.puzzleRenderer.ClearCellSelection(); },
 			OnCellsMarkCallback: (cells: CellCoord[]) => { this.TryMarkCells(cells); },
@@ -96,12 +95,14 @@ class Engine
 	{
 		this.timer.Stop();
 		this.visualization.Stop();
+		this.inputHandler.Dispose();
 		this.options.OnWinCallback();
 	}
 	
 	private OnGameLose ()
 	{
 		this.visualization.Stop();
+		this.inputHandler.Dispose();
 		this.options.OnLoseCallback();
 	}
 	
@@ -109,6 +110,7 @@ class Engine
 	{
 		this.timer.Stop();
 		this.visualization.Stop();
+		this.inputHandler.Dispose();
 		this.options.OnQuitCallback();
 	}
 	

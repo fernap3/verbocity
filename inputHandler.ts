@@ -23,6 +23,10 @@ class InputHandler
 	private endSelectCell: CellCoord;
 	private cellSelectType: CellSelectType;
 	private isShiftHeld: boolean;
+	private documentMouseMoveHandler = (evt: PointerEvent) => { this.HandleMouseMoveWhileSelecting(evt); };
+	private documentMouseUpHandler = (evt: PointerEvent) => { this.HandleDocumentMouseup(evt); };
+	private documentKeyDownHandler = (evt: KeyboardEvent) => { this.HandleDocumentKeydown(evt); };
+	private documentKeyUpHandler = (evt: KeyboardEvent) => { this.HandleDocumentKeyup(evt); };
 	
 	private static KeyCodes = { Shift: 16 };
 	
@@ -42,11 +46,11 @@ class InputHandler
 		this.beginSelectCell = null;
 		this.cellSelectType = null;
 		
-		document.addEventListener("mousemove", (evt: PointerEvent) => { this.HandleMouseMoveWhileSelecting(evt); });
-		document.addEventListener("mouseup", (evt: MouseEvent) => { this.HandleDocumentMouseup(evt); });
+		document.addEventListener("mousemove", this.documentMouseMoveHandler);
+		document.addEventListener("mouseup", this.documentMouseUpHandler);
 		this.table.addEventListener("mousedown", (evt: MouseEvent) => { this.HandleTableMousedown(evt); });
-		document.addEventListener("keydown", (evt: KeyboardEvent) => { this.HandleDocumentKeydown(evt); });
-		document.addEventListener("keyup", (evt: KeyboardEvent) => { this.HandleDocumentKeyup(evt); });
+		document.addEventListener("keydown", this.documentKeyDownHandler);
+		document.addEventListener("keyup", this.documentKeyUpHandler);
 		
 		
 		this.quitButton = <HTMLElement>document.querySelector("[data-action='quit']");
@@ -57,6 +61,14 @@ class InputHandler
 		
 		this.pauseButton = <HTMLElement>document.querySelector("[data-action='pause']");
 		this.pauseButton.onclick = (evt) => { this.options.OnPauseClickCallback(); };
+	}
+	
+	public Dispose ()
+	{
+		document.removeEventListener("mousemove", this.documentMouseMoveHandler);
+		document.removeEventListener("mouseup", this.documentMouseUpHandler);
+		document.removeEventListener("keydown", this.documentKeyDownHandler);
+		document.removeEventListener("keyup", this.documentKeyUpHandler);
 	}
 	
 	private IsEventTargetPictureCell (evt: Event): boolean
