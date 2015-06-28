@@ -28,9 +28,6 @@ class InputHandler
 		this.options = options;
 		
 		this.table = <HTMLElement>this.options.Page.querySelector("#Board");
-		//this.table.onclick = (evt) => {  this.HandleTableClick(evt); };
-		this.table.onmousedown = (evt) => {  this.HandleTableMousedown(evt); };
-		this.table.onmouseup = (evt) => {  this.HandleTableMouseup(evt); };
 		
 		// Prevent context menu from showing up on right-click
 		this.table.oncontextmenu = (evt) => {
@@ -42,7 +39,10 @@ class InputHandler
 		this.beginSelectCell = null;
 		this.cellSelectType = null;
 		
-		document.addEventListener("mousemove", (evt: PointerEvent) => { this.HandleMouseMoveWhileSelecting(evt); });		
+		document.addEventListener("mousemove", (evt: PointerEvent) => { this.HandleMouseMoveWhileSelecting(evt); });
+		document.addEventListener("mouseup", (evt: MouseEvent) => { this.HandleTableMouseup(evt); });
+		document.addEventListener("mousedown", (evt: MouseEvent) => { this.HandleTableMousedown(evt); });
+		
 		
 		this.quitButton = <HTMLElement>document.querySelector("[data-action='quit']");
 		this.quitButton.onclick = (evt) => { this.options.OnQuitClickCallback(); };
@@ -114,6 +114,7 @@ class InputHandler
 			this.beginSelectCell = null;
 			this.endSelectCell = null;
 			this.cellSelectType = null;
+			this.options.OnCellRangeDeselectCallback();
 			return;
 		}
 			
