@@ -16,8 +16,9 @@ interface EngineOptions
 class Engine
 {
 	private static startTime: number = 30 * 60;
-	private static initialPenalty: number = 2 * 60;
-	private static maxPenalty: number = 8 * 60;
+	private static initialTimePenalty: number = 2 * 60;
+	private static maxTimePenalty: number = 8 * 60;
+	private static initialStock: number = 5;
 	private options: EngineOptions
 	private board: Array<Array<number>>
 	private boardHeight: number
@@ -27,7 +28,8 @@ class Engine
 	private inputHandler: InputHandler;
 	private timerRenderer: TimerRenderer;
 	private timer: Timer;
-	private nextPenalty: number;
+	private nextTimePenalty: number;
+	private currentStock: number;
 	private puzzle: Puzzle;
 	private sharePrompt: SharePrompt;
 	private visualization: Visualization;
@@ -45,10 +47,11 @@ class Engine
 	
 	StartGame ()
 	{
-		this.nextPenalty = Engine.initialPenalty;
+		this.nextTimePenalty = Engine.initialTimePenalty;
 		this.board = this.CreateBoardFromPuzzle(this.puzzle);
 		this.boardHeight = this.puzzle.Definition.length;
-		this.boardWidth = this.puzzle.Definition[0].length;		
+		this.boardWidth = this.puzzle.Definition[0].length;	
+		this.currentStock = Engine.initialStock;	
 		
 		this.timerRenderer = new TimerRenderer({
 			TimerContainer: <HTMLElement>this.options.Page.querySelector("#Timer")
@@ -166,48 +169,85 @@ class Engine
 			if (this.IsCellInPicture(cell) === true)
 			{
 				// The user marked a space that exists in the picture, great!
-				this.board[cell.Row][cell.Col] = CellStates.Marked;
-				this.puzzleRenderer.MarkCell(cell);
-				this.previewRenderer.UpdatePreview(this.board);
-				
-				if (this.IsWinState(this.puzzle, this.board))
-				{
-					this.OnGameWin();
-					return;
-				}
+				this.MarkCell(cell);
 			}
 			else
 			{
 				// The user tried to mark a space that is not in the picture; penalty!
-				var currentTime = this.timer.GetTime();
-				currentTime -= this.nextPenalty;
-				
-				this.puzzleRenderer.ShowPenalty(cell, this.nextPenalty);
-				
-				this.IncrementPenalty();
-				
-				if (currentTime <= 0)
-				{
-					this.timer.Stop();
-					this.timerRenderer.UpdateDisplay(0);
-					this.timerRenderer.IndicatePenalty();
-					this.OnGameLose();
-					return;
-				}
-				
-				this.timer.SetTime(currentTime);
-				this.timerRenderer.UpdateDisplay(currentTime);
-				this.timerRenderer.IndicatePenalty();
+				this.IncurPenaltyFromCell(cell);
 			}
 		}
 	}
 	
-	private IncrementPenalty ()
+	private MarkCell (cell: CellCoord)
 	{
-		if (this.nextPenalty * 2 > Engine.maxPenalty)
+		this.board[cell.Row][cell.Col] = CellStates.Marked;
+		this.puzzleRenderer.MarkCell(cell);
+		this.previewRenderer.UpdatePreview(this.board);
+		
+		if (this.IsWinState(this.puzzle, this.board))
+		{
+			this.OnGameWin();
+			return;
+		}
+	}
+	
+	private IncurPenaltyFromCell (cell: CellCoord)
+	{
+		if (this.gameMode === GameRules.Normal)
+		{
+			this.IncurTimerPenaltyFromCell(cell);
+		}
+		else
+		{
+			this.IncurStockPenaltyFromCell(cell);
+		}
+	}
+	
+	private IncurTimerPenaltyFromCell (cell: CellCoord)
+	{
+		var currentTime = this.timer.GetTime();
+		currentTime -= this.nextTimePenalty;
+		
+		this.puzzleRenderer.ShowTimePenalty(cell, this.nextTimePenalty);
+		this.IncrementTimerPenalty();
+		
+		if (currentTime <= 0)
+		{
+			this.timer.Stop();
+			this.timerRenderer.UpdateDisplay(0);
+			this.timerRenderer.IndicatePenalty();
+			this.OnGameLose();
+			return;
+		}
+		
+		this.timer.SetTime(currentTime);
+		this.timerRenderer.UpdateDisplay(currentTime);
+		this.timerRenderer.IndicatePenalty();
+	}
+	
+	private IncurStockPenaltyFromCell (cell: CellCoord)
+	{
+		this.puzzleRenderer.ShowStockPenalty(cell);
+		this.currentStock -= 1;
+		
+		if (this.currentStock === 0)
+		{
+			this.timer.Stop();
+			this.OnGameLose();
+			//this.stockRenderer.IndicatePenalty();
+			return;
+		}
+		
+		//this.stockRenderer.IndicatePenalty();
+	}
+	
+	private IncrementTimerPenalty ()
+	{
+		if (this.nextTimePenalty * 2 > Engine.maxTimePenalty)
 			return;
 			
-		this.nextPenalty *= 2;
+		this.nextTimePenalty *= 2;
 	}
 	
 	private ToggleSpaceFlags (cells: CellCoord[])

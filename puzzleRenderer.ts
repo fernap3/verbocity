@@ -81,7 +81,7 @@ class PuzzleRenderer
 		this.RenderToContainer(rowNumbers, columnNumbers);
 	}
 	
-	ShowPenalty (cellCoord: CellCoord, seconds: number)
+	ShowTimePenalty (cellCoord: CellCoord, seconds: number)
 	{
 		// Shows a little animation over the cell to indicate the number
 		// of penalty seconds subtracted from the time.
@@ -94,18 +94,35 @@ class PuzzleRenderer
 		textContainer.classList.add("cellPenaltyAnimationText");
 		textContainer.innerHTML = "-" + (seconds / 60) + ":00";
 		
-		// Render the container to get its width
-		textContainer.style.visibility = "hidden";
-		document.body.appendChild(textContainer);
-		var textBounds = textContainer.getBoundingClientRect();
+		this.ShowPenalty(textContainer, cellBounds);
+	}
+	
+	ShowStockPenalty (cellCoord: CellCoord)
+	{
+		var cell = this.GetCell(cellCoord);
+		var cellBounds = cell.getBoundingClientRect();
 		
-		textContainer.style.top = cellBounds.top - textBounds.height + "px";
-		textContainer.style.left = cellBounds.left + (cellBounds.width / 2) - (textBounds.width / 2) + "px";
-		textContainer.style.visibility = "";
+		var img = document.createElement("img");
+		img.src = "stockPenalty.svg";
+		img.className = "cellPenaltyAnimationImage";
+		
+		this.ShowPenalty(img, cellBounds);
+	}
+	
+	private ShowPenalty (element: HTMLElement, cellBounds: ClientRect)
+	{
+		// Render the container to get its width
+		element.style.visibility = "hidden";
+		document.body.appendChild(element);
+		var textBounds = element.getBoundingClientRect();
+		
+		element.style.top = cellBounds.top - textBounds.height + "px";
+		element.style.left = cellBounds.left + (cellBounds.width / 2) - (textBounds.width / 2) + "px";
+		element.style.visibility = "";
 		
 		// Start the animation in a different "thread" so the browser has
 		// free cycles to render the initial state.
-		setTimeout(() => { this.AnimatePenalty(textContainer) }, 0);
+		setTimeout(() => { this.AnimatePenalty(element) }, 0);
 	}
 	
 	private AnimatePenalty (textContainer: HTMLElement)
