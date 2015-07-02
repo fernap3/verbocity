@@ -2,20 +2,20 @@ declare var YT: any;
 
 class VisualizationFactory
 {
-	static Create (puzzle: Puzzle): Visualization
+	static Create (puzzle: Puzzle, onReadyCallback: (vizInfo: any) => void): Visualization
 	{
 		if ("VideoUrl" in puzzle)
 		{
-			return new VideoVisualization(<VideoPuzzle>puzzle);
+			return new VideoVisualization(<VideoPuzzle>puzzle, onReadyCallback);
 		}
 		
-		return new PartyModeVisualization();
+		return new PartyModeVisualization(puzzle, onReadyCallback);
 	}
 }
 
 interface Visualization
 {
-	Start: (container: HTMLElement) => void;
+	Start: () => void;
 	Pause: () => void;
 	Stop: () => void;
 }
@@ -24,15 +24,14 @@ class VideoVisualization implements Visualization
 {
 	private container: HTMLElement;
 	private videoUrl: string;
+	private onReadyCallback: (vizInfo: any) => void;
 	private player;
 	
-	constructor (puzzle: VideoPuzzle)
+	constructor (puzzle: VideoPuzzle, onReadyCallback: (vizInfo: any) => void)
 	{
 		this.videoUrl = puzzle.VideoUrl;
-	}
-	
-	Start (container: HTMLElement)
-	{
+		this.onReadyCallback = onReadyCallback;
+		
 		this.player = new YT.Player("Video", {
 			videoId: VideoVisualization.GetYouTubeVideoIdFromUrl(this.videoUrl),
 			height: "100%",
@@ -53,6 +52,11 @@ class VideoVisualization implements Visualization
 		});
 	}
 	
+	Start ()
+	{
+		this.player.playVideo();		
+	}
+	
 	Pause ()
 	{
 		this.player.pauseVideo();		
@@ -66,10 +70,9 @@ class VideoVisualization implements Visualization
 	
 	private OnPlayerReady ()
 	{
-		var videoIframe = document.getElementById("Video");
-		
-		this.player.playVideo();
-		//alert(this.player.getDuration());
+		this.onReadyCallback({
+			Duration: this.player.getDuration()
+		});
 	}
 	
 	private static GetYouTubeVideoIdFromUrl (url: string)
@@ -84,7 +87,14 @@ class PartyModeVisualization implements Visualization
 {
 	private container: HTMLElement;
 	
-	Start (container: HTMLElement)
+	constructor (puzzle: Puzzle, onReadyCallback: (vizInfo: any) => void)
+	{
+		// Has to be in set timeout because the callback needs access
+		// to this constructed visualization
+		setTimeout(() => { onReadyCallback({}); });
+	}
+	
+	Start ()
 	{
 		
 	}

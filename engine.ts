@@ -2,7 +2,8 @@
 //@import "previewRenderer.ts"
 //@import "timerRenderer.ts"
 
-enum CellStates { Clear, Marked, Flagged }
+enum CellStates { Clear, Marked, Flagged };
+enum GameRules { Normal, Video };
 
 interface EngineOptions
 {
@@ -30,6 +31,7 @@ class Engine
 	private puzzle: Puzzle;
 	private sharePrompt: SharePrompt;
 	private visualization: Visualization;
+	private gameMode: GameRules;
 	
 	constructor (options:EngineOptions)
 	{
@@ -52,13 +54,19 @@ class Engine
 			TimerContainer: <HTMLElement>this.options.Page.querySelector("#Timer")
 		});
 		
-		this.timer = new Timer({
-			StartSeconds: Engine.startTime,
-			UpdateCallback: (seconds: number) => { this.HandleTimerTick(seconds); }
+		this.gameMode = "VideoUrl" in this.puzzle ? GameRules.Video : GameRules.Normal;
+		this.visualization = VisualizationFactory.Create(this.puzzle, (vizInfo: any) =>
+		{
+			// When in "Video" mode, the timer is set to the video duration, and the player
+			// has a certain number of "strikes" before losing the game.  When in "Normal"
+			// mode, the timer is set to some constant number of seconds (maybe 30), and
+			// each mistake takes time off the timer.
+			var startTime = this.gameMode === GameRules.Video ? vizInfo.Duration : Engine.startTime;
+			
+			this.InitializeAndStartTimer(startTime);
+			this.visualization.Start();
 		});
 		
-		this.timerRenderer.UpdateDisplay(Engine.startTime);
-		this.timer.Start();
 		
 		this.puzzleRenderer = new PuzzleRenderer(this.puzzle, this.options.Page);
 		this.puzzleRenderer.RenderInitialBoard();
@@ -86,9 +94,17 @@ class Engine
 		});
 		
 		Centerer.CenterContainers();
+	}
+	
+	private InitializeAndStartTimer (startTime: number)
+	{
+		this.timer = new Timer({
+			StartSeconds: startTime,
+			UpdateCallback: (seconds: number) => { this.HandleTimerTick(seconds); }
+		});
 		
-		this.visualization = VisualizationFactory.Create(this.puzzle);
-		this.visualization.Start(document.body);
+		this.timerRenderer.UpdateDisplay(startTime);
+		this.timer.Start();
 	}
 	
 	private OnGameWin ()
