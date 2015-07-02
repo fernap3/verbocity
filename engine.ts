@@ -55,18 +55,23 @@ class Engine
 		});
 		
 		this.gameMode = "VideoUrl" in this.puzzle ? GameRules.Video : GameRules.Normal;
-		this.visualization = VisualizationFactory.Create(this.puzzle, (vizInfo: any) =>
-		{
-			// When in "Video" mode, the timer is set to the video duration, and the player
-			// has a certain number of "strikes" before losing the game.  When in "Normal"
-			// mode, the timer is set to some constant number of seconds (maybe 30), and
-			// each mistake takes time off the timer.
-			var startTime = this.gameMode === GameRules.Video ? vizInfo.Duration : Engine.startTime;
-			
-			this.InitializeAndStartTimer(startTime);
-			this.visualization.Start();
-		});
-		
+		this.visualization = VisualizationFactory.Create(
+			{
+				Puzzle: this.puzzle,
+				OnReadyCallback: (vizInfo: any) => {
+					// When in "Video" mode, the timer is set to the video duration, and the player
+					// has a certain number of "strikes" before losing the game.  When in "Normal"
+					// mode, the timer is set to some constant number of seconds (maybe 30), and
+					// each mistake takes time off the timer.
+					var startTime = this.gameMode === GameRules.Video ? vizInfo.Duration : Engine.startTime;
+					
+					this.InitializeAndStartTimer(startTime);
+					this.visualization.Start();
+				},
+				OnPauseCallback: () => { this.Pause() },
+				OnUnPauseCallback: () => { this.UnPause(); }
+			}
+		);
 		
 		this.puzzleRenderer = new PuzzleRenderer(this.puzzle, this.options.Page);
 		this.puzzleRenderer.RenderInitialBoard();
@@ -264,6 +269,16 @@ class Engine
 		}
 		
 		return true;
+	}
+	
+	private Pause ()
+	{
+		this.timer.Stop();
+	}
+	
+	private UnPause ()
+	{
+		this.timer.Start();
 	}
 }
 

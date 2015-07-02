@@ -1,15 +1,24 @@
 declare var YT: any;
 
+interface VisualizationFactoryOptions
+{
+	Puzzle: Puzzle;
+	OnReadyCallback: (vizInfo: any) => void;
+	OnPauseCallback: () => void;
+	OnUnPauseCallback: () => void;
+}
+
 class VisualizationFactory
 {
-	static Create (puzzle: Puzzle, onReadyCallback: (vizInfo: any) => void): Visualization
+	static Create (options): Visualization
 	{
-		if ("VideoUrl" in puzzle)
+		if ("VideoUrl" in options.Puzzle)
 		{
-			return new VideoVisualization(<VideoPuzzle>puzzle, onReadyCallback);
+			return new VideoVisualization(<VideoPuzzle>options.Puzzle, options.OnReadyCallback, 
+				options.OnPauseCallback, options.OnUnPauseCallback);
 		}
 		
-		return new PartyModeVisualization(puzzle, onReadyCallback);
+		return new PartyModeVisualization(options.OnReadyCallback);
 	}
 }
 
@@ -25,12 +34,17 @@ class VideoVisualization implements Visualization
 	private container: HTMLElement;
 	private videoUrl: string;
 	private onReadyCallback: (vizInfo: any) => void;
+	private onPauseCallback: () => void;
+	private onUnPauseCallback: () => void;
 	private player;
 	
-	constructor (puzzle: VideoPuzzle, onReadyCallback: (vizInfo: any) => void)
+	constructor (puzzle: VideoPuzzle, onReadyCallback: (vizInfo: any) => void, onPauseCallback: () => void,
+		onUnPauseCallback: () => void)
 	{
 		this.videoUrl = puzzle.VideoUrl;
 		this.onReadyCallback = onReadyCallback;
+		this.onPauseCallback = onPauseCallback;
+		this.onUnPauseCallback = onUnPauseCallback;
 		
 		this.player = new YT.Player("Video", {
 			videoId: VideoVisualization.GetYouTubeVideoIdFromUrl(this.videoUrl),
@@ -47,7 +61,7 @@ class VideoVisualization implements Visualization
 			},
 			events: {
 				onReady: (evt) => { this.OnPlayerReady(); },
-				//'onStateChange': onPlayerStateChange
+				onStateChange: (evt) => { this.OnPlayerStateChange(evt); }
 			}
 		});
 	}
@@ -75,6 +89,19 @@ class VideoVisualization implements Visualization
 		});
 	}
 	
+	private OnPlayerStateChange (evt)
+	{
+		switch (evt.data)
+		{
+			case YT.PlayerState.PAUSED:
+				this.onPauseCallback();
+				break;
+			case YT.PlayerState.PLAYING:
+				this.onUnPauseCallback();
+				break;
+		}
+	}
+	
 	private static GetYouTubeVideoIdFromUrl (url: string)
 	{
 		var searchText = "/watch?v=";
@@ -87,7 +114,7 @@ class PartyModeVisualization implements Visualization
 {
 	private container: HTMLElement;
 	
-	constructor (puzzle: Puzzle, onReadyCallback: (vizInfo: any) => void)
+	constructor (onReadyCallback: (vizInfo: any) => void)
 	{
 		// Has to be in set timeout because the callback needs access
 		// to this constructed visualization
