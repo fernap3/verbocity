@@ -19,9 +19,29 @@ class Game
 		
 		this.engine = new Engine({
 			Page: document.getElementById("PlayArea"),
-			OnWinCallback: () => { SaveDataProvider.AddSolvedPuzzleId(this.currentPuzzle.Id); },
-			OnLoseCallback: () => { this.HidePlayArea(); this.mainMenu.Show(); },
-			OnQuitCallback: () => { this.HidePlayArea(); this.mainMenu.Show(); }
+			OnWinCallback: () => {
+				location.hash = "";
+				SaveDataProvider.AddSolvedPuzzleId(this.currentPuzzle.Id);
+			},
+			OnLoseCallback: () => {
+				location.hash = "";
+				this.HidePlayArea();
+				this.mainMenu.Show();
+			},
+			OnQuitCallback: () => {
+				location.hash = "";
+				this.HidePlayArea();
+				this.mainMenu.Show();
+			}
+		});
+		
+		this.mainMenu = new MainMenu({
+			MenuContainer: document.getElementById("MainMenu"),
+			OnJustPlayCallback: () => {
+				this.mainMenu.Hide();
+				this.StartJustPlay();
+			},
+			OnChoosePuzzleCallback: () => { this.ShowPuzzleChooser(); }
 		});
 		
 		this.puzzleChooser = new PuzzleChooser({
@@ -30,6 +50,7 @@ class Game
 			OnCloseCallback: () => {},
 			OnPuzzleSelectCallback: (puzzle) => {
 				this.puzzleChooser.Hide();
+				this.mainMenu.Hide();
 				this.StartPuzzle(puzzle);
 			}
 		});
@@ -41,14 +62,19 @@ class Game
 	
 	Begin ()
 	{
-		this.mainMenu = new MainMenu({
-			MenuContainer: document.getElementById("MainMenu"),
-			OnJustPlayCallback: () => { this.StartJustPlay(); },
-			OnChoosePuzzleCallback: () => { this.ShowPuzzleChooser(); }
-		});
+		Game.PreloadImages(Game.imagesToPreload);
+		
+		// If the user has loaded the page with a shared puzzle in the URL,
+		// jump right to the game without showing the main menu.
+		var sharedPuzzle = this.GetPuzzleFromUrl();
+		
+		if (sharedPuzzle !== null)
+		{
+			this.StartPuzzle(sharedPuzzle);
+			return;
+		}
 		
 		this.mainMenu.Show();
-		Game.PreloadImages(Game.imagesToPreload);
 	}
 	
 	private static PreloadImages (urls: string[])
@@ -63,7 +89,6 @@ class Game
 	// Choose a random puzzle from the list to play
 	private StartJustPlay ()
 	{
-		this.mainMenu.Hide();
 		this.ShowPlayArea();
 		
 		var puzzle = PuzzleProvider.GetRandomBuiltinPuzzle();
@@ -74,7 +99,6 @@ class Game
 	
 	private StartPuzzle (puzzle: Puzzle)
 	{
-		this.mainMenu.Hide();
 		this.ShowPlayArea();
 		
 		this.currentPuzzle = puzzle;
@@ -96,7 +120,25 @@ class Game
 	{
 		this.playArea.style.display = "none";		
 	}
+	
+	private GetPuzzleFromUrl (): Puzzle
+	{
+		var builtInPuzzleId = Game.GetUrlParameter("puzzle");
+		
+		if (builtInPuzzleId !== null)
+		{
+			return PuzzleProvider.GetBuiltinPuzzle(builtInPuzzleId);
+		}
+			
+		return null;
+	}
+	
+	private static GetUrlParameter (name: String)
+	{
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\#&]" + name + "=([^&#]*)"), results = regex.exec(location.hash);
+		return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
 }
 
 new Game(document.body).Begin();
-

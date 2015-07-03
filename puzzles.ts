@@ -14,15 +14,15 @@ class PuzzleProvider
 {
 	static BuiltinPuzzles: Puzzle[];
 	
-	static GetBuiltinPuzzle (name: string)
+	static GetBuiltinPuzzle (id: string): Puzzle
 	{
 		for (var i = 0; i < PuzzleProvider.BuiltinPuzzles.length; i++)
 		{
-			if (PuzzleProvider.BuiltinPuzzles[i].Name === name)
+			if (PuzzleProvider.BuiltinPuzzles[i].Id === id)
 				return PuzzleProvider.BuiltinPuzzles[i]; 
 		}
 		
-		throw "Built-in puzzle not found";
+		return null;
 	}
 	
 	static GetRandomBuiltinPuzzle ()
