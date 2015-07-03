@@ -33,6 +33,7 @@ class Engine
 	private currentStock: number;
 	private puzzle: Puzzle;
 	private sharePrompt: SharePrompt;
+	private pausePrompt: PausePrompt;
 	private visualization: Visualization;
 	private gameMode: GameRules;
 	
@@ -43,6 +44,11 @@ class Engine
 		this.sharePrompt = new SharePrompt({
 			Container: document.getElementById("SharePrompt"),
 			OnCloseCallback: () => { this.OnSharePromptClose(); }
+		});
+		
+		this.pausePrompt = new PausePrompt({
+			Container: document.getElementById("PausePrompt"),
+			OnCloseCallback: () => { this.UnPause(); }
 		});
 	}
 	
@@ -111,8 +117,7 @@ class Engine
 				this.QuitGame();
 			},
 			OnPauseClickCallback: () => {
-				this.timer.Stop();
-				this.visualization.Pause();
+				this.Pause();
 			}
 		});
 		
@@ -326,13 +331,18 @@ class Engine
 		return true;
 	}
 	
-	private Pause ()
+	private PauseFromPauseButtonClick ()
 	{
 		this.timer.Stop();
+		this.visualization.Pause();
+		document.getElementById("PlayArea").style.display = "none";
+		this.pausePrompt.Show();
 	}
 	
 	private UnPause ()
 	{
+		this.visualization.Start();
+		document.getElementById("PlayArea").style.display = "";
 		this.timer.Start();
 	}
 }
