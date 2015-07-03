@@ -33,6 +33,39 @@ class SharePrompt
 		{
 			this.textInput.value = this.GetShareLink(false);		
 		};
+		
+		(<HTMLElement>this.options.Container.querySelector("img[data-action='facebook']")).onclick = (evt: MouseEvent) =>
+		{
+			// Share to Faceboook
+			
+			//var facebookLink = "https://www.facebook.com/dialog/feed?";
+			//facebookLink += "app_id=";
+			//facebookLink += "display=popup";
+			//facebookLink += "caption=" + encodeURIComponent("example caption");
+			//facebookLink += "link=" + encodeURIComponent("http://verbo.city");
+			//facebookLink += "redirect_uri=" + encodeURIComponent("");
+			
+			var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(this.textInput.value);
+			window.open(facebookLink);
+		};
+		
+		(<HTMLElement>this.options.Container.querySelector("img[data-action='twitter']")).onclick = (evt: MouseEvent) =>
+		{
+			// Share to Twitter
+			var twitterLink = "https://twitter.com/intent/tweet?";
+			twitterLink += "text=" + encodeURIComponent("Check out verbocity!");
+			twitterLink += "&url=" + encodeURIComponent(this.textInput.value);
+			twitterLink += "&hashtags=" + encodeURIComponent("verbocity");
+			window.open(twitterLink);
+		};
+		
+		(<HTMLElement>this.options.Container.querySelector("img[data-action='email']")).onclick = (evt: MouseEvent) =>
+		{
+			// Share via email
+			var emailLink = "mailto:myfriend@example.com?subject=" + encodeURIComponent("Check out verbocity") +
+				"&body=" + encodeURIComponent(this.textInput.value);
+			window.location.assign(emailLink);
+		};
 	}
 	
 	Show ()
