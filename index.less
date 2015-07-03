@@ -196,7 +196,35 @@ canvas {
 	border: 1px solid lightgray;
 	position: absolute;
 	z-index: 2;
-	font-size: initial;
+	font-size: 12px;
+	.userSelectNone;
+}
+
+.sharePrompt .shareThisPuzzleContainer {
+	margin: 1em 0;
+}
+
+.sharePrompt input[type="text"] {
+	width: 90%;
+}
+
+.sharePrompt input[type="checkbox"] {
+	display: none;
+}
+
+/* "Checked" Icon made by OCHA (http://www.unocha.org) licensed under
+Creative Commons BY 3.0 http://creativecommons.org/licenses/by/3.0/ */
+
+.sharePrompt input[type="checkbox"] + label {
+	background-image: url("../unchecked.svg");
+	background-size: 1em 1em;
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding-left: 1.3em;
+}
+
+.sharePrompt input[type="checkbox"]:checked + label {
+	background-image: url("../checked.svg");
 }
 
 .pausePrompt {

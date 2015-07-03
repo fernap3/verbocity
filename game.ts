@@ -11,7 +11,8 @@ class Game
 	
 	// Images that we need to appear responsively on user input are preloaded
 	// in anticipation of them actually being needed.
-	private static imagesToPreload = ["flag.svg", "unsolvedpuzzlepreview.svg", "stockPenalty.svg"];
+	private static imagesToPreload = ["flag.svg", "unsolvedpuzzlepreview.svg", "stockPenalty.svg",
+		"checked.svg", "unchecked.svg"];
 	
 	constructor (page: HTMLElement)
 	{

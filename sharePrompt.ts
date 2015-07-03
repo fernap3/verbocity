@@ -10,11 +10,12 @@ class SharePrompt
 	private textInput: HTMLInputElement;
 	private overlay: HTMLElement;
 	private onOverlayClick: (MouseEvent) => void;
+	private puzzle: Puzzle;
 	
 	constructor (options: SharePromptOptions)
 	{
 		this.options = options;
-		this.textInput = <HTMLInputElement>this.options.Container.querySelector("input");
+		this.textInput = <HTMLInputElement>this.options.Container.querySelector("input[type='text']");
 		
 		this.overlay = document.createElement("div");
 		this.overlay.className = "clearOverlay";
@@ -22,6 +23,12 @@ class SharePrompt
 		this.onOverlayClick = (MouseEvent) => {
 			this.Close();
 		}
+		
+		(<HTMLElement>this.options.Container.querySelector("input[type='checkbox'] + label")).onclick = (evt: MouseEvent) =>
+		{
+			// Wrapped in setTimeout so the checkbox value will reflect the new state
+			setTimeout(() => { this.textInput.value = this.GetShareLink(); }, 0);			
+		};
 	}
 	
 	Show ()
@@ -48,6 +55,21 @@ class SharePrompt
 	
 	GetShareLink (): string
 	{
-		return "http://verbo.city";
+		if (this.IsShareThisPuzzle() === false)
+		{
+			return "http://verbo.city";			
+		}
+		
+		return "http://verbo.city#puzzle=" + this.puzzle.Id;	
+	}
+	
+	SetPuzzle (puzzle: Puzzle)
+	{
+		this.puzzle = puzzle;
+	}
+	
+	private IsShareThisPuzzle ()
+	{
+		return (<HTMLInputElement>this.options.Container.querySelector("input[type='checkbox']")).checked;
 	}
 }

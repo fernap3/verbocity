@@ -110,7 +110,7 @@ class Engine
 			OnCellsFlagCallback: (cells: CellCoord[]) => { this.ToggleSpaceFlags(cells); },
 			OnShareClickCallback: () => {
 				this.timer.Stop();
-				document.getElementById("PlayArea").classList.add("blurred");
+				document.getElementById("PlayArea").style.display = "none";
 				this.sharePrompt.Show();
 			},
 			OnQuitClickCallback: () => {
@@ -161,12 +161,13 @@ class Engine
 	private OnSharePromptClose ()
 	{
 		this.timer.Start();
-		document.getElementById("PlayArea").classList.remove("blurred");
+		document.getElementById("PlayArea").style.display = "";
 	}
 	
 	SetPuzzle (puzzle: Puzzle)
 	{
 		this.puzzle = puzzle;
+		this.sharePrompt.SetPuzzle(puzzle);
 	}
 	
 	private HandleTimerTick (seconds: number)
