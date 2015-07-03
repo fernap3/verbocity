@@ -200,22 +200,26 @@ canvas {
 	.userSelectNone;
 }
 
-.sharePrompt .shareThisPuzzleContainer {
+.sharePrompt .whatToShareContainer {
 	margin: 1em 0;
+}
+
+.sharePrompt .whatToShareContainer .whatToShareCheckboxContainer:nth-child(1) {
+	margin-right: 1em;
 }
 
 .sharePrompt input[type="text"] {
 	width: 90%;
 }
 
-.sharePrompt input[type="checkbox"] {
+.sharePrompt input[type="radio"] {
 	display: none;
 }
 
 /* "Checked" Icon made by OCHA (http://www.unocha.org) licensed under
 Creative Commons BY 3.0 http://creativecommons.org/licenses/by/3.0/ */
 
-.sharePrompt input[type="checkbox"] + label {
+.sharePrompt input[type="radio"] + label {
 	background-image: url("../unchecked.svg");
 	background-size: 1em 1em;
 	background-position: left center;
@@ -223,7 +227,7 @@ Creative Commons BY 3.0 http://creativecommons.org/licenses/by/3.0/ */
 	padding-left: 1.3em;
 }
 
-.sharePrompt input[type="checkbox"]:checked + label {
+.sharePrompt input[type="radio"]:checked + label {
 	background-image: url("../checked.svg");
 }
 

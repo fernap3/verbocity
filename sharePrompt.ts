@@ -24,16 +24,20 @@ class SharePrompt
 			this.Close();
 		}
 		
-		(<HTMLElement>this.options.Container.querySelector("input[type='checkbox'] + label")).onclick = (evt: MouseEvent) =>
+		(<HTMLElement>this.options.Container.querySelector("#ShareThisPuzzle + label")).onclick = (evt: MouseEvent) =>
 		{
-			// Wrapped in setTimeout so the checkbox value will reflect the new state
-			setTimeout(() => { this.textInput.value = this.GetShareLink(); }, 0);			
+			this.textInput.value = this.GetShareLink(true);		
+		};
+		
+		(<HTMLElement>this.options.Container.querySelector("#ShareTheApp + label")).onclick = (evt: MouseEvent) =>
+		{
+			this.textInput.value = this.GetShareLink(false);		
 		};
 	}
 	
 	Show ()
 	{
-		this.textInput.value = this.GetShareLink();
+		this.textInput.value = this.GetShareLink(true);
 		document.body.appendChild(this.overlay);
 		this.options.Container.style.display = "block";
 		Centerer.CenterContainers();
@@ -53,9 +57,9 @@ class SharePrompt
 		this.options.OnCloseCallback();
 	}
 	
-	GetShareLink (): string
+	GetShareLink (sharePuzzle: Boolean): string
 	{
-		if (this.IsShareThisPuzzle() === false)
+		if (sharePuzzle === false)
 		{
 			return "http://verbo.city";			
 		}
@@ -70,6 +74,6 @@ class SharePrompt
 	
 	private IsShareThisPuzzle ()
 	{
-		return (<HTMLInputElement>this.options.Container.querySelector("input[type='checkbox']")).checked;
+		return (<HTMLInputElement>this.options.Container.querySelector("input[type='radio']")).checked;
 	}
 }
