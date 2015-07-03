@@ -10,6 +10,7 @@ class TimerRenderer
 	constructor (options: TimerRendererOptions)
 	{
 		this.options = options;
+		this.options.TimerContainer.innerHTML = "--:--";
 	}
 	
 	UpdateDisplay (seconds: number)
