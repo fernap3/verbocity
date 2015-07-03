@@ -109,9 +109,7 @@ class Engine
 			OnCellsMarkCallback: (cells: CellCoord[]) => { this.TryMarkCells(cells); },
 			OnCellsFlagCallback: (cells: CellCoord[]) => { this.ToggleSpaceFlags(cells); },
 			OnShareClickCallback: () => {
-				this.timer.Stop();
-				document.getElementById("PlayArea").style.display = "none";
-				this.sharePrompt.Show();
+				this.Share();
 			},
 			OnQuitClickCallback: () => {
 				this.QuitGame();
@@ -160,8 +158,7 @@ class Engine
 	
 	private OnSharePromptClose ()
 	{
-		this.timer.Start();
-		document.getElementById("PlayArea").style.display = "";
+		this.UnPause();
 	}
 	
 	SetPuzzle (puzzle: Puzzle)
@@ -330,6 +327,14 @@ class Engine
 		}
 		
 		return true;
+	}
+	
+	private Share ()
+	{
+		this.timer.Stop();
+		this.visualization.Pause();
+		document.getElementById("PlayArea").style.display = "none";
+		this.sharePrompt.Show();
 	}
 	
 	private Pause ()
