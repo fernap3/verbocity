@@ -27,6 +27,7 @@ class Engine
 	private previewRenderer: PreviewRenderer;
 	private inputHandler: InputHandler;
 	private timerRenderer: TimerRenderer;
+	private stockRenderer: StockRenderer;
 	private timer: Timer;
 	private nextTimePenalty: number;
 	private currentStock: number;
@@ -75,6 +76,20 @@ class Engine
 				OnUnPauseCallback: () => { this.UnPause(); }
 			}
 		);
+		
+		if (this.gameMode === GameRules.Video)
+		{
+			this.stockRenderer = new StockRenderer({
+				StockContainer: <HTMLElement>document.getElementById("Stock"),
+				InitialStock: Engine.initialStock
+			});
+			
+			(<HTMLElement>document.getElementById("Stock")).style.display = "block";
+		}
+		else
+		{
+			(<HTMLElement>document.getElementById("Stock")).style.display = "none";
+		}
 		
 		this.puzzleRenderer = new PuzzleRenderer(this.puzzle, this.options.Page);
 		this.puzzleRenderer.RenderInitialBoard();
@@ -235,11 +250,11 @@ class Engine
 		{
 			this.timer.Stop();
 			this.OnGameLose();
-			//this.stockRenderer.IndicatePenalty();
+			this.stockRenderer.IndicatePenalty();
 			return;
 		}
 		
-		//this.stockRenderer.IndicatePenalty();
+		this.stockRenderer.IndicatePenalty();
 	}
 	
 	private IncrementTimerPenalty ()
