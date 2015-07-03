@@ -331,7 +331,7 @@ class Engine
 		return true;
 	}
 	
-	private PauseFromPauseButtonClick ()
+	private Pause ()
 	{
 		this.timer.Stop();
 		this.visualization.Pause();
