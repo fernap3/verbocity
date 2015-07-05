@@ -150,9 +150,16 @@ class Engine
 	
 	private OnGameLose ()
 	{
+		this.timer.Stop();
 		this.visualization.Stop();
 		this.inputHandler.Dispose();
-		this.options.OnLoseCallback();
+		
+		new LoseScreen({
+			LoseScreen: document.getElementById("LoseScreen"),
+			OnCloseCallback: () => {
+				this.options.OnLoseCallback();
+			}
+		}).Show();
 	}
 	
 	private QuitGame ()
