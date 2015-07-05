@@ -23,6 +23,8 @@ class Game
 			OnWinCallback: () => {
 				location.hash = "";
 				SaveDataProvider.AddSolvedPuzzleId(this.currentPuzzle.Id);
+				this.HidePlayArea();
+				this.mainMenu.Show();
 			},
 			OnLoseCallback: () => {
 				location.hash = "";

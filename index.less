@@ -158,7 +158,7 @@ canvas {
 }
 
 .timerAnimate {
-	transition: color 1.5s ease-in;	
+	transition: color 1.5s ease-in;
 }
 
 .stock {
@@ -255,6 +255,45 @@ img.shareButton {
 
 .pausePrompt .instructions {
 	font-size: .7em;
+}
+
+.winScreen {
+	background-color: white;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	opacity: 0;
+	transition: opacity 2s linear;	
+}
+
+.winArea {
+	width: 400px;
+	height: 400px;
+	position: absolute;
+	font-size: initial;
+	background-color: white;
+	.userSelectNone;
+}
+
+.winArea canvas {
+	height: 240px;
+	width: 240px;
+	position: relative;
+	background-color: green;
+}
+
+.winArea .puzzleTitle {
+	margin-bottom: 4em;
+}
+
+.winArea .completeMessage {
+	position: relative;
+}
+
+.winArea .clickAnywhereMessage {
+	font-size: .75em;	
 }
 
 .puzzleChooser {

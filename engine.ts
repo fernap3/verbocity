@@ -138,7 +138,14 @@ class Engine
 		this.timer.Stop();
 		this.visualization.Stop();
 		this.inputHandler.Dispose();
-		this.options.OnWinCallback();
+		
+		new WinScreen({
+			WinScreen: document.getElementById("WinScreen"),
+			Puzzle: this.puzzle,
+			OnCloseCallback: () => {
+				this.options.OnWinCallback();
+			}
+		}).Show();
 	}
 	
 	private OnGameLose ()
