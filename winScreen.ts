@@ -59,6 +59,7 @@ class WinScreen
 		this.elements.CompleteMessage.classList.remove("animate");
 		
 		this.elements.ClickAnywhereMessage.style.display = "none";
+		this.elements.PuzzleTitle.style.display = "none";
 	}
 	
 	Show ()
@@ -92,6 +93,7 @@ class WinScreen
 		
 		setTimeout(() => {
 			this.elements.ClickAnywhereMessage.style.display = "";
+			this.elements.PuzzleTitle.style.display = "";
 		}, "3000");
 	}
 	
