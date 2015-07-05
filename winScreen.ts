@@ -33,6 +33,7 @@ class WinScreen
 	private FadeToWhite (callback: () => void)
 	{
 		var winScreen = this.options.WinScreen;
+		winScreen.style.opacity = "0";
 		winScreen.style.display = "block";
 		Centerer.CenterContainers();
 		
