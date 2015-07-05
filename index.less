@@ -280,7 +280,47 @@ img.shareButton {
 	height: 240px;
 	width: 240px;
 	position: relative;
-	background-color: green;
+}
+
+.winArea canvas.animate {
+	animation: 4s winAreaCanvasAnimate ease-in forwards;
+}
+
+@keyframes winAreaCanvasAnimate {
+	0% {
+		left: 700px;
+		transform: rotate(0);
+	}
+	
+	55% {
+		left: -5px;
+		transform: rotate(0);
+	}
+	
+	60% {
+		left: 0;
+		transform: rotate(0);
+		animation-timing-function: ease-in;
+	}
+	
+	// "Wind up" for the rotation
+	80% {
+		left: 0;
+		transform: rotate(-10deg);
+		animation-timing-function: ease-in-out;
+	}
+	
+	95% {
+		left: 0;
+		transform: rotate(360deg * 2 + 10deg);
+		animation-timing-function: ease-out;
+	}
+	
+	// Overrotate a bit	
+	100% {
+		transform: rotate(360deg * 2);
+		left: 0;
+	}
 }
 
 .winArea .puzzleTitle {
@@ -289,6 +329,26 @@ img.shareButton {
 
 .winArea .completeMessage {
 	position: relative;
+}
+
+.winArea .completeMessage.animate {
+	animation: 1.5s completeMessageSlideUp forwards;
+}
+
+@keyframes completeMessageSlideUp {
+	0% {
+		top: 100px;
+		animation-timing-function: ease-in;
+	}
+	
+	80% {
+		top: -5px;
+		animation-timing-function: ease-out;
+	}
+	
+	100% {
+		top: 0;
+	}
 }
 
 .winArea .clickAnywhereMessage {
