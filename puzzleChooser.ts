@@ -79,6 +79,8 @@ class PuzzleChooser
 				// mysteriousi question mark
 				li.classList.add("solved");
 				li.appendChild(this.GetPreviewCanvas(puzzle));
+				li.title = puzzle.Name;
+				PuzzleChooser.AddSolvedIcon(li);
 			}
 			
 			if ((<VideoPuzzle>puzzle).VideoUrl != null)
@@ -96,6 +98,14 @@ class PuzzleChooser
 	{
 		var iconContainer = document.createElement("div");
 		iconContainer.className = "videoIcon";
+		
+		element.appendChild(iconContainer);
+	}
+	
+	private static AddSolvedIcon (element: HTMLElement)
+	{
+		var iconContainer = document.createElement("div");
+		iconContainer.className = "solvedIcon";
 		
 		element.appendChild(iconContainer);
 	}
