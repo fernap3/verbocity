@@ -13,6 +13,7 @@ class Game
 	// in anticipation of them actually being needed.
 	private static imagesToPreload = ["flag.svg", "unsolvedpuzzlepreview.svg", "stockPenalty.svg",
 		"checked.svg", "unchecked.svg"];
+	private static soundsToPreload = ["mainMenu.mp3"];
 	
 	constructor (page: HTMLElement)
 	{
@@ -65,19 +66,24 @@ class Game
 	
 	Begin ()
 	{
+		document.getElementById("AppPreloader").style.display = "block";
+		
 		Game.PreloadImages(Game.imagesToPreload);
-		
-		// If the user has loaded the page with a shared puzzle in the URL,
-		// jump right to the game without showing the main menu.
-		var sharedPuzzle = this.GetPuzzleFromUrl();
-		
-		if (sharedPuzzle !== null)
-		{
-			this.StartPuzzle(sharedPuzzle);
-			return;
-		}
-		
-		this.mainMenu.Show();
+		AudioManager.PreloadSounds(Game.soundsToPreload, () => {
+			document.getElementById("AppPreloader").style.display = "none";
+			
+			// If the user has loaded the page with a shared puzzle in the URL,
+			// jump right to the game without showing the main menu.
+			var sharedPuzzle = this.GetPuzzleFromUrl();
+			
+			if (sharedPuzzle !== null)
+			{
+				this.StartPuzzle(sharedPuzzle);
+				return;
+			}
+			
+			this.mainMenu.Show();
+		});
 	}
 	
 	private static PreloadImages (urls: string[])
