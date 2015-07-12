@@ -26,7 +26,7 @@ gulp.task('build-typescript', function ()
         tsResult.dts.pipe(concat('verbocity.js'))
                     .pipe(gulp.dest("js"));
         
-        return tsResult.js.pipe(gulp.dest("js"));
+        return tsResult.js.pipe(concat('verbocity.js')).pipe(gulp.dest("js"));
 });
 
 gulp.task('deploybuild-typescript', function ()
