@@ -1,10 +1,9 @@
-class Sounds
-{
-	static MainMenu = "MainMenu.mp3";
-}
+/// <reference path='typings/tsd.d.ts' />
 
 class AudioManager
 {
+	static context: AudioContext;
+	
 	static Play (fileName: string)
 	{
 		
@@ -35,6 +34,29 @@ class AudioManager
 	
 	private static PreloadSound (fileName: string, onReadyCallback: () => void)
 	{
-		onReadyCallback();
+		var request = new XMLHttpRequest();
+		request.open('GET', "sounds/" + fileName, true);
+		request.responseType = 'arraybuffer';
+		
+		request.onload = () => {
+			AudioManager.context.decodeAudioData(request.response, (buffer) => {
+				
+				
+				onReadyCallback();
+			},
+			() => {
+				throw "Error decoding audio";
+			});
+		}
+		
+		request.send();
 	}
+}
+
+try {
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	AudioManager.context = new AudioContext();
+}
+catch(e) {
+	console.log('Web Audio API is not supported in this browser');
 }

@@ -17,29 +17,31 @@ gulp.task('deploy', ['deploybuild-typescript', 'less']);
 gulp.task('build-typescript', function ()
 {
    var tsResult = gulp.src(sourceTsFiles)
-                    .pipe(concat('verbocity.ts'))
                     .pipe(typescript({
                         target: 'ES5',
-                        declarationFiles: false,
-                        noExternalResolve: true
+                        noExternalResolve: false,
+                        sortOutput: true
                     }));
 
-        tsResult.dts.pipe(gulp.dest("js"));
+        tsResult.dts.pipe(concat('verbocity.js'))
+                    .pipe(gulp.dest("js"));
+        
         return tsResult.js.pipe(gulp.dest("js"));
 });
 
 gulp.task('deploybuild-typescript', function ()
 {
    var tsResult = gulp.src(sourceTsFiles)
-                    .pipe(concat('verbocity.ts'))
                     .pipe(typescript({
                         target: 'ES5',
-                        declarationFiles: false,
-                        noExternalResolve: true
+                        noExternalResolve: false,
+                        sortOutput: true
                     }));
 
         tsResult.dts.pipe(uglify()).pipe(gulp.dest("js"));
-        return tsResult.js.pipe(uglify({mangle: true})).pipe(gulp.dest("js"));
+        return tsResult.js.pipe(concat('verbocity.js'))
+                          .pipe(uglify({mangle: true}))
+                          .pipe(gulp.dest("js"));
 });
 
 gulp.task('less', function ()
