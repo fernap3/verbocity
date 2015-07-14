@@ -43,10 +43,7 @@ class AudioManager
 	{
 		if (sound.FileName in AudioManager.buffers === false)
 		{
-			AudioManager.PreloadSound(sound, () => {
-				AudioManager.Play(sound);
-			});
-			return null;
+			throw "Sound, \"" + sound.FileName + "\" not yet loaded";
 		}
 		
 		if (sound.Loop === false)
