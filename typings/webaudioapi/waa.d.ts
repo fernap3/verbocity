@@ -539,7 +539,9 @@ interface AudioBuffer {
      * The channel parameter is an index representing the particular channel to get data for. An index value of 0 represents the first channel. This index value MUST be less than numberOfChannels or an exception will be thrown.
      */
     getChannelData(channel: number): Float32Array;
-
+    
+    copyFromChannel(destination: Float32Array, channel: number, offset: number);
+	copyToChannel(source: Float32Array, channel: number, offset: number);
 }
 
 /**

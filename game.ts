@@ -8,12 +8,13 @@ class Game
 	private playArea: HTMLElement;
 	private puzzleChooser: PuzzleChooser;
 	private currentPuzzle: Puzzle;
+	private mainMenuSoundHandle: string;
 	
 	// Images that we need to appear responsively on user input are preloaded
 	// in anticipation of them actually being needed.
 	private static imagesToPreload = ["images/flag.svg", "images/unsolvedpuzzlepreview.svg", "images/stockPenalty.svg",
 		"images/checked.svg", "images/unchecked.svg"];
-	private static soundsToPreload = ["mainMenu.mp3"];
+	private static soundsToPreload = [ Sounds.MainMenu ];
 	
 	constructor (page: HTMLElement)
 	{
@@ -82,6 +83,8 @@ class Game
 				return;
 			}
 			
+			this.mainMenuSoundHandle = AudioManager.Play(Sounds.MainMenu);
+			
 			this.mainMenu.Show();
 		});
 	}
@@ -98,6 +101,7 @@ class Game
 	// Choose a random puzzle from the list to play
 	private StartJustPlay ()
 	{
+		AudioManager.Stop(this.mainMenuSoundHandle);
 		this.ShowPlayArea();
 		
 		var puzzle = PuzzleProvider.GetRandomBuiltinPuzzle();
@@ -108,6 +112,7 @@ class Game
 	
 	private StartPuzzle (puzzle: Puzzle)
 	{
+		AudioManager.Stop(this.mainMenuSoundHandle);
 		this.ShowPlayArea();
 		
 		this.currentPuzzle = puzzle;
