@@ -68,7 +68,7 @@ class AudioManager
 		
 		for (var i = 0; i < sources.length; i++)
 		{
-			sources[i].stop();
+			sources[i].stop(0);
 		}
 		
 		delete AudioManager.playingSounds[handle];
@@ -88,6 +88,20 @@ class AudioManager
 	
 	private static PlayWithLoop (buffer: AudioBuffer, loopStart: number): string
 	{
+		if (typeof buffer.copyFromChannel === "undefined")
+		{
+			var loopSource = AudioManager.context.createBufferSource();
+			loopSource.buffer = buffer;
+			loopSource.connect(AudioManager.context.destination);
+			loopSource.loop = true;
+			
+			loopSource.start(AudioManager.context.currentTime);
+			
+			var handle = Math.floor(Math.random() * Number.MIN_VALUE).toString();
+			AudioManager.playingSounds[handle] = { Sources: [loopSource] };
+			return handle;
+		}
+		
 		var middleArray = new Float32Array(buffer.length - loopStart);
 		var loopBuffer = AudioManager.context.createBuffer(buffer.numberOfChannels, 
 			buffer.length - loopStart, AudioManager.context.sampleRate);
