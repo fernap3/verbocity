@@ -1,4 +1,4 @@
-//@import "MainMenu.ts"
+declare var Origami:any;
 
 class Game
 {
@@ -156,3 +156,4 @@ class Game
 }
 
 new Game(document.body).Begin();
+Origami.fastclick(document.body);

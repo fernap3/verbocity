@@ -13,6 +13,10 @@ var sourceTsFiles = ["saveDataProvider.ts", "puzzle.ts", "puzzles.ts", "centerer
 gulp.task('build-debug', ['build-typescript', 'less']);
 gulp.task('deploy', ['deploybuild-typescript', 'less']);
 
+function copyLibraryJavascript ()
+{
+    gulp.src('fastclick.js').pipe(gulp.dest('js'));
+}
 
 gulp.task('build-typescript', function ()
 {
@@ -22,6 +26,8 @@ gulp.task('build-typescript', function ()
                         noExternalResolve: false,
                         sortOutput: true
                     }));
+
+        copyLibraryJavascript();
 
         tsResult.dts.pipe(concat('verbocity.js'))
                     .pipe(gulp.dest("js"));
