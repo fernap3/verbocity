@@ -1,4 +1,5 @@
 declare var Origami:any;
+declare var Switchery: any;
 
 class Game
 {
@@ -61,6 +62,23 @@ class Game
 		});
 		
 		this.playArea = document.getElementById("PlayArea");
+		
+		var isTouchDevice = "ontouchstart" in document.documentElement;
+		
+		if (true || isTouchDevice === true)
+		{
+			var markModeSwitchContainer = <HTMLElement>document.querySelector("#MarkModeSwitchContainer");
+			markModeSwitchContainer.style.display = "block";
+			
+			var markModeSwitch = document.querySelector("#MarkModeSwitch");
+			var switchInstance = new Switchery(markModeSwitch);
+			
+			var markModeSwitchLabel = <HTMLElement>document.querySelector("#MarkModeSwitchContainer > label");			
+			
+			markModeSwitchLabel.onclick = (evt: MouseEvent) => {
+				switchInstance.setPosition(true);
+			};
+		}
 		
 		Centerer.SetupResizeHandler();
 	}
@@ -157,3 +175,7 @@ class Game
 
 new Game(document.body).Begin();
 Origami.fastclick(document.body);
+
+document.addEventListener("touchmove", function(event) {
+    event.preventDefault();
+});

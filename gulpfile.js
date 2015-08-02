@@ -16,6 +16,7 @@ gulp.task('deploy', ['deploybuild-typescript', 'less']);
 function copyLibraryJavascript ()
 {
     gulp.src('fastclick.js').pipe(gulp.dest('js'));
+    gulp.src('switchery.min.js').pipe(gulp.dest('js'));
 }
 
 gulp.task('build-typescript', function ()

@@ -5,6 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<link rel="stylesheet" type="text/css" href="css/index.css">
 		<script async src="https://www.youtube.com/iframe_api"></script>
+		<link rel="stylesheet" href="css/switchery.min.css" />
+		<script src="js/switchery.min.js"></script>
 		<!--<meta property="og:url" content="http://verbo.city" />-->
 		<!--<meta property="og:type" content="article" />-->
 		<meta property="og:title" content="verbocity" />
@@ -44,6 +46,10 @@
 					<li data-action="quit">Quit</li>
 				</ul>
 				<canvas id="Preview" class="preview"></canvas>
+			</div>
+			<div id="MarkModeSwitchContainer" class="markModeSwitchContainer" style="display:none">
+				<label>Flag</label>
+				<input id="MarkModeSwitch" type="checkbox" />
 			</div>
 		</div>
 		<div id="MainMenu" class="mainMenu" style="display:none" data-center="">
