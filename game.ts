@@ -181,6 +181,6 @@ class Game
 new Game(document.body).Begin();
 Origami.fastclick(document.body);
 
-document.addEventListener("touchmove", function(event) {
-    event.preventDefault();
+document.addEventListener("touchmove", (evt: TouchEvent) => {
+	event.preventDefault();
 });

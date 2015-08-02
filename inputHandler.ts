@@ -24,7 +24,9 @@ class InputHandler
 	private cellSelectType: CellSelectType;
 	private isShiftHeld: boolean;
 	private documentMouseMoveHandler = (evt: PointerEvent) => { this.HandleMouseMoveWhileSelecting(evt); };
+	private documentTouchMoveHandler = (evt: TouchEvent) => { this.HandleTouchMoveWhileSelecting(evt); };
 	private documentMouseUpHandler = (evt: PointerEvent) => { this.HandleDocumentMouseup(evt); };
+	private documentTouchEndHandler = (evt: TouchEvent) => { this.HandleDocumentTouchEnd(evt); };
 	private documentKeyDownHandler = (evt: KeyboardEvent) => { this.HandleDocumentKeydown(evt); };
 	private documentKeyUpHandler = (evt: KeyboardEvent) => { this.HandleDocumentKeyup(evt); };
 	
@@ -48,10 +50,10 @@ class InputHandler
 		
 		document.addEventListener("mousemove", this.documentMouseMoveHandler);
 		document.addEventListener("mouseup", this.documentMouseUpHandler);
-		this.table.addEventListener("mousedown", (evt: Event) => { this.HandleTableMousedown(evt); });
-		document.addEventListener("touchmove", this.documentMouseMoveHandler);
-		document.addEventListener("touchend", this.documentMouseUpHandler);
-		this.table.addEventListener("touchstart", (evt: TouchEvent) => { this.HandleTableMousedown(evt); });
+		this.table.addEventListener("mousedown", (evt: MouseEvent) => { this.HandleTableMousedown(evt); });
+		document.addEventListener("touchmove", this.documentTouchMoveHandler);
+		document.addEventListener("touchend", this.documentTouchEndHandler);
+		this.table.addEventListener("touchstart", (evt: TouchEvent) => { this.HandleTableTouchStart(evt); });
 		
 		document.addEventListener("keydown", this.documentKeyDownHandler);
 		document.addEventListener("keyup", this.documentKeyUpHandler);
@@ -96,7 +98,7 @@ class InputHandler
 		return this.beginSelectCell !== null;
 	}
 	
-	private HandleTableMousedown (evt: any)
+	private HandleTableMousedown (evt: MouseEvent)
 	{
 		if (this.IsEventTargetPictureCell(evt) === false)
 			return;
@@ -105,17 +107,10 @@ class InputHandler
 		
 		var isRightClick;
 
-		if (Game.isTouchDevice === true)
-		{
-			isRightClick = (<HTMLInputElement>document.querySelector("#MarkModeSwitch")).checked;
-		}
-		else
-		{
-			if ("which" in evt)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
-				isRightClick = evt.which == 3;
-			else if ("button" in evt)  // IE, Opera 
-				isRightClick = evt.button == 2; 
-		}
+		if ("which" in evt)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+			isRightClick = evt.which == 3;
+		else if ("button" in evt)  // IE, Opera 
+			isRightClick = evt.button == 2; 
 			
 		if ((isRightClick === true && this.cellSelectType === CellSelectType.Mark) ||
 			(isRightClick === false && this.cellSelectType === CellSelectType.Flag))
@@ -133,6 +128,25 @@ class InputHandler
 		this.beginSelectCell = { Row: row, Col: col };
 		this.endSelectCell = { Row: row, Col: col };
 		this.cellSelectType = isRightClick === true ? CellSelectType.Flag : CellSelectType.Mark;
+	}
+	
+	HandleTableTouchStart (evt: TouchEvent)
+	{
+		if (this.IsEventTargetPictureCell(evt) === false)
+			return;
+		
+		var isFlag = (<HTMLInputElement>document.querySelector("#MarkModeSwitch")).checked;
+		
+		//TODO: Handle multiple touches
+		
+		var target = <HTMLElement>evt.target;
+		
+		var row = parseInt(target.getAttribute("data-row"));
+		var col = parseInt(target.getAttribute("data-col"));
+		
+		this.beginSelectCell = { Row: row, Col: col };
+		this.endSelectCell = { Row: row, Col: col };
+		this.cellSelectType = isFlag === true ? CellSelectType.Flag : CellSelectType.Mark;
 	}
 	
 	private HandleDocumentKeydown (evt: KeyboardEvent)
@@ -176,17 +190,10 @@ class InputHandler
 			
 		var isRightClick;
 
-		if (Game.isTouchDevice === true)
-		{
-			isRightClick = (<HTMLInputElement>document.querySelector("#MarkModeSwitch")).checked;
-		}
-		else
-		{
-			if ("which" in evt)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
-				isRightClick = evt.which == 3;
-			else if ("button" in evt)  // IE, Opera 
-				isRightClick = evt.button == 2; 
-		}
+		if ("which" in evt)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+			isRightClick = evt.which == 3;
+		else if ("button" in evt)  // IE, Opera 
+			isRightClick = evt.button == 2; 
 			
 		if ((this.cellSelectType === CellSelectType.Mark && isRightClick === true) ||
 		(this.cellSelectType === CellSelectType.Flag && isRightClick === false))
@@ -196,7 +203,24 @@ class InputHandler
 			return;
 		}
 		
-		// If neither a straight row or straight column is selected, do nothing
+		// By this point, we know the event should trigger a cell range mark or flag event
+		
+		var target = <HTMLElement>evt.target;
+		
+		var isFlag = isRightClick === true || this.isShiftHeld === true;
+		
+		this.HandleSelectFinish(isFlag);
+	}
+	
+	private HandleDocumentTouchEnd (evt: TouchEvent)
+	{
+		var isFlag = (<HTMLInputElement>document.querySelector("#MarkModeSwitch")).checked;
+		this.HandleSelectFinish(isFlag);
+	}
+	
+	private HandleSelectFinish (isFlag: boolean)
+	{
+		// If neither a straight row nor straight column is selected, do nothing
 		if (InputHandler.AreCellsInSameRowOrColumn(this.beginSelectCell, this.endSelectCell) === false)
 		{
 			this.beginSelectCell = null;
@@ -204,13 +228,6 @@ class InputHandler
 			this.cellSelectType = null;
 			return;
 		}
-		
-		// By this point, we know the event should trigger a cell range mark or flag event
-		
-		var target = <HTMLElement>evt.target;
-		
-		var row = parseInt(target.getAttribute("data-row"));
-		var col = parseInt(target.getAttribute("data-col"));
 		
 		this.options.OnCellRangeDeselectCallback();
 		
@@ -224,7 +241,7 @@ class InputHandler
 				selectedCells = [selectedCells[0]];
 			}
 		
-		if (isRightClick === true || this.isShiftHeld === true)
+		if (isFlag === true)
 		{
 			this.options.OnCellsFlagCallback(selectedCells);
 		}
@@ -244,7 +261,6 @@ class InputHandler
 			return;
 		
 		var target = <HTMLElement>evt.target;
-		console.log(target);
 		
 		if (this.IsEventTargetPictureCell(evt) === false)
 		{
@@ -252,7 +268,25 @@ class InputHandler
 		}
 		
 		var endCell = { Row: parseInt(target.getAttribute("data-row")), Col: parseInt(target.getAttribute("data-col")) };
+		this.UpdateSelection(endCell);
+	}
+	
+	private HandleTouchMoveWhileSelecting (evt: TouchEvent)
+	{
+		var cell = document.elementFromPoint(evt.touches[0].pageX, evt.touches[0].pageY);
 		
+		for (; cell.tagName !== "TD" && cell !== null; cell = cell.parentElement);
+		
+		// We aren't touching a picture cell
+		if (cell === null)
+			return;
+		
+		var endCell = { Row: parseInt(cell.getAttribute("data-row")), Col: parseInt(cell.getAttribute("data-col")) };
+		this.UpdateSelection(endCell);
+	}
+	
+	private UpdateSelection (endCell: CellCoord)
+	{
 		if ((this.beginSelectCell.Row !== endCell.Row && this.beginSelectCell.Col !== endCell.Col) ||
 			((this.beginSelectCell.Row === endCell.Row && this.beginSelectCell.Col === endCell.Col)))
 		{
@@ -272,7 +306,7 @@ class InputHandler
 		this.endSelectCell = endCell;
 		
 		var betweenCells = InputHandler.GetCellsBetween(this.beginSelectCell, this.endSelectCell);
-		this.options.OnCellRangeSelectCallback([this.beginSelectCell].concat(betweenCells).concat([endCell]));		
+		this.options.OnCellRangeSelectCallback([this.beginSelectCell].concat(betweenCells).concat([endCell]));
 	}
 	
 	private static GetCellsBetween (beginCell: CellCoord, endCell: CellCoord) : CellCoord[]
