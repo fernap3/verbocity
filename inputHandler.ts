@@ -117,8 +117,7 @@ class InputHandler
 			{
 				// Allow the user to cancel the current selection by depressing the opposite
 				// mouse button
-				this.beginSelectCell = null;
-				this.cellSelectType = null;
+				this.CancelSelection();
 				return;
 			}
 		
@@ -134,10 +133,16 @@ class InputHandler
 	{
 		if (this.IsEventTargetPictureCell(evt) === false)
 			return;
+			
+		if (evt.touches.length > 1)
+		{
+			// Allow the user to cancel the current selection by touching with a second
+			// digit
+			this.CancelSelection();
+			return;
+		}
 		
 		var isFlag = (<HTMLInputElement>document.querySelector("#MarkModeSwitch")).checked;
-		
-		//TODO: Handle multiple touches
 		
 		var target = <HTMLElement>evt.target;
 		
