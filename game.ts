@@ -65,7 +65,7 @@ class Game
 		
 		var isTouchDevice = "ontouchstart" in document.documentElement;
 		
-		if (true || isTouchDevice === true)
+		if (isTouchDevice === true)
 		{
 			var markModeSwitchContainer = <HTMLElement>document.querySelector("#MarkModeSwitchContainer");
 			markModeSwitchContainer.style.display = "block";
@@ -75,9 +75,9 @@ class Game
 			
 			var markModeSwitchLabel = <HTMLElement>document.querySelector("#MarkModeSwitchContainer > label");			
 			
-			markModeSwitchLabel.onclick = (evt: MouseEvent) => {
+			markModeSwitchLabel.addEventListener("touchstart", (evt: Event) => {
 				switchInstance.setPosition(true);
-			};
+			});
 		}
 		
 		Centerer.SetupResizeHandler();
