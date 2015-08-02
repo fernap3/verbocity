@@ -29,14 +29,20 @@ class PuzzleChooser
 		var builtinTab = <HTMLElement>this.options.Container.querySelector("div[data-tab='builtin']");
 		var customTab = <HTMLElement>this.options.Container.querySelector("div[data-tab='custom']");
 		
+		customTabButton.classList.add("inactive");
+		
 		builtinTabButton.onclick = (evt) => {
 			customTab.style.display = "none";
 			builtinTab.style.display = "block";
+			builtinTabButton.classList.remove("inactive");
+			customTabButton.classList.add("inactive");
 		};
 		
 		customTabButton.onclick = (evt) => {
 			customTab.style.display = "block";
 			builtinTab.style.display = "none";
+			builtinTabButton.classList.add("inactive");
+			customTabButton.classList.remove("inactive");
 		};
 	}
 	
