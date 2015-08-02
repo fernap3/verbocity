@@ -19,7 +19,7 @@ var publishFiles = {
   "switchery.min.js": "js",
   "images/*": "images",
   "css/*": "css",
-  "sounds/*": "sounds",
+  "sounds/*": "sounds"
 };
 
 gulp.task('build-debug', ['build-typescript', 'less']);

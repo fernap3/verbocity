@@ -3,6 +3,7 @@ declare var Switchery: any;
 
 class Game
 {
+	static isTouchDevice: boolean;
 	private page: HTMLElement;
 	private mainMenu: MainMenu;
 	private engine: Engine;
@@ -63,9 +64,9 @@ class Game
 		
 		this.playArea = document.getElementById("PlayArea");
 		
-		var isTouchDevice = "ontouchstart" in document.documentElement;
+		Game.isTouchDevice = "ontouchstart" in document.documentElement;
 		
-		if (isTouchDevice === true)
+		if (Game.isTouchDevice === true)
 		{
 			document.body.classList.add("touch");
 			

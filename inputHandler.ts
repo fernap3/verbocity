@@ -48,7 +48,11 @@ class InputHandler
 		
 		document.addEventListener("mousemove", this.documentMouseMoveHandler);
 		document.addEventListener("mouseup", this.documentMouseUpHandler);
-		this.table.addEventListener("mousedown", (evt: MouseEvent) => { this.HandleTableMousedown(evt); });
+		this.table.addEventListener("mousedown", (evt: Event) => { this.HandleTableMousedown(evt); });
+		document.addEventListener("touchmove", this.documentMouseMoveHandler);
+		document.addEventListener("touchend", this.documentMouseUpHandler);
+		this.table.addEventListener("touchstart", (evt: TouchEvent) => { this.HandleTableMousedown(evt); });
+		
 		document.addEventListener("keydown", this.documentKeyDownHandler);
 		document.addEventListener("keyup", this.documentKeyUpHandler);
 		
@@ -92,7 +96,7 @@ class InputHandler
 		return this.beginSelectCell !== null;
 	}
 	
-	private HandleTableMousedown (evt: MouseEvent)
+	private HandleTableMousedown (evt: any)
 	{
 		if (this.IsEventTargetPictureCell(evt) === false)
 			return;
@@ -101,10 +105,17 @@ class InputHandler
 		
 		var isRightClick;
 
-		if ("which" in evt)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
-			isRightClick = evt.which == 3;
-		else if ("button" in evt)  // IE, Opera 
-			isRightClick = evt.button == 2;
+		if (Game.isTouchDevice === true)
+		{
+			isRightClick = (<HTMLInputElement>document.querySelector("#MarkModeSwitch")).checked;
+		}
+		else
+		{
+			if ("which" in evt)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+				isRightClick = evt.which == 3;
+			else if ("button" in evt)  // IE, Opera 
+				isRightClick = evt.button == 2; 
+		}
 			
 		if ((isRightClick === true && this.cellSelectType === CellSelectType.Mark) ||
 			(isRightClick === false && this.cellSelectType === CellSelectType.Flag))
@@ -165,10 +176,17 @@ class InputHandler
 			
 		var isRightClick;
 
-		if ("which" in evt)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
-			isRightClick = evt.which == 3;
-		else if ("button" in evt)  // IE, Opera 
-			isRightClick = evt.button == 2; 
+		if (Game.isTouchDevice === true)
+		{
+			isRightClick = (<HTMLInputElement>document.querySelector("#MarkModeSwitch")).checked;
+		}
+		else
+		{
+			if ("which" in evt)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+				isRightClick = evt.which == 3;
+			else if ("button" in evt)  // IE, Opera 
+				isRightClick = evt.button == 2; 
+		}
 			
 		if ((this.cellSelectType === CellSelectType.Mark && isRightClick === true) ||
 		(this.cellSelectType === CellSelectType.Flag && isRightClick === false))
@@ -226,6 +244,7 @@ class InputHandler
 			return;
 		
 		var target = <HTMLElement>evt.target;
+		console.log(target);
 		
 		if (this.IsEventTargetPictureCell(evt) === false)
 		{
