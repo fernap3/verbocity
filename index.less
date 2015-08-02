@@ -86,6 +86,15 @@ button.inactive {
 	cursor: pointer;
 }
 
+.touch .playArea .playAreaMenu {
+	font-size: 30px;
+}
+
+.touch .playArea .playAreaMenu li {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
 table.board {
 	table-layout: fixed;
 	text-align: center;
@@ -97,6 +106,10 @@ table.board {
 	cursor: default;
 	display: inline-block;
 	.userSelectNone;
+}
+
+.touch table.board {
+	font-size: 20px;
 }
 
 table.board td {
@@ -163,8 +176,16 @@ canvas {
 	font-size: initial;
 }
 
+.touch #MainMenu {
+	width: 100%;
+}
+
 #MainMenu h1 {
 	text-align: center;
+}
+
+.touch #MainMenu h1 {
+	font-size: 60px;
 }
 
 #MainMenu ul {
@@ -173,14 +194,26 @@ canvas {
 	padding: 0;
 }
 
+.touch #MainMenu ul {
+	font-size: 30px;
+}
+
 #MainMenu ul li {
 	padding: .5em 0;
 	cursor: pointer;
 }
 
+.touch #MainMenu ul li {
+	padding: 5px 0;
+}
+
 .timer {
 	display: block;
 	margin-bottom: 1em;
+}
+
+.touch .timer {
+	font-size: 30px;
 }
 
 .timerAnimate {
@@ -417,17 +450,22 @@ img.shareButton {
 	z-index: 2;
 	font-size: initial;
 	overflow: auto;
+	font-size: 10px;
 	.userSelectNone;
 }
 
-.puzzleChooserButtonContainer {
-	height: 2em;
+.touch .puzzleChooser {
+	font-size: 20px;
+	width: 500px;
 }
 
 .puzzleChooserButtonContainer button {
-	font-size: 10px;
 	padding: 8px;
 	outline: none;
+}
+
+.touch .puzzleChooserButtonContainer button {
+	padding: 10px;
 }
 
 .puzzleChooserPuzzleList {
@@ -439,10 +477,6 @@ img.shareButton {
 	padding: 0;
 }
 
-/*
-Flag Icon made by Freepik (http://www.freepik.com),
-licensed under Creative Commons BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
-*/
 .puzzleChooserPuzzleList.puzzleChooserGrid ul li {
 	display: block;
 	float: left;
@@ -456,6 +490,12 @@ licensed under Creative Commons BY 3.0 (http://creativecommons.org/licenses/by/3
 	background-position: center center;
 	background-repeat: no-repeat;
 	cursor: pointer;
+}
+
+.touch .puzzleChooserPuzzleList.puzzleChooserGrid ul li {
+	height: 45px;
+	width: 45px;
+	background-size: 30px 30px;
 }
 
 .puzzleChooserPuzzleList.puzzleChooserGrid ul li .videoIcon {

@@ -67,6 +67,10 @@ class Game
 		
 		if (isTouchDevice === true)
 		{
+			document.body.classList.add("touch");
+			
+			// Show the "flag mode" switch, allowing the user to toggle
+			// what happens when tapping on a cell
 			var markModeSwitchContainer = <HTMLElement>document.querySelector("#MarkModeSwitchContainer");
 			markModeSwitchContainer.style.display = "block";
 			
