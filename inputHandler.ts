@@ -75,6 +75,8 @@ class InputHandler
 		document.removeEventListener("mouseup", this.documentMouseUpHandler);
 		document.removeEventListener("keydown", this.documentKeyDownHandler);
 		document.removeEventListener("keyup", this.documentKeyUpHandler);
+		document.removeEventListener("touchmove", this.documentTouchMoveHandler);
+		document.removeEventListener("touchend", this.documentTouchEndHandler);
 	}
 	
 	private IsEventTargetPictureCell (evt: Event): boolean
