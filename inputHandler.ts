@@ -224,6 +224,9 @@ class InputHandler
 	
 	private HandleDocumentTouchEnd (evt: TouchEvent)
 	{
+		if (this.IsCurrentlySelecting() === false)
+			return;
+		
 		var isFlag = (<HTMLInputElement>document.querySelector("#MarkModeSwitch")).checked;
 		this.HandleSelectFinish(isFlag);
 	}
@@ -283,9 +286,12 @@ class InputHandler
 	
 	private HandleTouchMoveWhileSelecting (evt: TouchEvent)
 	{
+		if (this.IsCurrentlySelecting() === false)
+			return;
+		
 		var cell = document.elementFromPoint(evt.touches[0].pageX, evt.touches[0].pageY);
 		
-		for (; cell.tagName !== "TD" && cell !== null; cell = cell.parentElement);
+		for (; cell !== null && cell.tagName !== "TD"; cell = cell.parentElement);
 		
 		// We aren't touching a picture cell
 		if (cell === null)
