@@ -17,12 +17,14 @@ class Centerer
 		for (var i = 0; i < containers.length; i++)
 		{
 			var container = <HTMLElement>containers[i];
-			
 			var height = container.offsetHeight;
 			
 			// Don't try to center the container if it is not displayed
 			if (height === 0)
 				continue;
+				
+			container.style.left = "0";
+			container.style.top = "0";
 			
 			var width = container.offsetWidth;
 			
