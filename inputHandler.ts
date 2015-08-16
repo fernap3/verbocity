@@ -48,25 +48,28 @@ class InputHandler
 		this.beginSelectCell = null;
 		this.cellSelectType = null;
 		
-		document.addEventListener("mousemove", this.documentMouseMoveHandler);
-		document.addEventListener("mouseup", this.documentMouseUpHandler);
-		this.table.addEventListener("mousedown", (evt: MouseEvent) => { this.HandleTableMousedown(evt); });
-		document.addEventListener("touchmove", this.documentTouchMoveHandler);
-		document.addEventListener("touchend", this.documentTouchEndHandler);
-		this.table.addEventListener("touchstart", (evt: TouchEvent) => { this.HandleTableTouchStart(evt); });
-		
-		document.addEventListener("keydown", this.documentKeyDownHandler);
-		document.addEventListener("keyup", this.documentKeyUpHandler);
-		
-		
-		this.quitButton = <HTMLElement>document.querySelector("[data-action='quit']");
-		this.quitButton.onclick = (evt) => { this.options.OnQuitClickCallback(); };
-		
-		this.shareButton = <HTMLElement>document.querySelector("[data-action='share']");
-		this.shareButton.onclick = (evt) => { this.options.OnShareClickCallback(); };
-		
-		this.pauseButton = <HTMLElement>document.querySelector("[data-action='pause']");
-		this.pauseButton.onclick = (evt) => { this.options.OnPauseClickCallback(); };
+		// Set event handlers in a new "thread" to avoid handling any initial non-related
+		// events ie. The menu touch which begins the game.
+		setTimeout(() => {
+			document.addEventListener("mousemove", this.documentMouseMoveHandler);
+			document.addEventListener("mouseup", this.documentMouseUpHandler);
+			this.table.addEventListener("mousedown", (evt: MouseEvent) => { this.HandleTableMousedown(evt); });
+			document.addEventListener("touchmove", this.documentTouchMoveHandler);
+			document.addEventListener("touchend", this.documentTouchEndHandler);
+			this.table.addEventListener("touchstart", (evt: TouchEvent) => { this.HandleTableTouchStart(evt); });
+			document.addEventListener("keydown", this.documentKeyDownHandler);
+			document.addEventListener("keyup", this.documentKeyUpHandler);
+			
+			
+			this.quitButton = <HTMLElement>document.querySelector("[data-action='quit']");
+			this.quitButton.onclick = (evt) => { this.options.OnQuitClickCallback(); };
+			
+			this.shareButton = <HTMLElement>document.querySelector("[data-action='share']");
+			this.shareButton.onclick = (evt) => { this.options.OnShareClickCallback(); };
+			
+			this.pauseButton = <HTMLElement>document.querySelector("[data-action='pause']");
+			this.pauseButton.onclick = (evt) => { this.options.OnPauseClickCallback(); };
+		}, 0);
 	}
 	
 	public Dispose ()
