@@ -24,12 +24,12 @@ class SharePrompt
 			this.Close();
 		}
 		
-		(<HTMLElement>this.options.Container.querySelector("#ShareThisPuzzle + label")).onclick = (evt: MouseEvent) =>
+		(<HTMLElement>this.options.Container.querySelector("#ShareThisPuzzle")).onchange = (evt: Event) =>
 		{
 			this.textInput.value = this.GetShareLink(true);		
 		};
 		
-		(<HTMLElement>this.options.Container.querySelector("#ShareTheApp + label")).onclick = (evt: MouseEvent) =>
+		(<HTMLElement>this.options.Container.querySelector("#ShareTheApp")).onchange = (evt: Event) =>
 		{
 			this.textInput.value = this.GetShareLink(false);		
 		};
