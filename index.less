@@ -1,3 +1,5 @@
+@import "prefixer.less"; 
+
 @color-guide-border: #111;
 @color-normal-border: #888;
 
@@ -70,13 +72,10 @@ button.inactive {
 
 .playArea .statusArea {
 	width: 100px;
-	display: -webkit-inline-flex;
-	-webkit-flex-direction: row;
-	flex-direction: row;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
+	.flex-inline();
+	.flex-direction(row);
+	.flex-wrap(wrap);
+	.justify-content(space-between);
 	vertical-align: bottom;
 	margin-left: 1em;
 }
@@ -109,27 +108,23 @@ button.inactive {
 	}
 	
 	.touch .statusArea {
-		display: -webkit-flex;
-		display: flex;
+		.flex-block();
 		width: auto;
 	}
 	
 	.touch .playAreaMenu {
 		margin-right: 1em;
-		-webkit-order: 0;
-		order: 0;
+		.order(0);
 	}
 	
 	.touch .timer {
 		float: right;
-		-webkit-order: 1;
-		order: 1;
+		.order(1);
 	}
 	
 	.touch .preview {
 		margin-top: 15px;
-		-webkit-order: 2;
-		order: 2;
+		.order(2);
 	}
 }
 
@@ -255,7 +250,7 @@ canvas {
 }
 
 .timerAnimate {
-	transition: color 1.5s ease-in;
+	.transition(color 1.5s ease-in);
 }
 
 .stock {
@@ -273,7 +268,7 @@ canvas {
 	position: absolute;
 	z-index: 3;
 	opacity: 1;
-	transition: opacity 1.5s ease-out,  top 1.5s ease-out;
+	.transition("opacity 1.5s ease-out,  top 1.5s ease-out");
 	font-size: initial;
 }
 
@@ -283,7 +278,7 @@ canvas {
 	width: 16px;
 	z-index: 3;
 	opacity: 1;
-	transition: opacity 1.5s ease-out,  top 1.5s ease-out;
+	.transition("opacity 1.5s ease-out,  top 1.5s ease-out");
 }
 
 .sharePrompt {
@@ -367,7 +362,7 @@ img.shareButton {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	transition: opacity 2s linear;	
+	.transition(opacity 2s linear);	
 }
 
 .winArea {
@@ -386,42 +381,79 @@ img.shareButton {
 }
 
 .winArea canvas.animate {
-	animation: 4s winAreaCanvasAnimate ease-in forwards;
+	.animation(4s winAreaCanvasAnimate ease-in forwards);
 }
 
-@keyframes winAreaCanvasAnimate {
+@-webkit-keyframes winAreaCanvasAnimate {
 	0% {
 		left: 700px;
-		transform: rotate(0);
+		.transform(rotate(0));
 	}
 	
 	55% {
 		left: -5px;
-		transform: rotate(0);
+		.transform(rotate(0));
 	}
 	
 	60% {
 		left: 0;
-		transform: rotate(0);
-		animation-timing-function: ease-in;
+		.transform(rotate(0));
+		.animation-timing-function(ease-in);
 	}
 	
 	// "Wind up" for the rotation
 	80% {
 		left: 0;
-		transform: rotate(-10deg);
-		animation-timing-function: ease-in-out;
+		.transform(rotate(-10deg));
+		.animation-timing-function(ease-in-out);
 	}
 	
 	95% {
 		left: 0;
-		transform: rotate(360deg * 2 + 10deg);
-		animation-timing-function: ease-out;
+		.transform(rotate(360deg * 2 + 10deg));
+		.animation-timing-function(ease-out);
 	}
 	
 	// Overrotate a bit	
 	100% {
-		transform: rotate(360deg * 2);
+		.transform(rotate(360deg * 2));
+		left: 0;
+	}
+}
+
+@keyframes winAreaCanvasAnimate {
+	0% {
+		left: 700px;
+		.transform(rotate(0));
+	}
+	
+	55% {
+		left: -5px;
+		.transform(rotate(0));
+	}
+	
+	60% {
+		left: 0;
+		.transform(rotate(0));
+		.animation-timing-function(ease-in);
+	}
+	
+	// "Wind up" for the rotation
+	80% {
+		left: 0;
+		.transform(rotate(-10deg));
+		.animation-timing-function(ease-in-out);
+	}
+	
+	95% {
+		left: 0;
+		.transform(rotate(360deg * 2 + 10deg));
+		.animation-timing-function(ease-out);
+	}
+	
+	// Overrotate a bit	
+	100% {
+		.transform(rotate(360deg * 2));
 		left: 0;
 	}
 }
@@ -435,18 +467,34 @@ img.shareButton {
 }
 
 .winArea .completeMessage.animate {
-	animation: 1.5s completeMessageSlideUp forwards;
+	.animation(1.5s completeMessageSlideUp forwards);
+}
+
+@-webkit-keyframes completeMessageSlideUp {
+	0% {
+		top: 100px;
+		.animation-timing-function(ease-in);
+	}
+	
+	80% {
+		top: -5px;
+		.animation-timing-function(ease-out);
+	}
+	
+	100% {
+		top: 0;
+	}
 }
 
 @keyframes completeMessageSlideUp {
 	0% {
 		top: 100px;
-		animation-timing-function: ease-in;
+		.animation-timing-function(ease-in);
 	}
 	
 	80% {
 		top: -5px;
-		animation-timing-function: ease-out;
+		.animation-timing-function(ease-out);
 	}
 	
 	100% {
@@ -465,7 +513,7 @@ img.shareButton {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	transition: opacity 2s linear;	
+	.transition(opacity 2s linear);
 }
 
 .loseArea {
