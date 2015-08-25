@@ -377,42 +377,19 @@ img.shareButton {
 }
 
 .winArea canvas.animate {
-	.animation(4s winAreaCanvasAnimate ease-in forwards);
+	.animation(2s winAreaCanvasAnimate ease-out forwards);
 }
 
 @-webkit-keyframes winAreaCanvasAnimate {
 	0% {
 		left: 700px;
-		.transform(rotate(0));
-	}
-	
-	55% {
-		left: -5px;
-		.transform(rotate(0));
-	}
-	
-	60% {
-		left: 0;
-		.transform(rotate(0));
-		.animation-timing-function(ease-in);
-	}
-	
-	// "Wind up" for the rotation
-	80% {
-		left: 0;
-		.transform(rotate(-10deg));
-		.animation-timing-function(ease-in-out);
 	}
 	
 	95% {
-		left: 0;
-		.transform(rotate(360deg * 2 + 10deg));
-		.animation-timing-function(ease-out);
+		left: -5px;
 	}
 	
-	// Overrotate a bit	
 	100% {
-		.transform(rotate(360deg * 2));
 		left: 0;
 	}
 }
@@ -420,36 +397,13 @@ img.shareButton {
 @keyframes winAreaCanvasAnimate {
 	0% {
 		left: 700px;
-		.transform(rotate(0));
-	}
-	
-	55% {
-		left: -5px;
-		.transform(rotate(0));
-	}
-	
-	60% {
-		left: 0;
-		.transform(rotate(0));
-		.animation-timing-function(ease-in);
-	}
-	
-	// "Wind up" for the rotation
-	80% {
-		left: 0;
-		.transform(rotate(-10deg));
-		.animation-timing-function(ease-in-out);
 	}
 	
 	95% {
-		left: 0;
-		.transform(rotate(360deg * 2 + 10deg));
-		.animation-timing-function(ease-out);
+		left: -5px;
 	}
 	
-	// Overrotate a bit	
 	100% {
-		.transform(rotate(360deg * 2));
 		left: 0;
 	}
 }
