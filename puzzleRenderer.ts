@@ -141,6 +141,13 @@ class PuzzleRenderer
 		textContainer.style.top = textBounds.top - 20 + "px";
 	}
 	
+	private static ForceElementRedraw (element: HTMLElement)
+	{
+		element.style.display = "none";
+		element.offsetHeight; // no need to store this anywhere, the reference is enough
+		element.style.display = "";
+	}
+	
 	private GetCell (cellCoord: CellCoord): HTMLElement
 	{
 		return <HTMLElement>this.table.querySelector("[data-row='" + cellCoord.Row + "'][data-col='" + cellCoord.Col + "']");
