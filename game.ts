@@ -83,6 +83,8 @@ class Game
 			markModeSwitchLabel.addEventListener("touchstart", (evt: Event) => {
 				switchInstance.setPosition(true);
 			});
+			
+			Game.PreventBounceScroll();
 		}
 		
 		Centerer.SetupResizeHandler();
@@ -176,11 +178,25 @@ class Game
 		var regex = new RegExp("[\\#&]" + name + "=([^&#]*)"), results = regex.exec(location.hash);
 		return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
+	
+	private static PreventBounceScroll ()
+	{
+		document.addEventListener("touchmove", (evt: TouchEvent) =>
+		{
+			var element = <HTMLElement>evt.target;
+			
+			while (element !== null && element.classList.contains("scrollable") === false)
+			{
+				element = element.parentElement;
+			}
+			
+			if (element === null)
+			{
+				evt.preventDefault();
+			}
+		});	
+	}
 }
 
 new Game(document.body).Begin();
 Origami.fastclick(document.body);
-
-document.addEventListener("touchmove", (evt: TouchEvent) => {
-	event.preventDefault();
-});
