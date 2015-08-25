@@ -13,16 +13,16 @@ class PreviewRenderer
 		context.clearRect(0, 0, canvas.width, canvas.height);
 	}
 	
-	public UpdatePreview (board: number[][])
+	public UpdatePreview (board: number[][], canvasHeight: number, canvasWidth: number)
 	{
 		var boardHeight = board.length;
 		var boardWidth = board[0].length;
 		
-		this.canvas.height = boardHeight * PreviewRenderer.canvasScale * window.devicePixelRatio;
-		this.canvas.width = boardWidth * PreviewRenderer.canvasScale * window.devicePixelRatio;
+		this.canvas.height = canvasHeight * window.devicePixelRatio;
+		this.canvas.width = canvasWidth * window.devicePixelRatio;
 		
 		var context = this.canvas.getContext("2d");
-		context.scale(PreviewRenderer.canvasScale * window.devicePixelRatio, PreviewRenderer.canvasScale * window.devicePixelRatio);
+		var scale = (canvasHeight * window.devicePixelRatio) / boardHeight;
 		
 		for (var row = 0; row < boardHeight; row++)
 		{
@@ -30,7 +30,7 @@ class PreviewRenderer
 			{
 				if (board[row][col] === 1)
 				{
-					context.fillRect(col, row, 1, 1);
+					context.fillRect(col * scale, row * scale, scale, scale);
 				}
 			}
 		}

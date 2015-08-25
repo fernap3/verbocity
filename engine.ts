@@ -215,7 +215,7 @@ class Engine
 	{
 		this.board[cell.Row][cell.Col] = CellStates.Marked;
 		this.puzzleRenderer.MarkCell(cell);
-		this.previewRenderer.UpdatePreview(this.board);
+		this.previewRenderer.UpdatePreview(this.board, 60, 60);
 		
 		if (this.IsWinState(this.puzzle, this.board))
 		{

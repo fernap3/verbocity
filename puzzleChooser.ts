@@ -128,7 +128,7 @@ class PuzzleChooser
 	{
 		var canvas = document.createElement("canvas");
 		var renderer = new PreviewRenderer(canvas);
-		renderer.UpdatePreview(puzzle.Definition);
+		renderer.UpdatePreview(puzzle.Definition, 30, 30);
 		return canvas;
 	}
 }

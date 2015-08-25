@@ -34,7 +34,7 @@ class WinScreen
 		this.elements = new WinScreenElements(this.options.WinScreen);
 		
 		(<HTMLElement>this.options.WinScreen.querySelector(".puzzleTitle")).innerHTML = this.options.Puzzle.Name;
-		new PreviewRenderer(<HTMLCanvasElement>this.options.WinScreen.querySelector("canvas")).UpdatePreview(this.options.Puzzle.Definition);
+		new PreviewRenderer(this.elements.PuzzleCanvas).UpdatePreview(this.options.Puzzle.Definition, 240, 240);
 		
 		this.onDocumentClick = (evt: MouseEvent) => {
 			this.Close();
