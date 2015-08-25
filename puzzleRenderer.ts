@@ -120,9 +120,10 @@ class PuzzleRenderer
 		element.style.left = cellBounds.left + (cellBounds.width / 2) - (textBounds.width / 2) + "px";
 		element.style.visibility = "";
 		
-		// Start the animation in a different "thread" so the browser has
-		// free cycles to render the initial state.
-		setTimeout(() => { this.AnimatePenalty(element) }, 0);
+		// Make sure the element's initial state is rendered before we
+		// animate it
+		PuzzleRenderer.ForceElementRedraw(element);
+		this.AnimatePenalty(element);
 	}
 	
 	private AnimatePenalty (textContainer: HTMLElement)
