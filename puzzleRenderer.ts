@@ -103,7 +103,7 @@ class PuzzleRenderer
 		var cellBounds = cell.getBoundingClientRect();
 		
 		var img = document.createElement("img");
-		img.src = "stockPenalty.svg";
+		img.src = "images/stockPenalty.svg";
 		img.className = "cellPenaltyAnimationImage";
 		
 		this.ShowPenalty(img, cellBounds);
