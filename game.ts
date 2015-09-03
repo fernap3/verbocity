@@ -85,9 +85,25 @@ class Game
 			});
 			
 			Game.PreventBounceScroll();
+			
+			// When on a touch device, we want to instruct the user to "touch," not "click"
+			Game.ReplaceClickText();
 		}
 		
 		Centerer.SetupResizeHandler();
+	}
+	
+	/**
+	 * Replaces instances of the word "click" in the DOM with the word "touch"
+	 */
+	private static ReplaceClickText()
+	{
+		var clickTextElements = document.querySelectorAll("[data-clicktext]");
+		
+		for (var i = 0; i < clickTextElements.length; i++)
+		{
+			(<HTMLElement>clickTextElements[i]).innerHTML = "Touch";
+		}
 	}
 	
 	Begin ()
