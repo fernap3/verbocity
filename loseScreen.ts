@@ -34,10 +34,6 @@ class LoseScreen
 			this.BeginAnimations();
 		};
 		
-		setTimeout(() => {
-			document.body.addEventListener("click", this.onDocumentClick);
-		}, 0);
-		
 		this.elements.ClickAnywhereMessage.style.display = "none";
 	}
 	
@@ -68,7 +64,8 @@ class LoseScreen
 	private BeginAnimations ()
 	{
 		setTimeout(() => {
-			this.elements.ClickAnywhereMessage.style.display = "";
+			this.elements.ClickAnywhereMessage.style.display = "";			
+			document.body.addEventListener("click", this.onDocumentClick);
 		}, "3000");
 	}
 	
