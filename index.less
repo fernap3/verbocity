@@ -22,6 +22,15 @@ body {
 	cursor: default;
 }
 
+a:link {
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
 @font-face {
 	font-family: "InputMono";
 	src: url("../Retro Computer.ttf");
@@ -239,6 +248,19 @@ table.board td.flagged {
 
 .touch #MainMenu ul li {
 	padding: 5px 0;
+}
+
+.createdBy {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	margin-left: 1em;
+	margin-bottom: 1em;
+	font-size: 10px;
+}
+
+.createdBy span {
+	text-decoration: underline;
 }
 
 .timer {
