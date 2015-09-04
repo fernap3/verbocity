@@ -527,6 +527,22 @@ img.shareButton {
 	width: 500px;
 }
 
+.puzzleChooserButtonContainer {
+	/* Don't show the puzzle type buttons for now since custom puzzles can't
+	 * yet be made
+	 */
+	/*display: none;*/
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+.puzzleChooserButtonContainer .title {
+	padding: 8px;
+	display: inline-block;
+}
+
 .puzzleChooserButtonContainer button {
 	padding: 8px;
 	outline: none;
@@ -537,15 +553,22 @@ img.shareButton {
 }
 
 .puzzleChooserPuzzleList {
-	height: calc(~"100% - 2em");
+	//height: calc(~"100% - 3em");
+	margin-top: 3em;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow-y: auto;
 }
 
-.puzzleChooserPuzzleList.puzzleChooserGrid ul {
+.puzzleChooserGrid ul {
 	margin: 0;
 	padding: 0;
 }
 
-.puzzleChooserPuzzleList.puzzleChooserGrid ul li {
+.puzzleChooserGrid ul li {
 	display: block;
 	float: left;
 	position: relative;
@@ -560,13 +583,13 @@ img.shareButton {
 	cursor: pointer;
 }
 
-.touch .puzzleChooserPuzzleList.puzzleChooserGrid ul li {
+.touch .puzzleChooserGrid ul li {
 	height: 45px;
 	width: 45px;
 	background-size: 30px 30px;
 }
 
-.puzzleChooserPuzzleList.puzzleChooserGrid ul li .videoIcon {
+.puzzleChooserGrid ul li .videoIcon {
 	background-color: red;
 	height: 12px;
 	width: 12px;
@@ -580,7 +603,7 @@ img.shareButton {
 	background-size: 8px 8px;
 }
 
-.puzzleChooserPuzzleList.puzzleChooserGrid ul li .solvedIcon {
+.puzzleChooserGrid ul li .solvedIcon {
 	height: 12px;
 	width: 12px;
 	position: absolute;
@@ -593,15 +616,15 @@ img.shareButton {
 	background-size: 12px 12px;
 }
 
-.puzzleChooserPuzzleList.puzzleChooserGrid ul li:hover {
+.puzzleChooserGrid ul li:hover {
 	background-size: 22px 22px;
 }
 
-.puzzleChooserPuzzleList.puzzleChooserGrid ul li.solved {
+.puzzleChooserGrid ul li.solved {
 	background-image: none;
 }
 
-.puzzleChooserPuzzleList.puzzleChooserGrid ul li.solved canvas {
+.puzzleChooserGrid ul li.solved canvas {
 	height: 30px;
 	width: 30px;
 }

@@ -85,16 +85,21 @@
 			<p class="instructions">(<span data-clicktext="">Click</span> anywhere to resume)</p>
 		</div>
 		<div id="PuzzleChooser" class="puzzleChooser" style="display:none" data-center="">
-			<div class="puzzleChooserButtonContainer">
+			<div class="puzzleChooserButtonContainer" style="display:none">
 				<button data-tab="builtin">Built-In</button>
 				<button data-tab="custom">Custom/Shared</button>
 			</div>
-			<div class="puzzleChooserPuzzleList puzzleChooserGrid scrollable" data-tab="builtin" style="">
-				<ul id="BuiltinPreviewList"></ul>
+			<div class="puzzleChooserButtonContainer">
+				<span class="title">Puzzles</span>
 			</div>
-			<div class="puzzleChooserPuzzleList scrollable" data-tab="custom" style="display:none">
-				<ul></ul>
-				custom
+			<div class="puzzleChooserPuzzleList scrollable">
+				<div class="puzzleChooserGrid" data-tab="builtin" style="">
+					<ul id="BuiltinPreviewList"></ul>
+				</div>
+				<div class="scrollable" data-tab="custom" style="display:none">
+					<ul></ul>
+					custom
+				</div>
 			</div>
 		</div>
 		<div id="Video"></div>
