@@ -98,6 +98,18 @@ class PuzzleChooser
 			
 			list.appendChild(li);
 		}
+		
+		var puzzlesAdded = this.options.Puzzles.length;
+		
+		// Add blank puzzle icons so the bottom-most row of icons will
+		// be left aligned
+		while (puzzlesAdded % 10 !== 0)
+		{
+			var li = document.createElement("li");
+			li.className = "placeHolder";
+			list.appendChild(li);
+			puzzlesAdded += 1;
+		}
 	}
 	
 	private static AddVideoIcon (element: HTMLElement)
