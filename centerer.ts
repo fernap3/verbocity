@@ -1,15 +1,16 @@
+/**
+ * Centers containers, both vertically and horizontally, on the page.
+ * Containers to be centered should have the [data-center] attribute to take advantage.
+ */
 class Centerer
 {
-	// Centers containers, both vertically and horizontally, on the page.
-	// Containers to be centered should have the [data-center] attribute to take advantage.
-	
 	static SetupResizeHandler ()
 	{
 		window.onresize = (evt) => {
 			Centerer.CenterContainers();
 		}
 	}
-	
+
 	static CenterContainers ()
 	{
 		var containers = document.querySelectorAll("[data-center]");

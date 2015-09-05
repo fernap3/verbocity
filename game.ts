@@ -12,8 +12,8 @@ class Game
 	private currentPuzzle: Puzzle;
 	private mainMenuSoundHandle: string;
 	
-	// Images that we need to appear responsively on user input are preloaded
-	// in anticipation of them actually being needed.
+	/** Images that we need to appear responsively on user input are preloaded
+	 * in anticipation of them actually being needed. */
 	private static imagesToPreload = ["images/flag.svg", "images/unsolvedpuzzlepreview.svg", "images/stockPenalty.svg",
 		"images/checked.svg", "images/unchecked.svg"];
 	private static soundsToPreload = [ Sounds.MainMenu ];

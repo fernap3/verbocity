@@ -81,19 +81,20 @@ class PuzzleRenderer
 		this.RenderToContainer(rowNumbers, columnNumbers);
 	}
 	
+	/**
+	 * Shows a little animation over the cell to indicate the number of 
+	 * penalty seconds subtracted from the time. NOTE: Only works with 
+	 * whole-minute penalties for now
+	 */
 	ShowTimePenalty (cellCoord: CellCoord, seconds: number)
 	{
-		// Shows a little animation over the cell to indicate the number
-		// of penalty seconds subtracted from the time.
-		// NOTE: Only works with whole-minute penalties for now
-		
 		var cell = this.GetCell(cellCoord);
 		var cellBounds = cell.getBoundingClientRect();
 		
 		var textContainer = document.createElement("span");
 		textContainer.classList.add("cellPenaltyAnimationText");
 		textContainer.innerHTML = "-" + (seconds / 60) + ":00";
-		
+
 		this.ShowPenalty(textContainer, cellBounds);
 	}
 	

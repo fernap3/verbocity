@@ -31,32 +31,36 @@ class AudioManager
 {
 	static context: AudioContext;
 	
-	// The decoded audio data for each audio file loaded, indexed by filename 
+	/** The decoded audio data for each audio file loaded, indexed by filename */ 
 	static buffers: AudioBufferCollection = {};
 	
-	// The currently playing sounds, indexed by handle returned by AudioManager.Play
+	/** The currently playing sounds, indexed by handle returned by AudioManager.Play */
 	static playingSounds: PlayingSoundCollection = {};
 	
-	// Plays a sound, returning a unique handle which can be used to stop
-	// the sound using AudioManager.Stop
+	/** 
+	 * Plays a sound, returning a unique handle which can be used to stop
+	 * the sound using AudioManager.Stop
+	 */
 	static Play (sound: Sound): string
 	{
 		if (sound.FileName in AudioManager.buffers === false)
 		{
 			throw "Sound, \"" + sound.FileName + "\" not yet loaded";
 		}
-		
+
 		if (sound.Loop === false)
 		{
 			return AudioManager.PlayOneShot(AudioManager.buffers[sound.FileName]);
 		}
-		
+
 		return AudioManager.PlayWithLoop(AudioManager.buffers[sound.FileName], sound.LoopStart);
 	}
 	
-	// Stops a currently-playing sound and takes as input the handle returned by
-	// AudioManager.Play.  If the instance attached to the handle is no longer
-	// playing, this function does nothing.
+	/**
+	 * Stops a currently-playing sound and takes as input the handle returned by
+	 * AudioManager.Play.  If the instance attached to the handle is no longer
+	 * playing, this function does nothing.
+	*/
 	static Stop (handle: string)
 	{
 		var playingSound = AudioManager.playingSounds[handle];
