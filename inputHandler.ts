@@ -12,6 +12,10 @@ interface InputHandlerOptions
 
 enum CellSelectType { Mark, Flag };
 
+/**
+ * Handles player input of the puzzle board and gameplay menu, calling
+ * the appropriate callbacks.
+ */
 class InputHandler
 {
 	private options: InputHandlerOptions;

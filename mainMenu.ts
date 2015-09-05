@@ -5,6 +5,7 @@ interface MainMenuOptions
 	OnChoosePuzzleCallback: () => void;
 }
 
+/** Controls the main menu */
 class MainMenu
 {
 	private options: MainMenuOptions;

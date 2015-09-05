@@ -10,6 +10,7 @@ interface VideoPuzzle extends Puzzle
 	VideoUrl: string;
 }
 
+/** Provides access to built-in and custom puzzles */
 class PuzzleProvider
 {
 	static BuiltinPuzzles: Puzzle[];
@@ -35,7 +36,6 @@ PuzzleProvider.BuiltinPuzzles = [
 	{
 		Id: "2a8a8545-dc16-4de2-a640-e6a2b79c8325",
 		Name: "Test",
-		//VideoUrl: null,//"https://www.youtube.com/watch?v=DMfxKYEN_KQ",
 		Definition: [
 			[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 			[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -57,6 +57,7 @@ PuzzleProvider.BuiltinPuzzles = [
 	{
 		Id: "53fe9415-0fe3-4825-86fb-83f780620d53",
 		Name: "Lipstick",
+		VideoUrl: "https://www.youtube.com/watch?v=DMfxKYEN_KQ",
 		Definition: [
 			[0,0,0,0,0,0,0,1,1,0,0,0,0,0,0],
 			[0,0,0,0,0,0,1,0,1,0,0,0,0,0,0],

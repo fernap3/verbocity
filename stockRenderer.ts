@@ -4,6 +4,10 @@ interface StockRendererOptions
 	InitialStock: number;
 }
 
+/**
+ * Controls the display and formatting of the gameplay stock indicator used
+ * for video puzzles
+ */
 class StockRenderer
 {
 	private options: StockRendererOptions;

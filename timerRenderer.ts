@@ -3,6 +3,7 @@ interface TimerRendererOptions
 	TimerContainer: HTMLElement;
 }
 
+/** Controls the display and formatting of the gameplay timer */
 class TimerRenderer
 {
 	private options: TimerRendererOptions;

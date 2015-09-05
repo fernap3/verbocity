@@ -27,6 +27,7 @@ interface PlayingSoundCollection
 	[handle: string]: PlayingSound;
 }
 
+/** Class for controlling audio playback in the application */
 class AudioManager
 {
 	static context: AudioContext;

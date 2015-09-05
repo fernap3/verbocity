@@ -14,6 +14,7 @@ class LoseScreenElements
 	}
 }
 
+/** Controls the screen that appears when the user loses a game */
 class LoseScreen
 {
 	private options: LoseScreenOptions;

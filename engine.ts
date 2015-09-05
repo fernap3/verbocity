@@ -13,6 +13,10 @@ interface EngineOptions
 	OnQuitCallback: () => void;
 }
 
+/**
+ * Controls gameplay including win/lose conditions and connecting all the classes
+ * that make up the game engine
+ */
 class Engine
 {
 	private static startTime: number = 30 * 60;

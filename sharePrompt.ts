@@ -4,6 +4,7 @@ interface SharePromptOptions
 	OnCloseCallback: () => void;
 }
 
+/** Controls the prompt that appears during gameplay when the user clicks the "Share button" */
 class SharePrompt
 {
 	private options: SharePromptOptions;

@@ -21,6 +21,7 @@ class WinScreenElements
 	}
 }
 
+/** Controller for the screen that appears when the player completes a puzzle */
 class WinScreen
 {
 	private options: WinScreenOptions;

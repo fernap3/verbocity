@@ -1,6 +1,10 @@
 declare var Origami:any;
 declare var Switchery: any;
 
+/**
+ * The main entry point for the game.  Connects the main menu to other
+ * places in the game.
+ */
 class Game
 {
 	static isTouchDevice: boolean;

@@ -1,9 +1,10 @@
 class TimerOptions
 {
-	StartSeconds: number
-	UpdateCallback: Function
+	StartSeconds: number;
+	UpdateCallback: Function; /** Called when the timer ticks a second */
 }
 
+/** Controller for the gameplay timer */
 class Timer
 {
 	private options: TimerOptions
@@ -12,7 +13,7 @@ class Timer
 	private currentCountdownSeconds: number;
 	private isActive: boolean;
 	
-	constructor (options:TimerOptions)
+	constructor (options: TimerOptions)
 	{
 		this.options = options;
 		this.lastSeconds = null;

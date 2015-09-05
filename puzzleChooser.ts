@@ -6,6 +6,7 @@ interface PuzzleChooserOptions
 	OnPuzzleSelectCallback: (puzzle: Puzzle) => void;
 }
 
+/** Controls the puzzle chooser dialog */
 class PuzzleChooser
 {
 	private options: PuzzleChooserOptions;

@@ -1,3 +1,4 @@
+/** Controls the view for the puzzle board during gameplay */
 class PuzzleRenderer
 {
 	private puzzle: Puzzle;

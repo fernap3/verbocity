@@ -1,3 +1,4 @@
+/** Provides a backing store for save data */
 class SaveDataProvider
 {
 	private static solvedPuzzleIdsStorageKey = "solvedpuzzleids"; 

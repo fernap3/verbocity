@@ -1,5 +1,4 @@
-//@import "engine.ts"
-
+/** Draws the small live puzzle preview during gameplay */
 class PreviewRenderer
 {
 	private static canvasScale = 2;

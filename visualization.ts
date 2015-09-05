@@ -22,6 +22,7 @@ class VisualizationFactory
 	}
 }
 
+/** Describes a visualization that appears behind gameplay */
 interface Visualization
 {
 	Start: () => void;

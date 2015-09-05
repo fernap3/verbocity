@@ -4,6 +4,7 @@ interface PausePromptOptions
 	OnCloseCallback: () => void;
 }
 
+/** Controls the pause screen */
 class PausePrompt
 {
 	private options: PausePromptOptions;
