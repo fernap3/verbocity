@@ -10,7 +10,7 @@ var rename = require('gulp-rename');
 var sourceTsFiles = ["saveDataProvider.ts", "puzzle.ts", "puzzles.ts", "centerer.ts", "timer.ts", "puzzleRenderer.ts",
    "previewRenderer.ts", "timerRenderer.ts", "inputHandler.ts", "mainMenu.ts", "puzzleChooser.ts",
    "sharePrompt.ts", "visualization.ts", "stockRenderer.ts", "pausePrompt.ts", "winScreen.ts", "loseScreen.ts",
-    "audioManager.ts", "sounds.ts", "engine.ts", "game.ts"];
+   "howToPlayPrompt.ts", "audioManager.ts", "sounds.ts", "engine.ts", "game.ts"];
     
 var publishFiles = {
   "index.html": "",

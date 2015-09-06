@@ -61,6 +61,7 @@
 				<li data-action="choosepuzzle">Choose Level...</li>
 				<!--<li>Play Randomly-Generated Level</li>-->
 				<li class="disabled" title="Coming soon...">Create Level...</li>
+				<li data-action="howtoplay">How to Play...</li>
 			</ul>
 			<a href="http://pfernandes.com" target="_blank" class="createdBy">Created by <span>Peter Fernandes</span></a>
 		</div>
@@ -101,6 +102,51 @@
 					custom
 				</div>
 			</div>
+		</div>
+		<div id="HowToPlayPrompt" class="howToPlayPrompt scrollable" style="display:none" data-center="">
+			<h1>How to Play</h1>
+			<p>
+			<strong>verbocity</strong> is a puzzle game based on nonogram puzzles, where you fill 
+			in boxes, or "pixels," in a grid to create a picture.  The game was inspired by Mario's Picross 
+			for the GameBoy which I had many fun hours playing as a kid. :)
+			</p>
+			<p>
+			This is the game board:
+			</p>
+			<img src="images/readme_1.png" alt="screenshot" />
+			<p>
+			there are one or more numbers for each row and column in the grid&mdash;let's take a look at one of the rows:
+			</p>
+			<img src="images/readme_2.png" alt="screenshot" />
+			<p>
+			the numbers [1,3,3,3,1] indicate that there is a group of 1 pixel in a row, followed by one or more empty 
+			pixels, followed by a group of 3 pixels in a row, followed by one or more empty pixels, followed by a 
+			group of 3 pixels in a row, etc.  This works the same way for each column.  So, by cross-referencing the 
+			rows and columns (and occasionally using a little luck), we can solve the puzzle to create a picture:
+			</p>
+			<img src="images/readme_3.png" alt="screenshot" />
+			<p>
+			Once you get the hang of it, you'll start uncovering different strategies!
+			</p>
+			<p>
+			In verbocity, each puzzle must be solved within a 30-minute time limit.  To mark a pixel in the grid, 
+			use the <strong>left mouse button</strong>, or touch the pixel when on a touch device.  You can <strong>click and drag</strong> 
+			(or touch and drag) to select multiple pixels in a row or column.  To cancel a multi-pixel selection, 
+			click the <strong>right mouse button while dragging</strong>, or touch a second digit on the screen when on a touch 
+			device.  There is a time penalty for every pixel that is incorrectly marked, so take care and think things 
+			through!
+			</p>
+			<p>
+			You can also "flag pixels to indicate that you know the pixel is not part of the solution.  To do this, 
+			click with the <strong>right mouse button</strong>, or enter "Flag" mode when on a touch device by toggling the switch 
+			at the top-right corner of the screen.
+			</p>
+			<img src="images/readme_4.png" alt="screenshot" />
+			<h1>Video Puzzles</h1>
+			<p>
+			There are some puzzles that are played in front of a music video.  The time limit for video puzzles is the 
+			length of the video, and a "strike" system is used for penalties in place of time penalties.
+			</p>
 		</div>
 		<div id="Video"></div>
 		<div id="WinScreen" class="winScreen" style="display:none">

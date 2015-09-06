@@ -13,6 +13,7 @@ class Game
 	private engine: Engine;
 	private playArea: HTMLElement;
 	private puzzleChooser: PuzzleChooser;
+	private howToPlayPrompt: HowToPlayPrompt;
 	private currentPuzzle: Puzzle;
 	private mainMenuSoundHandle: string;
 	
@@ -52,7 +53,8 @@ class Game
 				this.mainMenu.Hide();
 				this.StartJustPlay();
 			},
-			OnChoosePuzzleCallback: () => { this.ShowPuzzleChooser(); }
+			OnChoosePuzzleCallback: () => { this.ShowPuzzleChooser(); },
+			OnHowToPlayCallback: () => { this.ShowHowToPlay(); }
 		});
 		
 		this.puzzleChooser = new PuzzleChooser({
@@ -64,6 +66,11 @@ class Game
 				this.mainMenu.Hide();
 				this.StartPuzzle(puzzle);
 			}
+		});
+		
+		this.howToPlayPrompt = new HowToPlayPrompt({
+			Container: document.getElementById("HowToPlayPrompt"),
+			OnCloseCallback: () => {}
 		});
 		
 		this.playArea = document.getElementById("PlayArea");
@@ -168,6 +175,11 @@ class Game
 	private ShowPuzzleChooser ()
 	{
 		this.puzzleChooser.Show();
+	}
+	
+	private ShowHowToPlay ()
+	{
+		this.howToPlayPrompt.Show();
 	}
 	
 	private ShowPlayArea ()
